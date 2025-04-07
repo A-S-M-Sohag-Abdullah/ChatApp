@@ -1,0 +1,25 @@
+.peoples {
+  width: 30%;
+  z-index: 1;
+  background-color: var(--secondary-color);
+  overflow-y: hidden;
+}
+
+.peoples-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.contact-img {
+  width: 30px;
+}
+
+.contact-name {
+  font-size: 13px;
+}
+
+.contacts-list{
+  overflow-y: auto;
+  scrollbar-width: none;
+}

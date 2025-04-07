@@ -1,0 +1,60 @@
+.control-sidebar {
+  height: 100vh;
+  width: 180px !important;
+  background-color: var(--sidebar-color);
+  transition: all 0.5s;
+  flex-shrink: 0;
+}
+
+.control-sidebar.collapsed {
+  width: 80px !important;
+}
+
+.control-sidebar .logo {
+  border-bottom: 2px solid var(--secondary-color);
+  height: 77px;
+  width: 100%;
+  color: var(--secondary-color);
+  white-space: nowrap;
+}
+.control-sidebar .logo img {
+  width: 80px;
+}
+
+.control-picker,
+.user-control {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--secondary-color);
+  font-size: 16px;
+  width: 100%;
+  padding: 12px 18px;
+  white-space: nowrap;
+}
+
+.control-picker:hover,
+.user-control:hover {
+  background-color: var(--transparent-primary-color);
+}
+
+.control-picker i,
+.user-control i {
+  min-width: 40px;
+  margin-right: 25px;
+  font-size: 24px;
+  pointer-events: none;
+}
+
+.control-picker i{
+  border-bottom: 2px solid transparent;
+  padding-bottom: 5px;
+}
+
+.control-picker.active i {
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.user-controls {
+  margin-top: auto;
+}

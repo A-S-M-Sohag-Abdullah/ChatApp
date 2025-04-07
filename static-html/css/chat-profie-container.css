@@ -1,0 +1,45 @@
+.chat-profile-container {
+  width: 20%;
+  max-width: 20%;
+  background-color: var(--secondary-color);
+}
+
+.chat-profile-img {
+  width: 35%;
+}
+
+.chat-profile-name {
+  font-size: 16px;
+}
+
+.chat-profile-status {
+  font-size: 12px;
+}
+
+.chat-profile-info-section {
+  width: 95%;
+  padding: 0 10px;
+}
+
+.chat-profile-info-section-name {
+  font-size: 10px;
+}
+
+.chat-profile-info-section-desc {
+  font-size: 10px;
+  text-align: justify;
+}
+
+.chat-profile-links {
+  font-size: 12px;
+  width: 90%;
+}
+
+.chat-profile-links:hover {
+  color: black;
+  background-color: var(--white-hover);
+}
+
+.block-action:hover {
+  color: red;
+}

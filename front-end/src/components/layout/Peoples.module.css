@@ -1,0 +1,26 @@
+/* Peoples.module.css */
+.peoples {
+  width: 30%;
+  z-index: 1;
+  background-color: var(--secondary-color);
+  overflow-y: hidden;
+}
+
+.peoplesTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.contactImg {
+  width: 30px;
+}
+
+.contactName {
+  font-size: 13px;
+}
+
+.contactsList {
+  overflow-y: auto;
+  scrollbar-width: none;
+}

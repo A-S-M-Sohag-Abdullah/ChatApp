@@ -1,0 +1,101 @@
+.control-sidebar {
+  height: 100vh;
+  width: 180px !important;
+  background-color: var(--sidebar-color);
+  transition: all 0.5s;
+  flex-shrink: 0;
+}
+
+.control-sidebar.collapsed {
+  width: 80px !important;
+}
+
+.control-sidebar .logo {
+  border-bottom: 2px solid var(--secondary-color);
+  height: 77px;
+  width: 100%;
+  color: var(--secondary-color);
+  white-space: nowrap;
+}
+.control-sidebar .logo img {
+  width: 80px;
+}
+
+.control-picker,
+.user-control {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--secondary-color);
+  font-size: 16px;
+  width: 100%;
+  padding: 12px 18px;
+  white-space: nowrap;
+}
+
+.control-picker:hover,
+.user-control:hover {
+  background-color: var(--transparent-primary-color);
+}
+
+.control-picker .icon,
+.user-control .icon {
+  min-width: 40px;
+  margin-right: 25px;
+  font-size: 24px;
+  pointer-events: none;
+}
+
+.control-picker .icon{
+  border-bottom: 2px solid transparent;
+  padding-bottom: 5px;
+}
+
+.control-picker.active .icon {
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.user-controls {
+  margin-top: auto;
+}
+
+.settings-container {
+  right: -10px;
+  bottom: 50px;
+  transform: translateX(100%);
+  width: fit-content;
+  height: auto;
+  background: var(--secondary-color);
+  z-index: 3;
+  border:1px solid var(--primary-color);
+  white-space: nowrap;
+}
+
+.settings-container::before {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: -8px;
+  bottom: 17px;
+  background-color: white;
+  transform: rotate(45deg);
+  border:1px solid var(--primary-color);
+  border-right: none;
+  border-top: none;
+}
+
+.settings-container button {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+}
+
+.settings-container button:hover {
+  background-color: var(--white-hover);
+}
+
+.settings-container button i {
+  font-size: 14px;
+  width: 15px;
+}

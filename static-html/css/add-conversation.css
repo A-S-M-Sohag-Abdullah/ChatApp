@@ -1,0 +1,51 @@
+.add-conversation-btn {
+  width: 50px;
+  height: 50px;
+  background-color: var(--secondary-color);
+  right: 20px;
+  bottom: 20px;
+  font-size: 25px;
+  color: var(--primary-color);
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.09);
+}
+
+.add-conversation-container {
+  background-color: var(--faded-secondary-color);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.add-conversation-box {
+  background-color: var(--secondary-color);
+  width: 400px;
+ 
+}
+
+.close-add-conv-box-btn {
+  height: 25px;
+  width: 25px;
+}
+
+.add-conversation-input {
+  font-size: 12px;
+  height: 30px;
+}
+
+.search-user-img {
+  width: 30px;
+}
+
+.search-user-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search-result {
+  margin-top: 15px;
+  padding-top: 15px;
+  max-height: 150px;
+  overflow-y: auto;
+}

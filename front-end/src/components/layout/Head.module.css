@@ -1,0 +1,52 @@
+.head {
+  width: calc(100% - 80px);
+  height: 76px;
+  background-color: var(--secondary-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.head::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  height: 244%;
+  width: 35%;
+  z-index: 0;
+  background: var(--primary-gradient);
+  transform: skewX(314deg);
+}
+
+.search-box {
+  width: 300px;
+  margin-left: 25px;
+  border: 1px solid var(--faded-text);
+  color: var(--faded-text);
+}
+
+.search-box input {
+  background-color: transparent;
+  font-size: 14px;
+  width: 100%;
+}
+
+.search-box input::placeholder {
+  color: var(--faded-text);
+}
+
+.user {
+  position: relative;
+  z-index: 1;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.user-img {
+  width: 50px;
+  border: 2px solid var(--secondary-color);
+}

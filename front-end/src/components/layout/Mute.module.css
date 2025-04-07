@@ -1,0 +1,100 @@
+.muteChatInterface{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: var(--secondary-color);
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+}
+
+.muteForm {
+  padding: 15px;
+}
+
+.muteForm label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.muteForm label input {
+  display: none;
+}
+
+.muteForm label .radioBtn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+  position: relative;
+  transition: background-color 0.3s;
+  border-color: 0.3s;
+}
+
+.muteForm label input[type="radio"]:checked + .radioBtn {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Add a checkmark or dot inside the custom radio button when checked */
+.muteForm label input[type="radio"]:checked + .radioBtn::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.muteForm label {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+.muteForm label input[type="radio"]:focus + .radioBtn {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.muteForm button[type="button"],
+.muteForm button[type="submit"] {
+  width: 48%;
+  border-radius: 5px;
+}
+
+.muteForm button[type="button"] {
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+}
+
+.muteForm button[type="submit"] {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.dFlex {
+  display: flex;
+}
+
+.mtAuto {
+  margin-top: auto;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.justifyContentBetween {
+  justify-content: space-between;
+}

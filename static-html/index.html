@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <!-- bootstrap cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" />
+
+  <!-- font-awesome cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+  <!-- google fonts cdn -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <!-- custom css -->
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/inbox-container.css">
+  <link rel="stylesheet" href="./css/main-section.css">
+  <link rel="stylesheet" href="./css/control-sidebar.css">
+  <link rel="stylesheet" href="./css/head.css">
+  <link rel="stylesheet" href="./css/chat-interface.css">
+  <link rel="stylesheet" href="./css/entry.css">
+  <link rel="stylesheet" href="./css/add-conversation.css">
+  <link rel="stylesheet" href="./css/chat-profie-container.css">
+  <link rel="stylesheet" href="./css/settings.css">
+  <link rel="stylesheet" href="./css/stories.css">
+  <link rel="stylesheet" href="./css/peoples.css">
+  <link rel="stylesheet" href="./css/profile-details.css">
+  <link rel="stylesheet" href="./css/story-interface.css">
+  <link rel="stylesheet" href="./css/group-create-interface.css">
+  <link rel="stylesheet" href="./css/blocked-accounts-interface.css">
+</head>
+
+<body class="bg-light">
+
+  <div class="inbox-container overflow-hidden d-flex ">
+    <div class="control-sidebar collapsed d-flex align-items-start flex-column position-relative">
+      <a href="#" class="logo d-flex align-items-center justify-content-start"><img src="./images/logo.png"
+          alt="Chat App Logo"> Chat App</a>
+
+      <button class="control-picker inbox active">
+        <i class="fa-solid fa-inbox"></i> Inboxes
+      </button>
+      <button class="control-picker people profile">
+        <i class="fa-solid fa-user"></i> People
+      </button>
+      <button class="control-picker story folders">
+        <i class="fa-solid fa-grip-vertical"></i> Stories
+      </button>
+
+      <div class="user-controls w-100 d-flex flex-column">
+        <button class="user-control text-center settings position-relative">
+          <i class="fa-solid fa-gear"></i> Settings
+        </button>
+        <button id="toggle-control-sidebar" class="user-control menu">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
+        <div class="settings-container d-none position-absolute p-2 rounded rounded-2 d-flex flex-column ">
+          <button class="rounded p-2 w-100 text-start view-account">
+            <i class="fa-solid fa-user me-2"></i> Account
+          </button>
+          <button class="rounded p-2 w-100 text-start">
+            <i class="fa-solid fa-users-line me-2"></i> Create a group
+          </button>
+          <button class="rounded p-2 w-100 text-start">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i> Blocked Accounts
+          </button>
+          <button class="rounded p-2 w-100 text-start">
+            <i class="fa-solid fa-repeat me-2"></i> Switch Account
+          </button>
+          <button class="rounded p-2 w-100 text-start">
+            <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-section ">
+      <div class="head w-100 d-flex align-items-center justify-content-between">
+        <div class="search-box d-flex px-2 py-1 rounded-pill align-items-center">
+          <i class="fa-solid fa-magnifying-glass me-2"></i>
+          <input type="text" placeholder="Search messeages or persons here">
+        </div>
+        <div class="user d-flex align-items-center pe-5">
+          <h1 class="user-name me-3">John Doe</h1>
+          <div class="user-img rounded-circle p-1"><img src="./images/profile.png" alt="profile picture" class="w-100">
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-interface d-flex">
+
+        <div class="conversations position-relative">
+
+          <ul id="chat-list" class="p-0 m-0 chat-list ">
+
+            <li class="conversation mb-1 active">
+              <div class=" d-flex justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="conversation mb-1">
+              <div class="   d-flex  justify-content-center py-4">
+                <div class="conversation-avatar me-3 rounded-circle">
+                  <img src="./images/profile.png" alt="" class="w-100">
+                </div>
+                <div class="conversation-info">
+                  <h3 class="conversation-name">Nick Fury</h3>
+                  <p class="last-conversation"> <strong>You: </strong> Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                  <div class="last-modified-time ">12:15</div>
+                  <div
+                    class="unread-messages rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center ">
+                    1
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <button
+            class="add-conversation-btn position-absolute d-flex align-items-center justify-content-center rounded-circle">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+
+        </div>
+
+        <div class="stories d-none d-flex flex-wrap justify-content-around  position-relative align-content-start">
+          <div class="add-story d-flex align-items-center justify-content-center rounded rounded-3 mb-2">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div class="story-container rounded rounded-3 position-relative mb-2">
+            <div class="story-poster rounded-circle position-absolute d-flex align-items-center justify-content-center">
+              <img src="./images/profile.png" alt="" class="w-100">
+            </div>
+
+            <div class="latest-story-img h-100"><img src="./images/commonsoty.jpg" alt="" class="w-100 h-100"></div>
+
+            <div class="story-count position-absolute d-flex align-items-center justify-content-center rounded-circle">1
+            </div>
+          </div>
+          <div class="story-container seen rounded rounded-3 position-relative mb-2">
+            <div class="story-poster rounded-circle position-absolute d-flex align-items-center justify-content-center">
+              <img src="./images/profile.png" alt="" class="w-100">
+            </div>
+
+            <div class="latest-story-img h-100"><img src="./images/commonsoty.jpg" alt="" class="w-100 h-100"></div>
+
+            <div class="story-count position-absolute d-flex align-items-center justify-content-center rounded-circle">1
+            </div>
+          </div>
+          <div class="story-container seen rounded rounded-3 position-relative mb-2">
+            <div class="story-poster rounded-circle position-absolute d-flex align-items-center justify-content-center">
+              <img src="./images/profile.png" alt="" class="w-100">
+            </div>
+
+            <div class="latest-story-img h-100"><img src="./images/commonsoty.jpg" alt="" class="w-100 h-100"></div>
+
+            <div class="story-count position-absolute d-flex align-items-center justify-content-center rounded-circle">1
+            </div>
+          </div>
+          <div class="story-container seen rounded rounded-3 position-relative mb-2">
+            <div class="story-poster rounded-circle position-absolute d-flex align-items-center justify-content-center">
+              <img src="./images/profile.png" alt="" class="w-100">
+            </div>
+
+            <div class="latest-story-img h-100"><img src="./images/commonsoty.jpg" alt="" class="w-100 h-100"></div>
+
+            <div class="story-count position-absolute d-flex align-items-center justify-content-center rounded-circle">1
+            </div>
+          </div>
+          <div class="story-container seen rounded rounded-3 position-relative mb-2">
+            <div class="story-poster rounded-circle position-absolute d-flex align-items-center justify-content-center">
+              <img src="./images/profile.png" alt="" class="w-100">
+            </div>
+
+            <div class="latest-story-img h-100"><img src="./images/commonsoty.jpg" alt="" class="w-100 h-100"></div>
+
+            <div class="story-count position-absolute d-flex align-items-center justify-content-center rounded-circle">1
+            </div>
+          </div>
+        </div>
+
+        <div class="peoples d-none position-relative px-4 py-3">
+          <h4 class="peoples-title">Active people</h4>
+          <ul class="contacts-list list-unstyled h-100">
+            <li class="d-flex align-items-center my-2">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-2">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-2">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+            <li class="d-flex align-items-center my-3">
+              <div class="contact-img rounded-circle me-2"><img src="./images/profile.png" alt="" class="w-100 "> </div>
+              <h5 class="contact-name mb-0">Contact Name</h5>
+            </li>
+
+          </ul>
+        </div>
+
+        <div class="conversation-box d-flex justify-content-between flex-column mx-auto position-relative">
+
+          <div class="conversation-head d-flex justify-content-between align-items-center border-bottom">
+            <div class="conversation-with d-flex align-items-center">
+              <div class="profile-picture rounded-circle me-2">
+                <img src="./images/profile.png" alt="profilePic" class="w-100">
+              </div>
+              <h3 class="profile-name mb-0">
+                Nick Fury
+                <div class="active-status">online</div>
+              </h3>
+            </div>
+            <div class="conversation-actions">
+              <button class="conversation-action audio-call">
+                <i class="fa-solid fa-phone"></i>
+              </button>
+              <button class="conversation-action video-call"> <i class="fa-solid fa-video"></i></button>
+              <button class="conversation-action options-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+            </div>
+          </div>
+
+          <div class="chat border-bottom pb-3">
+            <div></div>
+            <div class="participant mb-3 ms-2 d-flex align-items-end ">
+              <div class="messenger-pic rounded-circle mb-1 me-2">
+                <img src="./images/profile.png" alt="profile-pic" class="w-100">
+              </div>
+              <div class="messages">
+                <div class="message">Lorem ipsum dolor sit amet.</div>
+                <div class="message">Lorem ipsum dolor sit amet.</div>
+              </div>
+              <div class="message-date ms-3 mb-2">12:05</div>
+
+            </div>
+            <div class="self mb-3 me-2 d-flex flex-row-reverse align-items-end">
+              <div class="messenger-pic rounded-circle mb-1 ms-2">
+                <img src="./images/profile.png" alt="profile-pic" class="w-100">
+              </div>
+              <div class="messages">
+                <div class="message">Lorem ipsum dolor sit amet.</div>
+                <div class="message">Lorem ipsum dolor sit amet.</div>
+              </div>
+              <div class="message-date me-3 mb-2">12:05</div>
+
+            </div>
+            <div class="participant mb-3 ms-2 d-flex align-items-end">
+              <div class="messenger-pic rounded-circle mb-1 me-2">
+                <img src="./images/profile.png" alt="profile-pic" class="w-100">
+              </div>
+              <div class="messages">
+                <div class="message">Lorem ipsum dolor sit amet.</div>
+                <div class="message">Lorem ipsum dolor sit amet.</div>
+                <div class="message">Lorem ipsum dolor sit amet.</div>
+              </div>
+              <div class="message-date ms-3 mb-2">12:05</div>
+
+            </div>
+
+          </div>
+
+          <div class="input-section py-3 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center">
+
+            <div class="attached-images w-100 mb-3 d-flex">
+              <div class="attached-img">
+                <button><i class="fa-solid fa-x"></i></button>
+                <img src="./images/commonsoty.jpg" alt="" class="w-100">
+              </div>
+              <div class="attached-img">
+                <button><i class="fa-solid fa-x"></i></button>
+                <img src="./images/commonsoty.jpg" alt="" class="w-100">
+              </div>
+              <div class="attached-img">
+                <button><i class="fa-solid fa-x"></i></button>
+                <img src="./images/commonsoty.jpg" alt="" class="w-100">
+              </div>
+            </div>
+
+            <input type="text" class="messange-input bg-transparent" placeholder="Type Your Message Here...">
+
+            <label for="file-upload" class="file-picker">
+              <i class="fa-solid fa-paperclip"></i>
+            </label>
+            <input id="file-upload" type="file" class="d-none">
+            <button class="emojiPicker"><i class="fa-regular fa-face-smile"></i></button>
+            <button class="send-btn"><i class="fa-regular fa-paper-plane"></i></button>
+          </div>
+
+          <div
+            class="conversation-options-box d-none position-absolute border border-1 rounded d-flex flex-column align-items-start justify-content-around p-2 ">
+            <button class="conversation-option rounded p-2 w-100 text-start">
+              <i class="fa-regular fa-user"></i> View Profile
+            </button>
+            <button class="conversation-option rounded p-2 w-100 text-start">
+              <i class="fa-solid fa-magnifying-glass"></i> Search messages
+            </button>
+            <button class="conversation-option rounded p-2 w-100 text-start">
+              <i class="fa-solid fa-ban"></i> Block User
+            </button>
+            <button class="conversation-option rounded p-2 w-100 text-start">
+              <i class="fa-solid fa-trash"></i> Delete Conversation
+            </button>
+          </div>
+
+          <div class="delete-assurance d-none position-absolute p-4">
+            <h3 class="delete-assurance-title">
+              All Messages including files will be deleted.
+            </h3>
+
+            <form action="" class="delete-conv-form d-flex justify-content-between">
+              <button type="button">Cancel</button>
+              <button type="submit">Ok</button>
+            </form>
+          </div>
+
+          <div class="block-assurance d-none position-absolute p-4">
+            <h3 class="block-assurance-title">
+              Are you sure you want to block this person?
+            </h3>
+
+            <form action="" class="block-person-form d-flex justify-content-between">
+              <button type="button">No</button>
+              <button type="submit">Yes</button>
+            </form>
+          </div>
+
+          <div class="mute-chat-interface d-none">
+            <form action="" class="mute-form">
+
+              <label for="forever">
+                <input name="mute-duration" type="radio" name="" id="forever"><span class="radio-btn"></span> Forever
+              </label>
+
+              <label for="month">
+                <input name="mute-duration" type="radio" name="" id="month"><span class="radio-btn"></span> A month
+              </label>
+
+              <label for="week">
+                <input name="mute-duration" type="radio" name="" id="week"><span class="radio-btn"></span> A week
+              </label>
+
+              <label for="day">
+                <input name="mute-duration" type="radio" name="" id="day"><span class="radio-btn"></span> A day
+              </label>
+
+              <label for="minute">
+                <input name="mute-duration" type="radio" name="" id="minute"><span class="radio-btn"></span> 15 minute
+              </label>
+
+              <div class="d-flex mt-auto w-100 justify-content-between">
+                <button type="button">Cancel</button>
+                <button type="submit">Mute</button>
+              </div>
+            </form>
+
+
+          </div>
+
+          <div class="shared-photos-interface p-3 ">
+            <div class="d-flex align-items-center border-bottom mb-2">
+              <h2 class="shared-photos-title">Shared Photos</h2>
+              <button
+                class="close-chat-profile-btn ms-auto border d-block rounded rounded-2 px-2 border-1 mb-2 mt-2 "><i
+                  class="fa-solid fa-x"></i>
+              </button>
+            </div>
+
+
+            <div class="shared-images d-flex flex-wrap justify-content-between">
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+              <a href="./images/commonsoty.jpg">
+                <img src="./images/commonsoty.jpg" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-profile-container overflow-hidden p-3">
+          <div class="chat-profile w-100 border rounded rounded-4 border-1 h-100">
+            <button
+              class="close-chat-profile-btn ms-auto border d-block rounded rounded-2 px-2 border-1 mb-3 mt-2 me-2"><i
+                class="fa-solid fa-x"></i>
+            </button>
+
+
+            <div class="chat-profile-img mx-auto mt-3 mb-2 rounded-circle border border-1 p-1">
+              <img src="./images/profile.png" alt="" class="w-100">
+            </div>
+
+            <h2 class="chat-profile-name text-center mb-0">Nick Fury</h2>
+
+            <p class="chat-profile-status text-center">Active</p>
+
+            <div class="chat-profile-info-section border-bottom d-flex mx-auto align-items-baseline mt-2">
+              <h5 class="chat-profile-info-section-name mb-0 me-2">Bio: </h5>
+              <p class="chat-profile-info-section-desc mb-1 text-justify">Lorem ipsum dolor sit amet consectetur
+                adipisicing elit.</p>
+            </div>
+
+
+            <div class="chat-profile-info-section border-bottom d-flex mx-auto align-items-baseline mt-2 mb-4">
+              <h5 class="chat-profile-info-section-name mb-0 me-2">Phone: </h5>
+              <p class="chat-profile-info-section-desc mb-1">+88 01717******</p>
+            </div>
+
+            <a href="#" class="d-block mx-auto py-1 px-2 chat-profile-links rounded rounded-2 mb-2 text-dark"><i
+                class="fa-solid fa-image me-2"></i>Shared Photos
+            </a>
+            <a href="#" class="d-block mx-auto py-1 px-2 chat-profile-links rounded rounded-2 mb-2 text-dark"><i
+                class="fa-regular fa-circle-play me-2"></i>Stories
+            </a>
+            <button
+              class="conversation-option px-2 py-1 chat-profile-links rounded p-1 text-start mx-auto d-block mb-2">
+              <i class="fa-solid fa-bell-slash"></i> Mute Notification
+            </button>
+            <button
+              class="conversation-option px-2 py-1 chat-profile-links rounded p-1 text-start mx-auto d-block mb-2">
+              <i class="fa-solid fa-trash"></i> Delete Conversation
+            </button>
+            <button
+              class="conversation-option px-2 py-1 chat-profile-links rounded p-1 text-start mx-auto d-block mb-2 block-action"><i
+                class="fa-solid fa-ban"></i> Block User</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-conversation-container d-none position-fixed d-flex align-items-center justify-content-center">
+      <div class="add-conversation-box  p-4 rounded-4 border border-2">
+
+        <button class="close-add-conv-box-btn ms-auto border d-block rounded border-1 mb-3"><i
+            class="fa-solid fa-x"></i></button>
+
+        <input type="text" class="add-conversation-input w-100 border border-1 rounded px-2"
+          placeholder="Search people with username, email or phone no.">
+
+        <ul class="search-result m-0 p-0 mt-3 pt-3 border-top">
+          <li class="d-flex align-items-center mb-3">
+            <div class="search-user-img"><img src="./images/profile.png" alt="user porfile pic" class="w-100">
+            </div>
+            <h4 class="search-user-name ms-2 mb-0">Search User Name</h4>
+          </li>
+          <li class="d-flex align-items-center mb-3">
+            <div class="search-user-img"><img src="./images/profile.png" alt="user porfile pic" class="w-100"></div>
+            <h4 class="search-user-name ms-2 mb-0">Search User Name</h4>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="logout-assurance d-none  position-absolute p-4">
+      <h3 class="logout-assurance-title">
+        Are you sure you want to logout?
+      </h3>
+
+      <form action="" class="logout-form d-flex justify-content-between">
+        <button type="button">No</button>
+        <button type="submit">Yes</button>
+      </form>
+    </div>
+
+
+    <div class="profile-details position-fixed rounded rounded-4 p-3 d-none">
+      <button class="ms-auto border d-block rounded border-1 mb-3 close-profile-details"><i
+          class="fa-solid fa-x"></i></button>
+
+      <div class="profile-details-dp-container position-relative">
+        <img src="./images/profile.png" alt="" class="w-100 dp-upload">
+
+        <button class="change-dp-btn centered position-absolute"><i class="fa-solid fa-camera"></i></button>
+      </div>
+      <button class="edit-btn ms-auto d-block mt-3">
+        edit
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+
+      <form class="profile-info-box border-top mt-3">
+        <div class="label">User Name:</div>
+        <input type="tel" class="profile-name disabled" value="Nick Fury">
+
+        <div class="label">Bio:</div>
+        <input type="tel" class="bio disabled" value="Nick Fury">
+
+        <div class="label">Contact No:</div>
+        <input type="tel" class="contact-no disabled" value="01717100000">
+
+        <div class="label">Email:</div>
+        <input type="email" class="email disabled" value="example@gmail.com">
+
+        <div class="label">Date of Birth:</div>
+        <input type="date" class="email disabled" value="23 / 09 / 2000">
+
+        <div class="label">Password:</div>
+        <input type="password" class="email disabled" value="password">
+
+        <div class="profile-info-submit ms-auto">
+          <button>Cancel</button>
+          <button class="profile-info-save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+
+
+    <div class="story-interface d-none">
+      <div class="story-head position-absolute d-flex justify-content-between align-items-center flex-wrap">
+        <div class="story-owner"><img src="./images/profile.png" alt="">John Doe</div>
+        <div class="story-actions position-relative">
+          <button class="options"><i class="fa-solid fa-ellipsis"></i></button>
+          <div class="story-options ">
+            <div class="story-option">
+              <i class="fa-solid fa-trash"></i> Delete Story
+            </div>
+            <div class="story-option">
+              <i class="fa-solid fa-download"></i> Download
+            </div>
+            <div class="story-option">
+              <i class="fa-solid fa-bell-slash"></i> Mute this story
+            </div>
+          </div>
+          <button class="cross"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="story-progresses w-100 d-flex">
+          <div class="story-progress">
+          </div>
+          <div class="story-progress">
+          </div>
+          <div class="story-progress">
+          </div>
+          <div class="story-progress">
+          </div>
+          <div class="story-progress">
+          </div>
+        </div>
+      </div>
+      <div class="story-media position-absolute w-100 h-100">
+        <img src="./images/commonsoty.jpg" alt="" class="w-100 h-100">
+      </div>
+      <div class="story-foot ">
+        <input type="text" placeholder="Reply to this story">
+        <button>send</button>
+      </div>
+      <div class="story-nav">
+        <button class="prev" disabled><i class="fa-solid fa-circle-chevron-left"></i></button>
+        <button class="next"><i class="fa-solid fa-circle-chevron-right"></i></button>
+
+      </div>
+    </div>
+
+    <div class="group-create-interface d-none">
+      <button class="close-add-conv-box-btn ms-auto border d-block rounded border-1 mb-3"><i
+          class="fa-solid fa-x"></i></button>
+      <div class="group-info d-flex align-items-center justify-content-center mt-3">
+        <label class="group-pic" for="group-pic">
+          <input id="group-pic" type="file" hidden>
+          <i class="fa-solid fa-camera"></i>
+        </label>
+
+        <input class="group-name" type="text" name="" id="" placeholder="Group Name">
+
+        <button class="create-group-btn">Create</button>
+      </div>
+      <div class="added-group-members mt-3">
+        <div class="member">
+          <img src="./images/profile.png" alt="user porfile pic" class="w-100">
+          <button>
+            <i class="fa-solid fa-x"></i>
+          </button>
+        </div>
+        <div class="member">
+          <img src="./images/profile.png" alt="user porfile pic" class="w-100">
+          <button>
+            <i class="fa-solid fa-x"></i>
+          </button>
+        </div>
+        <div class="member">
+          <img src="./images/profile.png" alt="user porfile pic" class="w-100">
+          <button>
+            <i class="fa-solid fa-x"></i>
+          </button>
+        </div>
+      </div>
+      <div class="add-group-user mt-2">
+        <input type="text" class="add-conversation-input w-100 border border-1 rounded px-2"
+          placeholder="Search people with username, email or phone no.">
+        <ul class="search-result m-0 p-0 mt-3 pt-3 border-top">
+          <li class="d-flex align-items-center mb-3">
+            <div class="search-user-img"><img src="./images/profile.png" alt="user porfile pic" class="w-100">
+            </div>
+            <h4 class="search-user-name ms-2 mb-0">Search User Name</h4>
+          </li>
+          <li class="d-flex align-items-center mb-3">
+            <div class="search-user-img"><img src="./images/profile.png" alt="user porfile pic" class="w-100"></div>
+            <h4 class="search-user-name ms-2 mb-0">Search User Name</h4>
+          </li>
+
+        </ul>
+      </div>
+
+
+    </div>
+
+    <div class="blocked-accounts-interface d-none">
+      <button class="close-add-conv-box-btn ms-auto border d-block rounded border-1 mb-1">
+        <i class="fa-solid fa-x"></i>
+      </button>
+
+      <div class="blocked-accounts">
+        <div class="blocked-account">
+          <h5 class="blocked-person">
+            <img src="./images/profile.png" alt="user porfile pic" class="">
+            Nick Fury
+          </h5>
+          <button class="unblock-btn">Unblock</button>
+        </div>
+        <div class="blocked-account">
+          <h5 class="blocked-person">
+            <img src="./images/profile.png" alt="user porfile pic" class="">
+            Nick Fury
+          </h5>
+          <button class="unblock-btn">Unblock</button>
+        </div><div class="blocked-account">
+          <h5 class="blocked-person">
+            <img src="./images/profile.png" alt="user porfile pic" class="">
+            Nick Fury
+          </h5>
+          <button class="unblock-btn">Unblock</button>
+        </div><div class="blocked-account">
+          <h5 class="blocked-person">
+            <img src="./images/profile.png" alt="user porfile pic" class="">
+            Nick Fury
+          </h5>
+          <button class="unblock-btn">Unblock</button>
+        </div><div class="blocked-account">
+          <h5 class="blocked-person">
+            <img src="./images/profile.png" alt="user porfile pic" class="">
+            Nick Fury
+          </h5>
+          <button class="unblock-btn">Unblock</button>
+        </div><div class="blocked-account">
+          <h5 class="blocked-person">
+            <img src="./images/profile.png" alt="user porfile pic" class="">
+            Nick Fury
+          </h5>
+          <button class="unblock-btn">Unblock</button>
+        </div><div class="blocked-account">
+          <h5 class="blocked-person">
+            <img src="./images/profile.png" alt="user porfile pic" class="">
+            Nick Fury
+          </h5>
+          <button class="unblock-btn">Unblock</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  </div>
+
+  <!-- bootstrap js cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+
+  <!-- jquery cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <!-- custom js -->
+  <script src="./js/script.js"></script>
+
+  <script>
+    const Chatlist = document.querySelector("#chat-list");
+
+    function saveScrollPosition() {
+      alert(Chatlist.scrollTop);
+      sessionStorage.setItem('scrollPos', Chatlist.scrollTop);
+    }
+
+    // Function to restore the scroll position
+    function restoreScrollPosition() {
+      const savedScrollPos = sessionStorage.getItem('scrollPos');
+      if (savedScrollPos !== null) {
+        Chatlist.scrollTo(0, parseInt(savedScrollPos));
+      }
+    }
+
+    // Save scroll position when leaving the page (beforeunload event)
+    window.addEventListener('beforeunload', saveScrollPosition);
+
+    // Restore scroll position when the page is loaded
+    window.addEventListener('load', restoreScrollPosition);
+
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+
+    /* togglePasswordBtn.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye"></i>' : '<i class="fa-regular fa-eye-slash"></i>';
+    }); */
+
+    const toggleMenu = document.querySelector('#toggle-control-sidebar');
+
+    toggleMenu.addEventListener('click', () => {
+      document.querySelector('.control-sidebar').classList.toggle('collapsed');
+    })
+
+    const addConversationContainer = document.querySelector('.add-conversation-container');
+    const closeAddConvBoxBtn = document.querySelector('.close-add-conv-box-btn');
+    const addConversationBtn = document.querySelector('.add-conversation-btn');
+    const convOptionBox = document.querySelector('.conversation-options-box');
+    const optionsBtn = document.querySelector('.options-btn');
+    const settingsBtn = document.querySelector('.settings');
+    const settingContainer = document.querySelector('.settings-container');
+    const viewAccountBtn = document.querySelector('.view-account');
+    const profileDetails = document.querySelector('.profile-details');
+    const closeProfileDetailsBtn = document.querySelector('.close-profile-details');
+
+    addConversationContainer.addEventListener('click', (event) => {
+      // Check if the clicked target is the parent itself
+      if (event.target === addConversationContainer) {
+        addConversationContainer.classList.add('d-none');
+      }
+    });
+    closeAddConvBoxBtn.addEventListener('click', (event) => {
+      // Check if the clicked target is the parent itself
+      addConversationContainer.classList.add('d-none');
+    });
+    addConversationBtn.addEventListener('click', (event) => {
+      // Check if the clicked target is the parent itself
+      addConversationContainer.classList.remove('d-none');
+    });
+
+    optionsBtn.addEventListener('click', (event) => {
+      convOptionBox.classList.toggle('d-none'); // Toggle visibility when button is clicked
+    });
+    settingsBtn.addEventListener('click', (event) => {
+      settingContainer.classList.toggle('d-none'); // Toggle visibility when button is clicked
+    });
+
+    viewAccountBtn.addEventListener('click', () => {
+      profileDetails.classList.remove('d-none');
+      settingContainer.classList.add('d-none');
+    })
+
+    closeProfileDetailsBtn.addEventListener('click', () => {
+      profileDetails.classList.add('d-none');
+    })
+
+
+
+    window.addEventListener('click', (event) => {
+      // Check if the click is outside the conversation options box and the button
+      if (!convOptionBox.contains(event.target) && event.target !== optionsBtn) {
+        convOptionBox.classList.add('d-none'); // Hide options box
+      }
+
+      if (!settingContainer.contains(event.target) && event.target !== settingsBtn) {
+        settingContainer.classList.add('d-none'); // Hide options box
+      }
+    });
+
+
+    const conversations = document.querySelector('.conversations');
+    const stories = document.querySelector('.stories');
+    const peoples = document.querySelector('.peoples');
+
+    const inboxBtn = document.querySelector('.inbox');
+    const peopleBtn = document.querySelector('.people');
+    const storyBtn = document.querySelector('.story');
+
+    inboxBtn.addEventListener('click', (event) => {
+      conversations.classList.remove('d-none');
+      stories.classList.add('d-none');
+      peoples.classList.add('d-none');
+
+      inboxBtn.classList.add('active');
+      peopleBtn.classList.remove('active');
+      storyBtn.classList.remove('active');
+    });
+
+    peopleBtn.addEventListener('click', (event) => {
+      conversations.classList.add('d-none');
+      stories.classList.add('d-none');
+      peoples.classList.remove('d-none');
+
+      peopleBtn.classList.add('active');
+      inboxBtn.classList.remove('active');
+      storyBtn.classList.remove('active');
+    });
+
+    storyBtn.addEventListener('click', (event) => {
+      conversations.classList.add('d-none');
+      stories.classList.remove('d-none');
+      peoples.classList.add('d-none');
+
+      storyBtn.classList.add('active');
+      inboxBtn.classList.remove('active');
+      peopleBtn.classList.remove('active');
+    });
+
+
+  </script>
+</body>
+
+</html>

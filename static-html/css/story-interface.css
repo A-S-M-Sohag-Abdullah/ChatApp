@@ -1,0 +1,152 @@
+.story-interface {
+  position: fixed;
+  width: 400px;
+  height: 90vh;
+  background-color: var(--secondary-color);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.story-head {
+  z-index: 1;
+  padding: 10px;
+  width: 100%;
+}
+.story-owner {
+  color: var(--secondary-color);
+  font-size: 14px;
+}
+.story-owner img {
+  width: 30px;
+  margin-right: 10px;
+}
+.story-actions button{
+  color: var(--secondary-color);
+  margin-left: 5px;
+}
+
+.story-progress {
+  position: relative;
+  flex: auto;
+  margin-top: 10px;
+  margin-right: 5px;
+  height: 2px;
+  background-color: var(--faded-text);
+}
+
+.story-options{
+  position: absolute;
+  right: 10px;
+  top: 25px;
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  z-index: 1;
+  padding: 10px;
+  width: 200px;
+}
+
+.story-options::before{
+  position: absolute;
+  top: -5px;
+  right: 28px;
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  transform: rotate(-45deg);
+}
+
+.story-option{
+  border-radius: 8px;
+  padding: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.story-option i{
+  width: 15px;
+}
+
+.story-option:hover{
+  background-color: var(--white-hover);
+}
+
+
+
+@keyframes expandWidth {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.story-progress::after {
+  content: "";
+  width: 0%;
+  height: 100%;
+  background-color: var(--secondary-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: expandWidth 5s forwards;
+}
+
+
+.story-foot{
+  padding: 5px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: 1px solid white;
+  margin: 0 auto;
+  width: 90%;
+  border-radius: 50rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.story-foot input{
+  background-color: transparent;
+  border: none;
+  outline: 0;
+  width: 80%;
+  padding: 0 10px;
+  color: var(--secondary-color);
+}
+
+.story-foot button{
+  background: white;
+  border-radius: 50rem;
+  height: 40px;
+  padding: 0 20px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.story-nav{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0%, -50%);
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  width: 100%;
+}
+
+.story-nav button{
+  color: var(--secondary-color);
+  font-size: 20px;
+}
+
+.story-nav button:disabled{
+  color: var(--faded-text);
+}

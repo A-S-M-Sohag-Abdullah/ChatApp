@@ -1,0 +1,67 @@
+.sharedPhotosInterface {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 300px;
+  overflow: hidden;
+  background-color: var(--secondary-color);
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+}
+
+.sharedPhotosTitle {
+  font-size: 20px;
+}
+
+.sharedImages {
+  max-height: calc(300px - 15px - 45px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding-bottom: 10px;
+}
+
+.sharedImages a {
+  width: calc(100% / 4 - 10px);
+  margin-bottom: 10px;
+  display: block;
+  height: 40px;
+}
+
+.sharedImages img {
+  width: 100%;
+  height: 40px;
+}
+
+.closeChatProfileBtn {
+  border: 1px solid;
+  display: block;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.attachedImg {
+  position: relative;
+  width: 60px;
+  margin-right: 10px;
+}
+
+.attachedImg button {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background-color: var(--primary-color);
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.09);
+  border-radius: 50%;
+  font-size: 8px;
+  height: 12px;
+  width: 12px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--secondary-color);
+}

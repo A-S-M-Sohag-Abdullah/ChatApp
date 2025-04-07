@@ -1,0 +1,48 @@
+.stories {
+  width: 30%;
+  background-color: var(--secondary-color);
+  z-index: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.add-story,
+.story-container {
+  width: calc(50% - 10px);
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  height: 200px;
+  overflow: hidden;
+}
+
+.add-story {
+  font-size: 30px;
+  color: var(--primary-color);
+}
+
+.story-poster {
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  border: 2px solid var(--primary-color);
+  padding: 1.5px;
+}
+
+.story-count {
+  top: 10px;
+  right: 10px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  font-size: 10px;
+  font-weight: 600;
+  width: 15px;
+  height: 15px;
+}
+.story-container.seen .story-poster {
+  border: 2px solid var(--faded-text);
+}
+
+.story-container.seen .story-count {
+  background-color: var(--placeholder-color);
+  color: white;
+}

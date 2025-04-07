@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <!-- bootstrap cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" />
+
+  <!-- font-awesome cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+  <!-- google fonts cdn -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <!-- custom css -->
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/main-section.css">
+  <link rel="stylesheet" href="./css/control-sidebar.css">
+  <link rel="stylesheet" href="./css/head.css">
+  <link rel="stylesheet" href="./css/chat-interface.css">
+  <link rel="stylesheet" href="./css/entry.css">
+</head>
+
+<body class="bg-light">
+
+
+  <div class="entry d-flex align-items-center justify-content-center">
+    <div class="container d-flex flex-column justify-content-center bg-white rounded-4 position-relative py-4">
+      <div class=" row h-100 align-items-center">
+        <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+          <h1 class="entry-heading mb-3">Chat App <span>Signup</span></h1>
+          <img src="./images/signup.svg" alt="Chat App Logo" class="w-75" class="entry-img">
+        </div>
+        <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+          <div class="login d-flex flex-column align-items-center">
+
+            <h6 class="entry-form-heading text-center mb-3">Signup with Your Info</h6>
+
+            <div class="input-box rounded-pill bg-light">
+              <div class="icon">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <input type="text" placeholder="Enter Your Username *" required>
+            </div>
+
+            <div class="input-box rounded-pill bg-light">
+              <div class="icon">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <input type="email" placeholder="Enter Your Email *" required>
+            </div>
+
+            <div class="input-box rounded-pill bg-light">
+              <div class="icon">
+                <i class="fa-solid fa-phone-flip"></i>
+              </div>
+              <div class="country-box">BD +880 &#11206;</div>
+              <input type="number" placeholder="Enter Your Phone *" required>
+            </div>
+
+            <div class="input-box rounded-pill bg-light">
+              <div class="icon">
+                <i class="fa-solid fa-key"></i>
+              </div>
+              <input type="password" id="password" placeholder="Enter Your Password *" required>
+              <button id="togglePassword" class="show-password-btn"><i class="fa-regular fa-eye"></i></button>
+            </div>
+
+            <div class="input-box rounded-pill bg-light">
+              <div class="icon">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <input type="password" id="password" placeholder="Retype Your Password *" required>
+
+            </div>
+
+            <div class="input-box rounded-pill bg-light">
+              <div class="icon">
+                <i class="fa-solid fa-cake-candles"></i>
+              </div>
+
+              <input type="text" placeholder="DD" required class="dob-day"> /
+              <input type="text" placeholder="MM" required class="dob-month"> /
+              <input type="text" placeholder="YYYY" required class="dob-year">
+
+            </div>
+
+            <div class="input-box rounded-pill bg-light">
+              <div class="icon me-3"><i class="fa-solid fa-camera"></i></div>
+              <input type="file" name="" id="" placeholder="Choose Profile Picture" class="dp-upload">
+            </div>
+
+
+            <button class="submit-btn mt-2 rounded-pill">Signup</button>
+
+
+
+          </div>
+          <div class="note mt-3 text-white">Already Have an Account? <a href="#"
+              class="text-decoration-underline">Login</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- bootstrap js cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+
+  <!-- jquery cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <!-- custom js -->
+  <script src="./js/script.js"></script>
+
+  <script>
+    const Chatlist = document.querySelector("#chat-list");
+
+    function saveScrollPosition() {
+      alert(Chatlist.scrollTop);
+      sessionStorage.setItem('scrollPos', Chatlist.scrollTop);
+    }
+
+    // Function to restore the scroll position
+    function restoreScrollPosition() {
+      const savedScrollPos = sessionStorage.getItem('scrollPos');
+      if (savedScrollPos !== null) {
+        Chatlist.scrollTo(0, parseInt(savedScrollPos));
+      }
+    }
+
+    // Save scroll position when leaving the page (beforeunload event)
+    window.addEventListener('beforeunload', saveScrollPosition);
+
+    // Restore scroll position when the page is loaded
+    window.addEventListener('load', restoreScrollPosition);
+
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+
+    togglePasswordBtn.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye"></i>' : '<i class="fa-regular fa-eye-slash"></i>';
+    });
+
+    const toggleMenu = document.querySelector('#toggle-control-sidebar');
+
+    toggleMenu.addEventListener('click', () => {
+      document.querySelector('.control-sidebar').classList.toggle('collapsed');
+    })
+  </script>
+</body>
+
+</html>

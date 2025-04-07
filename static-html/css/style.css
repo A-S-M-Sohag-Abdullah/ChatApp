@@ -1,0 +1,46 @@
+/**************
+Global css
+****************/
+:root {
+  --primary-color: #6d73e1;
+  --transparent-primary-color: #6d73e189;
+  --faded-primary-color: #dfe0fe;
+  --sidebar-color: #5157cc;
+  --secondary-color: #fff;
+  --faded-secondary-color: #ffffff92;
+  --accent-color: #e74c3c;
+  --text-color: #2c3e50;
+  --faded-text: #d5d5d5;
+  --placeholder-color: #999;
+  --white-hover: #ebeaea;
+  --primary-gradient: linear-gradient(80deg, #97abff 10%, #123597 100%);
+}
+
+* {
+  font-family: "Montserrat", system-ui;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  outline: 0;
+  border: none;
+  background: transparent;
+}
+
+input {
+  border: none;
+  outline: 0;
+}
+
+ul{
+  list-style: none;
+}
+
+.centerd{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

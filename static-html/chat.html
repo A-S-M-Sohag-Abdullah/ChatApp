@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .chat-container {
+      height: 500px;
+      width: 500px;
+      /* justify-content: stretch; */
+      display: grid;
+      /* align-content: end; */
+      flex-direction: column;
+      grid-template-rows: auto 1fr;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      /* grid-auto-flow: row; */
+      align-items: end;
+    }
+
+    /* .chat-container::before {
+      content: "";
+      display: block;
+      width: 100%;
+      grid-row: 1;
+
+    }
+ */
+    .chat-message {
+      margin: 5px;
+      padding: 10px;
+      background: #f1f1f1;
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chat-container">
+    <div></div>
+    <div class="chat-message">Message 1s</div>
+    <div class="chat-message">Message 2</div>
+    <div class="chat-message">Message 3</div>
+    <div class="chat-message">Message 1s</div>
+    <div class="chat-message">Message 2</div>
+    <div class="chat-message">Message 3</div>
+    <div class="chat-message">Message 1s</div>
+    <div class="chat-message">Message 2</div>
+    <div class="chat-message">Message 3</div>
+    <div class="chat-message">Message 1s</div>
+    <div class="chat-message">Message 2</div>
+    <div class="chat-message">Message 3</div>
+    <div class="chat-message">Message 1s</div>
+    <div class="chat-message">Message 2</div>
+    <div class="chat-message">Message 3</div>
+  
+
+
+    <!-- Add more messages here -->
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const chatContainer = document.querySelector('.chat-container');
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+  </script>
+</body>
+
+</html>

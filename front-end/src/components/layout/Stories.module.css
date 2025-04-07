@@ -1,0 +1,51 @@
+/* Stories.module.css */
+.stories {
+  width: 30%;
+  background-color: var(--secondary-color);
+  z-index: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.addStory,
+.storyContainer {
+  width: calc(50% - 10px);
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  height: 200px;
+  overflow: hidden;
+}
+
+.addStory {
+  font-size: 30px;
+  color: var(--primary-color);
+}
+
+.storyPoster {
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  border: 2px solid var(--primary-color);
+  padding: 1.5px;
+}
+
+.storyCount {
+  top: 10px;
+  right: 10px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  font-size: 10px;
+  font-weight: 600;
+  width: 15px;
+  height: 15px;
+}
+
+.storyContainer.seen .storyPoster {
+  border: 2px solid var(--faded-text);
+}
+
+.storyContainer.seen .storyCount {
+  background-color: var(--placeholder-color);
+  color: white;
+}
