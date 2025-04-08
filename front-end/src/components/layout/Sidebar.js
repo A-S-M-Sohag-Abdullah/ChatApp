@@ -114,7 +114,10 @@ const Sidebar = () => {
             Create a group
           </button>
           <button
-            onClick={() => setShowBlockedAccounts(true)}
+            onClick={() => {
+              toggleSettings();
+              setShowBlockedAccounts(true);
+            }}
             className="rounded p-2 w-100 text-start"
           >
             <FontAwesomeIcon
@@ -128,7 +131,10 @@ const Sidebar = () => {
             Switch Account
           </button>
           <button
-            onClick={() => logout()}
+            onClick={() => {
+              toggleSettings();
+              logout();
+            }}
             className="rounded p-2 w-100 text-start"
           >
             <FontAwesomeIcon

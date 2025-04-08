@@ -16,9 +16,11 @@ const blockUser = async (req, res) => {
 
     console.log(result);
 
-    return res
-      .status(200)
-      .json({ message: "User blocked successfully", result: result });
+    return res.status(200).json({
+      message: "User blocked successfully",
+      success: true,
+      result: result,
+    });
   }
 
   res.status(400).json({ message: "User already blocked" });
@@ -35,7 +37,11 @@ const unblockUser = async (req, res) => {
 
   res
     .status(200)
-    .json({ message: "User unblocked successfully", result: result });
+    .json({
+      message: "User unblocked successfully",
+      success: true,
+      result: result,
+    });
 };
 
 module.exports = { blockUser, unblockUser };

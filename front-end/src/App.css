@@ -44,3 +44,10 @@ ul{
   align-items: center;
   justify-content: center;
 }
+
+.green-progress-bar {
+  background-color: #4caf50 !important; /* Green color */
+}
+.red-progress-bar{
+  background-color: #f44336 !important;
+}

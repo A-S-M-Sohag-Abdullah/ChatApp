@@ -4,7 +4,7 @@ import MainSection from "../components/layout/MainSection";
 import styles from "./ChatRoom.module.css";
 import { setUserOnline } from "../services/socketService";
 import { useAuth } from "../context/AuthContext";
-import { ToastContainer } from "react-toastify";
+
 
 function ChatRoom() {
   const { user } = useAuth();
@@ -22,7 +22,7 @@ function ChatRoom() {
       {/* {<ChatComponent/>} */}
 
       {/* ChatRoom {JSON.stringify(user)} */}
-      <ToastContainer />
+   
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ChatProvider } from "./context/ChatContext";
@@ -12,6 +13,7 @@ function App() {
         <ChatProvider>
           <StoryProvider>
             <AppRoutes />
+            <ToastContainer />
           </StoryProvider>
         </ChatProvider>
       </DomProvider>

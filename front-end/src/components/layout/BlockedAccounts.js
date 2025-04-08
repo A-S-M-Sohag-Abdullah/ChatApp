@@ -6,18 +6,25 @@ import profile from "../../assets/images/profile.png";
 import { useDom } from "../../context/DomContext";
 import { useAuth } from "../../context/AuthContext";
 import blockApi from "../../api/blockApi";
+import { toast } from "react-toastify";
+import { useChat } from "../../context/ChatContext";
 
 const BlockedAccounts = () => {
   const { setShowBlockedAccounts } = useDom();
   const { user, setUser } = useAuth();
-  console.log(user);
+  const { fetchChats } = useChat();
 
   const handleUnblockUser = async (id) => {
-    console.log(id);
+    
     const response = await blockApi.unblockUser(id);
 
-    alert(response.message);
-    setUser(response.result);
+    if (response.success) {
+      toast.success(response.message, {
+        progressClassName: "green-progress-bar",
+      });
+      setUser(response.result);
+      fetchChats();
+    }
   };
 
   return (

@@ -17,6 +17,14 @@ const getChats = async (req, res) => {
           select: "username", // Select the username field of the sender
         },
       },
+      {
+        path: "users.userId",
+        select: "blockedUsers",
+        populate: {
+          path: "blockedUsers", // Populate the blockedUsers field in the message
+          select: "_id username",  // Select the _id username field of the blockedUsers
+        },
+      },
     ]);
     res.status(200).json(chats);
   } catch (error) {

@@ -24,6 +24,7 @@ import { useAuth } from "../../context/AuthContext";
 import messageApi from "../../api/messageApi";
 import blockApi from "../../api/blockApi";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 
 const socket = io("http://localhost:5000");
 
@@ -42,8 +43,31 @@ function ConverSationBox() {
     showSharedPhotos,
   } = useDom();
 
-  const { activeChat, fetchChats } = useChat();
+  const { activeChat, fetchChats,setActiveChat } = useChat();
   const { user, setUser } = useAuth();
+/*   console.log(activeChat); */
+
+  const isBlockedByUser1 = activeChat.users[0].userId.blockedUsers.some(
+    (blockedUser) => blockedUser._id === user._id
+  );
+  const isBlockedByUser2 = activeChat.users[1].userId.blockedUsers.some(
+    (blockedUser) => blockedUser._id === user._id
+  );
+
+  // Check if the current user has blocked the other user
+  const isBlockedCurrentUser1 = activeChat.users[0].userId.blockedUsers.some(
+    (blockedUser) => blockedUser._id === activeChat.users[1].userId._id
+  );
+  const isBlockedCurrentUser2 = activeChat.users[1].userId.blockedUsers.some(
+    (blockedUser) => blockedUser._id === activeChat.users[0].userId._id
+  );
+
+/*   console.log(
+    isBlockedByUser1,
+    isBlockedByUser2,
+    isBlockedCurrentUser1,
+    isBlockedCurrentUser2
+  ); */
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -57,12 +81,19 @@ function ConverSationBox() {
 
   const hanldeBlockUser = async (e) => {
     e.preventDefault();
-    console.log(otherUser._id);
+    setShowBlockBox(false);
+
     try {
-      const response = await blockApi.blockUser(otherUser.userId);
-      alert(response.message);
-      
-      setUser(response.result);
+      const response = await blockApi.blockUser(otherUser.userId._id);
+
+      if (response.success) {
+        toast.error(response.message, {
+          progressClassName: "red-progress-bar",
+        });
+        setUser(response.result);
+        setActiveChat(null);
+        fetchChats();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -277,55 +308,62 @@ function ConverSationBox() {
         <div ref={messagesEndRef} />
       </div>
 
-      <form
-        onSubmit={handleSendMessage}
-        className={
-          styles["input-section"] +
-          " py-3 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
-        }
-      >
-        <div className={styles["attached-images"] + " w-100 d-flex"}>
-          {attachments.map((file, index) => (
-            <div key={index} className={styles["attached-img"]}>
-              <button type="button" onClick={() => removeAttachment(index)}>
-                <FontAwesomeIcon icon={faXmark} />
-              </button>
-              <img
-                src={URL.createObjectURL(file)}
-                alt="attachment-preview"
-                className="w-100"
-              />
-            </div>
-          ))}
-        </div>
+      {isBlockedByUser1 ||
+      isBlockedByUser2 ||
+      isBlockedCurrentUser1 ||
+      isBlockedCurrentUser2 ? (
+        <div className="py-4 text-center text-danger">Can't send message to this conversation !!</div>
+      ) : (
+        <form
+          onSubmit={handleSendMessage}
+          className={
+            styles["input-section"] +
+            " py-3 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
+          }
+        >
+          <div className={styles["attached-images"] + " w-100 d-flex"}>
+            {attachments.map((file, index) => (
+              <div key={index} className={styles["attached-img"]}>
+                <button type="button" onClick={() => removeAttachment(index)}>
+                  <FontAwesomeIcon icon={faXmark} />
+                </button>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="attachment-preview"
+                  className="w-100"
+                />
+              </div>
+            ))}
+          </div>
 
-        <input
-          onChange={(e) => {
-            setTypedMessage(e.target.value);
-          }}
-          type="text"
-          className={styles["messange-input"] + " bg-transparent"}
-          placeholder="Type Your Message Here..."
-          value={typedMessage}
-        />
+          <input
+            onChange={(e) => {
+              setTypedMessage(e.target.value);
+            }}
+            type="text"
+            className={styles["messange-input"] + " bg-transparent"}
+            placeholder="Type Your Message Here..."
+            value={typedMessage}
+          />
 
-        <label htmlFor="file-upload" className={styles["file-picker"]}>
-          <FontAwesomeIcon icon={faPaperclip} />
-        </label>
-        <input
-          id="file-upload"
-          type="file"
-          className="d-none"
-          multiple
-          onChange={handleFileChange}
-        />
-        <button type="button" className={styles["emojiPicker"]}>
-          <FontAwesomeIcon icon={faFaceSmileRegular} />
-        </button>
-        <button type="submit" className={styles["send-btn"]}>
-          <FontAwesomeIcon icon={faPaperPlane} />
-        </button>
-      </form>
+          <label htmlFor="file-upload" className={styles["file-picker"]}>
+            <FontAwesomeIcon icon={faPaperclip} />
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            className="d-none"
+            multiple
+            onChange={handleFileChange}
+          />
+          <button type="button" className={styles["emojiPicker"]}>
+            <FontAwesomeIcon icon={faFaceSmileRegular} />
+          </button>
+          <button type="submit" className={styles["send-btn"]}>
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </button>
+        </form>
+      )}
 
       <div
         className={`
