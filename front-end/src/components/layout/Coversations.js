@@ -28,7 +28,7 @@ function Coversations() {
           const lastMessage = chat.latestMessage?.content || ""; // Ensure latestMessage exists
           const userId = user._id;
           const otherUser = chat.users.find(
-            (user) => user.userId.toString() !== userId.toString()
+            (user) => user.userId._id.toString() !== userId.toString()
           );
           return (
             <li

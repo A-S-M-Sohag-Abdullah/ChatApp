@@ -77,8 +77,10 @@ function ConverSationBox() {
   const [attachments, setAttachments] = useState([]);
 
   const otherUser = activeChat?.users.find(
-    (u) => u.userId.toString() !== user._id.toString()
+    (u) => u.userId._id.toString() !== user._id.toString()
   );
+
+  console.log(otherUser);
 
   const hanldeBlockUser = async (e) => {
     e.preventDefault();
