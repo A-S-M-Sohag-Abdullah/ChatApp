@@ -282,7 +282,9 @@ function ConverSationBox() {
                   ))}
                 </div>
                 <div className={styles["message-date"] + " me-3 mb-2"}>
-                  {moment(message.createdAt).format('LT')}
+                  {moment(message?.createdAt).isSame(moment(), "day")
+                    ? moment(message?.createdAt).format("LT")
+                    : moment(message?.createdAt).format("MMMM D, YYYY [at] LT")}
                 </div>
               </div>
             );
@@ -314,7 +316,9 @@ function ConverSationBox() {
                   ))}
                 </div>
                 <div className={styles["message-date"] + " ms-3 mb-2"}>
-                  {moment(message.createdAt).format('LT')}
+                  {moment(message?.createdAt).isSame(moment(), "day")
+                    ? moment(message?.createdAt).format("LT")
+                    : moment(message?.createdAt).format("MMMM D, YYYY [at] LT")}
                 </div>
               </div>
             );
