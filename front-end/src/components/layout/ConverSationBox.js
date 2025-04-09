@@ -26,6 +26,7 @@ import blockApi from "../../api/blockApi";
 import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 import chatApi from "../../api/chatApi";
+import moment from "moment/moment";
 
 const socket = io("http://localhost:5000");
 
@@ -281,7 +282,7 @@ function ConverSationBox() {
                   ))}
                 </div>
                 <div className={styles["message-date"] + " me-3 mb-2"}>
-                  12:05
+                  {moment(message.createdAt).format('LT')}
                 </div>
               </div>
             );
@@ -313,7 +314,7 @@ function ConverSationBox() {
                   ))}
                 </div>
                 <div className={styles["message-date"] + " ms-3 mb-2"}>
-                  12:05
+                  {moment(message.createdAt).format('LT')}
                 </div>
               </div>
             );

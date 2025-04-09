@@ -6,13 +6,13 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useDom } from "../../context/DomContext";
 import { useAuth } from "../../context/AuthContext";
 import { useChat } from "../../context/ChatContext";
+import moment from "moment";
 
 function Coversations() {
   const { setShowAddConv } = useDom();
   const { user } = useAuth();
 
   const { chats, loading, error, setActiveChat } = useChat(); // Store chat data
-
 
   if (loading) {
     return <div>Loading chats...</div>;
@@ -26,6 +26,7 @@ function Coversations() {
       <ul id="chat-list" className={`p-0 m-0 ${styles["chat-list"]}`}>
         {chats.map((chat) => {
           const lastMessage = chat.latestMessage?.content || ""; // Ensure latestMessage exists
+
           const userId = user._id;
           const otherUser = chat.users.find(
             (user) => user.userId._id.toString() !== userId.toString()
@@ -69,7 +70,8 @@ function Coversations() {
 
                 <div className="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
                   <div className={styles["last-modified-time"]}>
-                    {lastMessage.timestamp || "12:00"}
+                    
+                    {lastMessage && moment(chat.latestMessage?.createdAt).format("LT")}
                   </div>
                   <div
                     className={`${styles["unread-messages"]} rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center`}
