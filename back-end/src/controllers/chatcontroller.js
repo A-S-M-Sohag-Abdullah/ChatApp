@@ -156,7 +156,7 @@ const deleteChatForUser = async (req, res) => {
     }
 
     await chat.save();
-    res.status(200).json({ message: "Chat soft-deleted successfully" });
+    res.status(200).json({ message: "Chat deleted successfully" });
   } catch (err) {
     console.error("Delete Chat Error:", err);
     res.status(500).json({ message: "Server error" });

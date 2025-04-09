@@ -155,12 +155,12 @@ function ConverSationBox() {
   const handleDeleteChat = async (e) => {
     e.preventDefault();
     try {
-      console.log(activeChat);
       const response = await chatApi.deleteChat(activeChat._id);
-      console.log(response.data);
+      toast.success(response.message);
       setShowDeleteConvBox(false);
+      fetchChats();
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.message);
     }
   };
 
