@@ -12,6 +12,12 @@ const chatSchema = new mongoose.Schema(
     ], // Participants, now stores both userId and username
     latestMessage: { type: mongoose.Schema.Types.ObjectId, ref: "Message" }, // Last sent message
     groupAdmin: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Only for groups
+    deletedFor: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        deletedAt: { type: Date },
+      },
+    ],
   },
   { timestamps: true }
 );

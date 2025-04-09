@@ -11,27 +11,48 @@ const getChats = async (req, res) => {
     chats = await Chat.populate(chats, [
       {
         path: "latestMessage",
-        select: "sender content",
+        select: "sender content createdAt",
         populate: {
-          path: "sender", // Populate the sender field in the message
-          select: "username", // Select the username field of the sender
+          path: "sender",
+          select: "username",
         },
       },
       {
         path: "users.userId",
         select: "blockedUsers",
         populate: {
-          path: "blockedUsers", // Populate the blockedUsers field in the message
-          select: "_id username",  // Select the _id username field of the blockedUsers
+          path: "blockedUsers",
+          select: "_id username",
         },
       },
     ]);
+
+    // Filter latestMessage based on deletedFor
+    chats = chats.map((chat) => {
+      const deletionEntry = chat.deletedFor?.find((entry) =>
+        entry.user.equals(req.user._id)
+      );
+
+      if (
+        deletionEntry &&
+        chat.latestMessage &&
+        new Date(chat.latestMessage.createdAt) <= new Date(deletionEntry.deletedAt)
+      ) {
+        // Message was sent before deletion — remove it
+        chat = chat.toObject(); // Convert to plain object to allow reassignment
+        chat.latestMessage = null;
+      }
+
+      return chat;
+    });
+
     res.status(200).json(chats);
   } catch (error) {
     console.error("Get Chats Error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // Create or fetch a chat (one-on-one or group)
 const accessChat = async (req, res) => {
@@ -112,4 +133,34 @@ const accessChat = async (req, res) => {
   }
 };
 
-module.exports = { getChats, accessChat };
+// controllers/chatController.js
+const deleteChatForUser = async (req, res) => {
+  const { chatId } = req.params;
+
+  try {
+    console.log(chatId);
+    const chat = await Chat.findById(chatId);
+    if (!chat) return res.status(404).json({ message: "Chat not found" });
+
+    const existingEntry = chat.deletedFor.find((entry) =>
+      entry.user.equals(req.user._id)
+    );
+
+    if (!existingEntry) {
+      chat.deletedFor.push({
+        user: req.user._id,
+        deletedAt: new Date(),
+      });
+    } else {
+      existingEntry.deletedAt = new Date(); // update timestamp if already exists
+    }
+
+    await chat.save();
+    res.status(200).json({ message: "Chat soft-deleted successfully" });
+  } catch (err) {
+    console.error("Delete Chat Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { getChats, accessChat, deleteChatForUser };

@@ -54,8 +54,13 @@ const chatApi = {
 
   // Delete a chat by ID
   deleteChat: async (chatId) => {
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.delete(`/chats/${chatId}`);
+      const response = await axios.delete(`${BASEURL}/api/chats/${chatId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
+        },
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

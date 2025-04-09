@@ -18,8 +18,28 @@ const upload = multer({ storage }).array("attachments", 5);
 
 // Get all messages of a chat
 const getMessages = async (req, res) => {
+  const { chatId } = req.params;
   try {
-    const messages = await Message.find({ chat: req.params.chatId })
+    const chat = await Chat.findById(chatId);
+    if (!chat) return res.status(404).json({ message: "Chat not found" });
+
+    let deletedAt = null;
+
+    const deletionInfo = chat.deletedFor.find((entry) =>
+      entry.user.equals(req.user._id)
+    );
+
+    if (deletionInfo) {
+      deletedAt = deletionInfo.deletedAt;
+    }
+
+    let messageQuery = { chat: chatId };
+
+    if (deletedAt) {
+      messageQuery.createdAt = { $gt: deletedAt };
+    }
+
+    const messages = await Message.find(messageQuery)
       .populate("sender", "username email")
       .populate("chat");
 

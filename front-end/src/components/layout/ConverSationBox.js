@@ -25,6 +25,7 @@ import messageApi from "../../api/messageApi";
 import blockApi from "../../api/blockApi";
 import { io } from "socket.io-client";
 import { toast } from "react-toastify";
+import chatApi from "../../api/chatApi";
 
 const socket = io("http://localhost:5000");
 
@@ -43,9 +44,9 @@ function ConverSationBox() {
     showSharedPhotos,
   } = useDom();
 
-  const { activeChat, fetchChats,setActiveChat } = useChat();
+  const { activeChat, fetchChats, setActiveChat } = useChat();
   const { user, setUser } = useAuth();
-/*   console.log(activeChat); */
+  /*   console.log(activeChat); */
 
   const isBlockedByUser1 = activeChat.users[0].userId.blockedUsers.some(
     (blockedUser) => blockedUser._id === user._id
@@ -62,7 +63,7 @@ function ConverSationBox() {
     (blockedUser) => blockedUser._id === activeChat.users[0].userId._id
   );
 
-/*   console.log(
+  /*   console.log(
     isBlockedByUser1,
     isBlockedByUser2,
     isBlockedCurrentUser1,
@@ -91,7 +92,6 @@ function ConverSationBox() {
           progressClassName: "red-progress-bar",
         });
         setUser(response.result);
-        setActiveChat(null);
         fetchChats();
       }
     } catch (err) {
@@ -148,6 +148,19 @@ function ConverSationBox() {
       }
     } catch (err) {
       setError(err);
+    }
+  };
+
+  // delete chat for user
+  const handleDeleteChat = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(activeChat);
+      const response = await chatApi.deleteChat(activeChat._id);
+      console.log(response.data);
+      setShowDeleteConvBox(false);
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
@@ -312,7 +325,9 @@ function ConverSationBox() {
       isBlockedByUser2 ||
       isBlockedCurrentUser1 ||
       isBlockedCurrentUser2 ? (
-        <div className="py-4 text-center text-danger">Can't send message to this conversation !!</div>
+        <div className="py-4 text-center text-danger">
+          Can't send message to this conversation !!
+        </div>
       ) : (
         <form
           onSubmit={handleSendMessage}
@@ -424,7 +439,7 @@ function ConverSationBox() {
           All Messages including files will be deleted.
         </h3>
         <form
-          action=""
+          onSubmit={handleDeleteChat}
           className={
             styles["delete-conv-form"] + " d-flex justify-content-between"
           }
