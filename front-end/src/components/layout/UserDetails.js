@@ -8,18 +8,23 @@ import {
 import styles from "./UserDetails.module.css";
 import profile from "../../assets/images/profile.png";
 import { useDom } from "../../context/DomContext";
+import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
+import userApi from "../../api/userApi";
+import { toast } from "react-toastify";
 function UserDetails() {
+  const { user } = useAuth();
+
   const { setShowUserDetails } = useDom();
   // State for toggle edit mode
   const [isEditMode, setIsEditMode] = useState(false);
 
   // State variables to track changes in the input fields
-  const [userName, setUserName] = useState("Nick Fury");
-  const [bio, setBio] = useState("Nick Fury");
-  const [contactNo, setContactNo] = useState("01717100000");
-  const [email, setEmail] = useState("example@gmail.com");
-  const [dob, setDob] = useState("2000-09-23");
-  const [password, setPassword] = useState("password");
+  const [userName, setUserName] = useState(user.username);
+  const [bio, setBio] = useState(user.bio);
+  const [phone, setPhone] = useState(user.phone);
+  const [email, setEmail] = useState(user.email);
+  const [dateOfBirth, setDateOfBirth] = useState(user.dateOfBirth);
 
   const handleEditClick = () => {
     setIsEditMode(true);
@@ -33,15 +38,31 @@ function UserDetails() {
   // Handlers for input changes
   const handleUserNameChange = (e) => setUserName(e.target.value);
   const handleBioChange = (e) => setBio(e.target.value);
-  const handleContactNoChange = (e) => setContactNo(e.target.value);
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handleDobChange = (e) => setDob(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handleContactNoChange = (e) => setPhone(e.target.value);
+  const handleDobChange = (e) => setDateOfBirth(e.target.value);
+
+  const handleUpdateUser = async () => {
+    console.log("updating user");
+    const response = await userApi.updateUserProfile({
+      userName,
+      bio,
+      phone,
+      email,
+      dateOfBirth,
+    });
+
+    if (response.success) {
+      toast.success(response.message);
+      handleCancelClick();
+    }
+  };
+
   return (
     <div
       className={`${styles.profileDetails} position-fixed rounded rounded-4 p-3`}
     >
       <button
+        onClick={handleCancelClick}
         className={`${styles.closeProfileDetails} ms-auto border d-block rounded border-1 mb-3`}
       >
         <FontAwesomeIcon icon={faXmark} />
@@ -85,7 +106,7 @@ function UserDetails() {
         <input
           type="tel"
           className={`${styles.contactNo} ${!isEditMode && "disabled"}`}
-          value={contactNo}
+          value={phone}
           onChange={handleContactNoChange}
           readOnly={!isEditMode}
         />
@@ -95,25 +116,15 @@ function UserDetails() {
           type="email"
           className={`${styles.email} ${!isEditMode && "disabled"}`}
           value={email}
-          onChange={handleEmailChange}
-          readOnly={!isEditMode}
+          readOnly={true}
         />
 
         <div className={styles.label}>Date of Birth:</div>
         <input
           type="date"
           className={`${styles.email} ${!isEditMode && "disabled"}`}
-          value={dob}
+          value={new Date(dateOfBirth).toISOString().split("T")[0]}
           onChange={handleDobChange}
-          readOnly={!isEditMode}
-        />
-
-        <div className={styles.label}>Password:</div>
-        <input
-          type="password"
-          className={`${styles.email} ${!isEditMode && "disabled"}`}
-          value={password}
-          onChange={handlePasswordChange}
           readOnly={!isEditMode}
         />
 
@@ -125,6 +136,7 @@ function UserDetails() {
             type="button"
             className={`${styles.profileInfoSaveBtn}`}
             disabled={!isEditMode}
+            onClick={handleUpdateUser}
           >
             Save
           </button>

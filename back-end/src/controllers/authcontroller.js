@@ -178,4 +178,40 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { signup, login, user, searchUser, getUserById };
+const updateUser = async (req, res) => {
+  try {
+    console.log("updating user");
+    const updates = {};
+
+    const allowedFields = ["username", "email", "phone", "dateOfBirth", "bio"];
+
+    allowedFields.forEach((field) => {
+      if (req.body[field]) {
+        updates[field] = req.body[field];
+      }
+    });
+    //this will be updated when profile picture add functionality will be added
+    /*  if (req.file) {
+      updates.profilePicture = `/uploads/${req.file.filename}`;
+    } */
+
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, updates, {
+      new: true,
+      runValidators: true,
+      select: "-password", // Exclude password
+    });
+    console.log(updatedUser);
+    res
+      .status(200)
+      .json({
+        success: true,
+        user: updatedUser,
+        message: "Userinfo Update Successfully",
+      });
+  } catch (error) {
+    console.error("Update User Error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { signup, login, user, searchUser, getUserById, updateUser };

@@ -4,6 +4,26 @@
   background-color: var(--secondary-color);
 }
 
+.chat-profile-head {
+  position: sticky;
+  top: 0px;
+  background-color: white;
+}
+
+.chat-profile-title {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.close-chat-profile-btn {
+  background-color: white;
+}
+
+.chat-profile {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
 .chat-profile-img {
   width: 35%;
 }
@@ -28,6 +48,7 @@
 .chat-profile-info-section-desc {
   font-size: 10px;
   text-align: justify;
+  word-break: break-word;
 }
 
 .chat-profile-links {

@@ -19,7 +19,7 @@ const getChats = async (req, res) => {
       },
       {
         path: "users.userId",
-        select: "blockedUsers",
+        select: "blockedUsers phone email",
         populate: {
           path: "blockedUsers",
           select: "_id username",

@@ -81,7 +81,7 @@ function ConverSationBox() {
     (u) => u.userId._id.toString() !== user._id.toString()
   );
 
-  console.log(otherUser);
+
 
   const hanldeBlockUser = async (e) => {
     e.preventDefault();

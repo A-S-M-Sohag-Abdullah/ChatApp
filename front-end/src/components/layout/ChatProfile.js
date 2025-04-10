@@ -35,6 +35,8 @@ function ChatProfile() {
     (u) => u.userId.toString() !== user._id.toString()
   );
 
+  console.log(otherUser);
+
   function setUserStories() {
     // Find the user by _id and return the stories array
     const inChatUser = groupedStories.find(
@@ -49,12 +51,15 @@ function ChatProfile() {
       <div
         className={`${styles["chat-profile"]} w-100 border rounded-4 border-1 h-100`}
       >
-        <button
-          onClick={() => setProfileOpend(false)}
-          className={`${styles["close-chat-profile-btn"]} ms-auto border d-block rounded-2 px-2 mb-3 mt-2 me-2`}
-        >
-          <FontAwesomeIcon icon={faXmark} />
-        </button>
+        <div className={`${styles["chat-profile-head"]} d-flex align-items-center px-2 mb-3 py-2 border-bottom`}>
+          <h3 className={styles["chat-profile-title"]}>{activeChat.isGroupChat? "Group Info" : "Profile Info"}</h3>
+          <button
+            onClick={() => setProfileOpend(false)}
+            className={`${styles["close-chat-profile-btn"]} ms-auto border d-block rounded-2 `}
+          >
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
+        </div>
 
         <div
           className={`${styles["chat-profile-img"]} border mx-auto mt-3 mb-2 rounded-circle border-1 p-1`}
@@ -78,12 +83,18 @@ function ChatProfile() {
         </div>
 
         <div
-          className={`${styles["chat-profile-info-section"]} border-bottom d-flex mx-auto align-items-baseline mt-2 mb-4`}
+          className={`${styles["chat-profile-info-section"]} border-bottom d-flex mx-auto align-items-baseline mt-2 pb-2 flex-column flex-wrap`}
         >
-          <h5 className={styles["chat-profile-info-section-name"]}>Phone: </h5>
-          <p className={styles["chat-profile-info-section-desc"]}>
-            +88 01717******
-          </p>
+          <div className="d-flex align-items-center ">
+            <p className={styles["chat-profile-info-section-desc"] + " mb-0"}>
+              Phone: {otherUser.userId.phone}
+            </p>
+          </div>
+          <div className="d-flex align-items-center flex-wrap">
+            <p className={styles["chat-profile-info-section-desc"] + " mb-0 "}>
+              {`Email: ${otherUser.userId.email}`}
+            </p>
+          </div>
         </div>
 
         <button

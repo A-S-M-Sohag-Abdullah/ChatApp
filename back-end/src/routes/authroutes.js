@@ -5,7 +5,8 @@ const {
   user,
   searchUser,
   getUserById,
-} = require("../controllers/authController");
+  updateUser,
+} = require("../controllers/authcontroller");
 const { protect } = require("../middlewares/authmiddleware");
 
 const router = express.Router();
@@ -20,5 +21,7 @@ router.get("/user", protect, user);
 router.get("/search", protect, searchUser);
 
 router.get("/:id", protect, getUserById);
+
+router.put("/update", protect, updateUser);
 
 module.exports = router;

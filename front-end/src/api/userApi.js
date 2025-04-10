@@ -46,11 +46,15 @@ const userApi = {
 
   // Update user profile
   updateUserProfile: async (userData) => {
+    console.log(userData);
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.put(
-        `${BASEURL}/api/users/profile`,
-        userData
-      );
+      const response = await axios.put(`${BASEURL}/api/auth/update`, userData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
+        },
+      });
+      
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -61,6 +65,7 @@ const userApi = {
   changePassword: async (passwordData) => {
     try {
       const response = await axios.put("/users/change-password", passwordData);
+      
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
