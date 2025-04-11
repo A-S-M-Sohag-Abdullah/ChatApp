@@ -53,6 +53,7 @@
   border-radius: 30rem;
   margin-bottom: 5px;
   font-size: 14px;
+  width: fit-content;
   max-width: 400px;
   word-wrap: break-word;
 }
@@ -62,7 +63,7 @@
   margin-bottom: 8px;
 }
 
-.messageAttachment img{
+.messageAttachment img {
   border-radius: 4px;
 }
 
@@ -207,4 +208,10 @@
   justify-content: center;
   cursor: pointer;
   color: var(--secondary-color);
+}
+
+.sender {
+  font-size: 10px;
+  margin-bottom: 5px;
+  margin-left: 5px;
 }

@@ -19,7 +19,7 @@ const getChats = async (req, res) => {
       },
       {
         path: "users.userId",
-        select: "blockedUsers phone email",
+        select: "blockedUsers phone email bio",
         populate: {
           path: "blockedUsers",
           select: "_id username",
@@ -36,7 +36,8 @@ const getChats = async (req, res) => {
       if (
         deletionEntry &&
         chat.latestMessage &&
-        new Date(chat.latestMessage.createdAt) <= new Date(deletionEntry.deletedAt)
+        new Date(chat.latestMessage.createdAt) <=
+          new Date(deletionEntry.deletedAt)
       ) {
         // Message was sent before deletion — remove it
         chat = chat.toObject(); // Convert to plain object to allow reassignment
@@ -52,7 +53,6 @@ const getChats = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 // Create or fetch a chat (one-on-one or group)
 const accessChat = async (req, res) => {
@@ -92,6 +92,7 @@ const accessChat = async (req, res) => {
         chat = await Chat.create({
           name: chatName, // Include the group chat name
           isGroupChat: true,
+          groupAdmin: req.user._id,
           users: users.map((user) => ({
             userId: user._id,
             username: user.username,

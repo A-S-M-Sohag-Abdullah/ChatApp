@@ -200,7 +200,7 @@ const updateUser = async (req, res) => {
       runValidators: true,
       select: "-password", // Exclude password
     });
-    console.log(updatedUser);
+
     res
       .status(200)
       .json({

@@ -8,6 +8,7 @@ import {
   faBellSlash,
   faTrash,
   faBan,
+  faPeopleGroup,
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./ChatProfile.module.css";
@@ -24,6 +25,7 @@ function ChatProfile() {
     setShowStory,
     setShowMute,
     setShowSharedPhotos,
+    setShowMembers,
   } = useDom();
 
   const { setStories, setStoryOwner, groupedStories } = useStory();
@@ -51,8 +53,12 @@ function ChatProfile() {
       <div
         className={`${styles["chat-profile"]} w-100 border rounded-4 border-1 h-100`}
       >
-        <div className={`${styles["chat-profile-head"]} d-flex align-items-center px-2 mb-3 py-2 border-bottom`}>
-          <h3 className={styles["chat-profile-title"]}>{activeChat.isGroupChat? "Group Info" : "Profile Info"}</h3>
+        <div
+          className={`${styles["chat-profile-head"]} d-flex align-items-center px-2 mb-3 py-2 border-bottom`}
+        >
+          <h3 className={styles["chat-profile-title"]}>
+            {activeChat.isGroupChat ? "Group Info" : "Profile Info"}
+          </h3>
           <button
             onClick={() => setProfileOpend(false)}
             className={`${styles["close-chat-profile-btn"]} ms-auto border d-block rounded-2 `}
@@ -68,18 +74,27 @@ function ChatProfile() {
         </div>
 
         <h2 className={styles["chat-profile-name"] + " text-center mb-0"}>
-          {otherUser.username}
+          {activeChat.isGroupChat ? activeChat.name : otherUser.username}
         </h2>
 
-        <p className={styles["chat-profile-status"] + " text-center"}>Active</p>
+        <p className={styles["chat-profile-status"] + " text-center"}>
+          {!activeChat.isGroupChat && "Active"}
+        </p>
 
         <div
           className={`${styles["chat-profile-info-section"]} border-bottom d-flex mx-auto align-items-baseline mt-2`}
         >
-          <h5 className={styles["chat-profile-info-section-name"]}>Bio: </h5>
-          <p className={styles["chat-profile-info-section-desc"]}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </p>
+          {!activeChat.isGroupChat && (
+            <>
+              <h5 className={styles["chat-profile-info-section-name"] + " me-1"}>
+                Bio:{" "}
+              </h5>
+              <p className={styles["chat-profile-info-section-desc"]}>
+                {" "}
+                {otherUser.userId.bio}
+              </p>
+            </>
+          )}
         </div>
 
         <div
@@ -123,6 +138,19 @@ function ChatProfile() {
           <FontAwesomeIcon icon={faBellSlash} className="me-2" /> Mute
           Notification
         </button>
+
+        {activeChat.isGroupChat && (
+          <button
+            onClick={() => {
+              setShowMembers(true);
+            }}
+            className={`${styles["conversation-option"]} ${styles["chat-profile-links"]} px-2 py-1 rounded p-1 text-start mx-auto d-block mb-2`}
+          >
+            <FontAwesomeIcon icon={faPeopleGroup} className="me-2" /> See
+            Members
+          </button>
+        )}
+
         <button
           onClick={() => {
             setShowDeleteConvBox(true);
