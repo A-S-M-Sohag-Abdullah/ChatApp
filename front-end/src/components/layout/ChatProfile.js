@@ -40,7 +40,6 @@ function ChatProfile() {
     (u) => u.userId.toString() !== user._id.toString()
   );
 
-  console.log(otherUser);
 
   function setUserStories() {
     // Find the user by _id and return the stories array

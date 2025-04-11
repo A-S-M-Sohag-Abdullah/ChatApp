@@ -218,7 +218,7 @@ const addToGroup = async (req, res) => {
 };
 
 const removeFromGroup = async (req, res) => {
-  const { chatId, userIdToRemove } = req.body;
+  const { chatId, userId } = req.body;
 
   try {
     const chat = await Chat.findById(chatId);
@@ -228,15 +228,21 @@ const removeFromGroup = async (req, res) => {
     if (!chat.groupAdmin.equals(req.user._id))
       return res.status(403).json({ message: "Only admin can remove members" });
 
-    chat.users = chat.users.filter((u) => !u.userId.equals(userIdToRemove));
+    chat.users = chat.users.filter((u) => !u.userId.equals(userId));
 
     // Optional: If admin removes themselves, transfer admin to another member
-    if (chat.groupAdmin.equals(userIdToRemove) && chat.users.length > 0) {
+    if (chat.groupAdmin.equals(userId) && chat.users.length > 0) {
       chat.groupAdmin = chat.users[0].userId;
     }
 
     await chat.save();
-    res.status(200).json(chat);
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "User Removed Successfully",
+        chat: chat,
+      });
   } catch (err) {
     console.error("Remove from Group Error:", err);
     res.status(500).json({ message: "Server error" });
