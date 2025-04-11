@@ -103,6 +103,26 @@ const chatApi = {
       console.log(err.message);
     }
   },
+
+  renameGroup: async (chatId, chatName) => {
+    const token = localStorage.getItem("token");
+    try {
+      const { data } = await axios.put(
+        `${BASEURL}/api/chats/group/rename`,
+        { chatId, chatName },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Assuming you use JWT for auth
+          },
+        }
+      );
+
+      return data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
 };
 
 export default chatApi;

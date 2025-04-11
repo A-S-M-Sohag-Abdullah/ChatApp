@@ -175,10 +175,14 @@ const renameGroup = async (req, res) => {
     if (!chat.groupAdmin.equals(req.user._id))
       return res.status(403).json({ message: "Only admin can rename group" });
 
-    chat.chatName = chatName;
+    chat.name = chatName;
     await chat.save();
 
-    res.status(200).json(chat);
+    res.status(200).json({
+      success: true,
+      message: `Group Name Changed`,
+      chat: chat,
+    });
   } catch (err) {
     console.error("Rename Group Error:", err);
     res.status(500).json({ message: "Server error" });
@@ -236,13 +240,11 @@ const removeFromGroup = async (req, res) => {
     }
 
     await chat.save();
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "User Removed Successfully",
-        chat: chat,
-      });
+    res.status(200).json({
+      success: true,
+      message: "User Removed Successfully",
+      chat: chat,
+    });
   } catch (err) {
     console.error("Remove from Group Error:", err);
     res.status(500).json({ message: "Server error" });

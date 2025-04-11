@@ -29,6 +29,7 @@ import chatApi from "../../api/chatApi";
 import moment from "moment/moment";
 import ChatMembers from "./ChatMembers";
 import AddGroupMembers from "./AddGroupMembers";
+import EditGroupInfo from "./EditGroupInfo";
 
 const socket = io("http://localhost:5000");
 
@@ -46,7 +47,8 @@ function ConverSationBox() {
     showMute,
     showSharedPhotos,
     showMembers,
-    showAddGroupMembers
+    showAddGroupMembers,
+    showEditGroupInfo,
   } = useDom();
 
   const { activeChat, fetchChats, setActiveChat } = useChat();
@@ -490,7 +492,9 @@ function ConverSationBox() {
           <button type="submit">Yes</button>
         </form>
       </div>
-      {showAddGroupMembers && <AddGroupMembers/>}
+      {showEditGroupInfo && <EditGroupInfo />}
+
+      {showAddGroupMembers && <AddGroupMembers />}
       {showMembers && <ChatMembers />}
       {showMute && <Mute />}
       {showSharedPhotos && <SharedPhotos messages={messages} />}

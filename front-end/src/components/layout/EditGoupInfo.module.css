@@ -1,0 +1,23 @@
+.editGroupInfoContainer {
+  position: absolute;
+  width: 400px;
+  height: 150px;
+  background: white;
+  border-radius: 8px;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.09);
+  padding: 20px;
+}
+
+.editGroupInfoTitle {
+  font-size: 16px;
+}
+
+.saveBtn {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 4px;
+}

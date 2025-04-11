@@ -29,6 +29,7 @@ function ChatProfile() {
     setShowSharedPhotos,
     setShowMembers,
     setShwoAddGroupMembers,
+    setShowEditGroupInfo,
   } = useDom();
 
   const { setStories, setStoryOwner, groupedStories } = useStory();
@@ -39,7 +40,6 @@ function ChatProfile() {
   const otherUser = activeChat?.users.find(
     (u) => u.userId.toString() !== user._id.toString()
   );
-
 
   function setUserStories() {
     // Find the user by _id and return the stories array
@@ -169,7 +169,9 @@ function ChatProfile() {
 
         {activeChat.isGroupChat && activeChat.groupAdmin === user._id && (
           <button
-            onClick={() => {}}
+            onClick={() => {
+              setShowEditGroupInfo(true);
+            }}
             className={`${styles["conversation-option"]} ${styles["chat-profile-links"]} px-2 py-1 rounded p-1 text-start mx-auto d-block mb-2`}
           >
             <FontAwesomeIcon icon={faPenToSquare} className="me-2" />
