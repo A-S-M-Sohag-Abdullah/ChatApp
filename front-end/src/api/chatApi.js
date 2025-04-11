@@ -66,6 +66,23 @@ const chatApi = {
       throw error.response?.data || error.message;
     }
   },
+
+  addToGroup: async (chatId, userId) => {
+    const token = localStorage.getItem("token");
+
+    const { data } = await axios.put(
+      `${BASEURL}/api/chats/group/add`,
+      { chatId, userId },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Assuming you use JWT for auth
+        },
+      }
+    );
+
+    return data;
+  },
 };
 
 export default chatApi;

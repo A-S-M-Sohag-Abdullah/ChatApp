@@ -164,4 +164,90 @@ const deleteChatForUser = async (req, res) => {
   }
 };
 
-module.exports = { getChats, accessChat, deleteChatForUser };
+const renameGroup = async (req, res) => {
+  const { chatId, chatName } = req.body;
+
+  try {
+    const chat = await Chat.findById(chatId);
+    if (!chat.isGroupChat)
+      return res.status(400).json({ message: "Not a group chat" });
+
+    if (!chat.groupAdmin.equals(req.user._id))
+      return res.status(403).json({ message: "Only admin can rename group" });
+
+    chat.chatName = chatName;
+    await chat.save();
+
+    res.status(200).json(chat);
+  } catch (err) {
+    console.error("Rename Group Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const addToGroup = async (req, res) => {
+  const { chatId, userId } = req.body;
+  console.log(userId);
+  try {
+    const chat = await Chat.findById(chatId);
+    if (!chat.isGroupChat)
+      return res.status(400).json({ message: "Not a group chat" });
+
+    if (!chat.groupAdmin.equals(req.user._id))
+      return res.status(403).json({ message: "Only admin can add members" });
+
+    const alreadyMember = chat.users.find((u) => u.userId.equals(userId));
+    if (alreadyMember)
+      return res.status(400).json({ message: "User already in group" });
+
+    const user = await User.findById(userId).select("username");
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    chat.users.push({ userId: userId, username: user.username });
+    await chat.save();
+
+    res.status(200).json({
+      success: true,
+      message: `User added successfully to ${chat?.name}`,
+      chat: chat,
+    });
+  } catch (err) {
+    console.error("Add to Group Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const removeFromGroup = async (req, res) => {
+  const { chatId, userIdToRemove } = req.body;
+
+  try {
+    const chat = await Chat.findById(chatId);
+    if (!chat.isGroupChat)
+      return res.status(400).json({ message: "Not a group chat" });
+
+    if (!chat.groupAdmin.equals(req.user._id))
+      return res.status(403).json({ message: "Only admin can remove members" });
+
+    chat.users = chat.users.filter((u) => !u.userId.equals(userIdToRemove));
+
+    // Optional: If admin removes themselves, transfer admin to another member
+    if (chat.groupAdmin.equals(userIdToRemove) && chat.users.length > 0) {
+      chat.groupAdmin = chat.users[0].userId;
+    }
+
+    await chat.save();
+    res.status(200).json(chat);
+  } catch (err) {
+    console.error("Remove from Group Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  getChats,
+  accessChat,
+  deleteChatForUser,
+  renameGroup,
+  addToGroup,
+  removeFromGroup,
+};

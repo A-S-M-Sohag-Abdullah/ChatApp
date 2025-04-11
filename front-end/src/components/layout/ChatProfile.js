@@ -9,6 +9,8 @@ import {
   faTrash,
   faBan,
   faPeopleGroup,
+  faUserPlus,
+  faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./ChatProfile.module.css";
@@ -26,6 +28,7 @@ function ChatProfile() {
     setShowMute,
     setShowSharedPhotos,
     setShowMembers,
+    setShwoAddGroupMembers,
   } = useDom();
 
   const { setStories, setStoryOwner, groupedStories } = useStory();
@@ -86,7 +89,9 @@ function ChatProfile() {
         >
           {!activeChat.isGroupChat && (
             <>
-              <h5 className={styles["chat-profile-info-section-name"] + " me-1"}>
+              <h5
+                className={styles["chat-profile-info-section-name"] + " me-1"}
+              >
                 Bio:{" "}
               </h5>
               <p className={styles["chat-profile-info-section-desc"]}>
@@ -148,6 +153,28 @@ function ChatProfile() {
           >
             <FontAwesomeIcon icon={faPeopleGroup} className="me-2" /> See
             Members
+          </button>
+        )}
+
+        {activeChat.isGroupChat && activeChat.groupAdmin === user._id && (
+          <button
+            onClick={() => {
+              setShwoAddGroupMembers(true);
+            }}
+            className={`${styles["conversation-option"]} ${styles["chat-profile-links"]} px-2 py-1 rounded p-1 text-start mx-auto d-block mb-2`}
+          >
+            <FontAwesomeIcon icon={faUserPlus} className="me-2" />
+            Add Members
+          </button>
+        )}
+
+        {activeChat.isGroupChat && activeChat.groupAdmin === user._id && (
+          <button
+            onClick={() => {}}
+            className={`${styles["conversation-option"]} ${styles["chat-profile-links"]} px-2 py-1 rounded p-1 text-start mx-auto d-block mb-2`}
+          >
+            <FontAwesomeIcon icon={faPenToSquare} className="me-2" />
+            Edit Group Info
           </button>
         )}
 

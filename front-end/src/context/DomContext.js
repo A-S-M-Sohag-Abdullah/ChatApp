@@ -18,6 +18,7 @@ export const DomProvider = ({ children }) => {
   const [showMute, setShowMute] = useState(false);
   const [showSharedPhotos, setShowSharedPhotos] = useState(false);
   const [showMembers, setShowMembers] = useState(false);
+  const [showAddGroupMembers, setShwoAddGroupMembers] = useState(false);
 
   const toogleSidebar = () => {
     sideBarCollapsed ? setSideBarCollapsed(false) : setSideBarCollapsed(true);
@@ -62,6 +63,8 @@ export const DomProvider = ({ children }) => {
         setShowSharedPhotos,
         showMembers,
         setShowMembers,
+        showAddGroupMembers,
+        setShwoAddGroupMembers,
       }}
     >
       {children} {/* Prevent rendering until auth check is done */}

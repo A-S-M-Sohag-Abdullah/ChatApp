@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import chatApi from "../../api/chatApi";
 import moment from "moment/moment";
 import ChatMembers from "./ChatMembers";
+import AddGroupMembers from "./AddGroupMembers";
 
 const socket = io("http://localhost:5000");
 
@@ -45,6 +46,7 @@ function ConverSationBox() {
     showMute,
     showSharedPhotos,
     showMembers,
+    showAddGroupMembers
   } = useDom();
 
   const { activeChat, fetchChats, setActiveChat } = useChat();
@@ -304,7 +306,11 @@ function ConverSationBox() {
                   <img src={profile} alt="profile-pic" className="w-100" />
                 </div>
                 <div className={styles["messages"]}>
-                  {activeChat.isGroupChat && <div className={styles.sender}>{message.sender.username}</div>}
+                  {activeChat.isGroupChat && (
+                    <div className={styles.sender}>
+                      {message.sender.username}
+                    </div>
+                  )}
                   <div className={styles["message"]}>{message.content}</div>
                   {message?.images.map((image) => (
                     <div className={styles.messageAttachment}>
@@ -484,7 +490,7 @@ function ConverSationBox() {
           <button type="submit">Yes</button>
         </form>
       </div>
-
+      {showAddGroupMembers && <AddGroupMembers/>}
       {showMembers && <ChatMembers />}
       {showMute && <Mute />}
       {showSharedPhotos && <SharedPhotos messages={messages} />}
