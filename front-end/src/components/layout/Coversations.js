@@ -77,7 +77,7 @@ function Coversations() {
                     )
                       ? moment(chat.latestMessage?.createdAt).format("LT")
                       : moment(chat.latestMessage?.createdAt).format(
-                          "MMMM D, YYYY [at] LT"
+                          "MM / DD / YY : LT"
                         )}
                   </div>
                   <div

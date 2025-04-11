@@ -20,7 +20,7 @@ function UserDetails() {
   const [isEditMode, setIsEditMode] = useState(false);
 
   // State variables to track changes in the input fields
-  const [userName, setUserName] = useState(user.username);
+  const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio);
   const [phone, setPhone] = useState(user.phone);
   const [email, setEmail] = useState(user.email);
@@ -36,7 +36,7 @@ function UserDetails() {
   };
 
   // Handlers for input changes
-  const handleUserNameChange = (e) => setUserName(e.target.value);
+  const handleUserNameChange = (e) => setUsername(e.target.value);
   const handleBioChange = (e) => setBio(e.target.value);
   const handleContactNoChange = (e) => setPhone(e.target.value);
   const handleDobChange = (e) => setDateOfBirth(e.target.value);
@@ -44,7 +44,7 @@ function UserDetails() {
   const handleUpdateUser = async () => {
     console.log("updating user");
     const response = await userApi.updateUserProfile({
-      userName,
+      username,
       bio,
       phone,
       email,
@@ -88,7 +88,7 @@ function UserDetails() {
         <input
           type="text"
           className={`${styles.profileName} ${!isEditMode && "disabled"}`}
-          value={userName}
+          value={username}
           onChange={handleUserNameChange}
           readOnly={!isEditMode}
         />

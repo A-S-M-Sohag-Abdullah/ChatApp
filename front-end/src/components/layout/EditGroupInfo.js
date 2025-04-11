@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./EditGoupInfo.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +11,7 @@ function EditGroupInfo() {
   const { setShowEditGroupInfo } = useDom();
   const { activeChat, fetchChats } = useChat();
 
-  const [newGroupName, setNewGroupName] = useState(activeChat.name);
+  const [newGroupName, setNewGroupName] = useState(activeChat.name || "");
 
   const handleGroupNameChange = async (e) => {
     e.preventDefault();
@@ -26,6 +26,11 @@ function EditGroupInfo() {
       }
     } catch (err) {}
   };
+
+  useEffect(() => {
+    
+    setNewGroupName(activeChat.name || "");
+  }, [activeChat]);
 
   return (
     <div className={styles.editGroupInfoContainer}>
