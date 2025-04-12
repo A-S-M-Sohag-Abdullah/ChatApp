@@ -5,6 +5,7 @@ import { ChatProvider } from "./context/ChatContext";
 import { DomProvider } from "./context/DomContext";
 import { StoryProvider } from "./context/StoryContext";
 import AppRoutes from "./routes/AppRoutes";
+import { ActiveStatusProvider } from "./context/ActiveStatusContext";
 
 function App() {
   return (
@@ -12,8 +13,10 @@ function App() {
       <DomProvider>
         <ChatProvider>
           <StoryProvider>
-            <AppRoutes />
-            <ToastContainer />
+            <ActiveStatusProvider>
+              <AppRoutes />
+              <ToastContainer />
+            </ActiveStatusProvider>
           </StoryProvider>
         </ChatProvider>
       </DomProvider>

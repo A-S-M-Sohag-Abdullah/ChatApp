@@ -10,7 +10,7 @@ export const setUserOnline = (userId) => {
 // Listen for user status updates
 export const listenForUserStatus = (callback) => {
   socket.on("updateUserStatus", (data) => {
-    console.log('update status initiated');
+    console.log("update status initiated", data);
     callback(data);
   });
 };

@@ -44,9 +44,9 @@ function ChatProfile() {
   function setUserStories() {
     // Find the user by _id and return the stories array
     const inChatUser = groupedStories.find(
-      (userData) => userData.user._id === otherUser.userId
+      (userData) => userData.user._id === otherUser.userId._id
     );
-    setStories(inChatUser.stories);
+    setStories(inChatUser?.stories);
     setStoryOwner(otherUser.username);
   }
 
@@ -124,15 +124,19 @@ function ChatProfile() {
         >
           <FontAwesomeIcon icon={faImage} className="me-2" /> Shared Photos
         </button>
-        <button
-          onClick={() => {
-            setUserStories();
-            setShowStory(true);
-          }}
-          className={`${styles["chat-profile-links"]} d-block mx-auto py-1 px-2 rounded-2 mb-2 text-dark text-start`}
-        >
-          <FontAwesomeIcon icon={faCirclePlay} className="me-2" /> Stories
-        </button>
+
+        {!activeChat.isGroupChat && (
+          <button
+            onClick={() => {
+              setUserStories();
+              setShowStory(true);
+            }}
+            className={`${styles["chat-profile-links"]} d-block mx-auto py-1 px-2 rounded-2 mb-2 text-dark text-start`}
+          >
+            <FontAwesomeIcon icon={faCirclePlay} className="me-2" /> Stories
+          </button>
+        )}
+
         <button
           onClick={() => {
             setShowMute(true);

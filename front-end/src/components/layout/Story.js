@@ -25,7 +25,6 @@ function Story() {
   const [optionsActive, setOptionsActive] = useState(false);
   const { stories, storyOwner } = useStory();
 
-
   const toggleOptions = () => {
     optionsActive ? setOptionsActive(false) : setOptionsActive(true);
   };
@@ -48,6 +47,7 @@ function Story() {
     setCurrentStory((prev) => (prev - 1 + stories.length) % stories.length);
   };
 
+  console.log(stories);
   const currentStoryData = stories[currentStory];
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function Story() {
     return () => {
       setCurrentStory(0);
       clearInterval(intervalId);
-    }
+    };
   }, [stories.length]);
 
   return (
@@ -94,7 +94,7 @@ function Story() {
           </button>
         </div>
         <div className={styles.storyProgresses}>
-          {stories.map((_, index) => (
+          {stories?.map((_, index) => (
             <div
               key={index}
               className={`${styles.storyProgress}

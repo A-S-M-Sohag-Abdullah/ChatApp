@@ -71,14 +71,22 @@ function Coversations() {
                 <div className="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
                   <div className={styles["last-modified-time"]}>
                     {lastMessage &&
-                    moment(chat.latestMessage?.createdAt).isSame(
-                      moment(),
-                      "day"
-                    )
-                      ? moment(chat.latestMessage?.createdAt).format("LT")
-                      : moment(chat.latestMessage?.createdAt).format(
-                          "MM / DD / YY : LT"
-                        )}
+                      (() => {
+                        const createdAt = moment(chat.latestMessage?.createdAt);
+                        const now = moment();
+                        const duration = moment.duration(now.diff(createdAt));
+                        const hours = duration.asHours();
+                        const days = duration.asDays();
+
+                        if (hours < 24) {
+                          return createdAt.format("LT");
+                        } else if (days < 7) {
+                          return `${Math.floor(days)}d`;
+                        } else {
+                          const weeks = Math.floor(days / 7);
+                          return `${weeks}wk`;
+                        }
+                      })()}
                   </div>
                   <div
                     className={`${styles["unread-messages"]} rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center`}

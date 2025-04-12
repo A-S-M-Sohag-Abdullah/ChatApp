@@ -4,33 +4,29 @@ import styles from "./Peoples.module.css"; // Import the CSS module
 import { useChat } from "../../context/ChatContext";
 import { listenForUserStatus } from "../../services/socketService";
 import { useAuth } from "../../context/AuthContext";
+import { useActiveStatus } from "../../context/ActiveStatusContext";
 
 const Peoples = () => {
   const { user } = useAuth();
   const { chats } = useChat();
 
-
-  const [onlineUsers, setOnlineUsers] = useState({});
+  const { onlineUsers } = useActiveStatus();
   const [filteredUsers, setFilteredUsers] = useState([]);
-
-
 
   useEffect(() => {
     let chattedWith = chats
+      .filter((chat) => !chat.isGroupChat)
       .map((chat) => {
         // Filter the users in the chat whose userId is not equal to loggedInUserId
-        return chat.users.filter((u) => u.userId !== user._id);
+
+        return chat.users.filter((u) => u.userId._id !== user._id);
       })
       .flat();
 
     setFilteredUsers(chattedWith);
-    listenForUserStatus(({ userId, isOnline }) => {
-      setOnlineUsers((prev) => ({ ...prev, [userId]: isOnline }));
-    });
   }, []);
 
   const getUserStatus = (userId) => {
-
     return onlineUsers[userId] ? "🟢 Online" : "⚪ Offline";
   };
   return (
@@ -59,8 +55,8 @@ const Peoples = () => {
 
       {filteredUsers.map((u) => {
         return (
-          <div key={u.userId}>
-            {u.username} - {getUserStatus(u.userId)}
+          <div key={u.userId._id}>
+            {u.username} - {getUserStatus(u.userId._id)}
           </div>
         );
       })}

@@ -1,4 +1,4 @@
-import {  createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import storyApi from "../api/storyApi";
 
 const StoryContext = createContext();
@@ -7,11 +7,12 @@ export const StoryProvider = ({ children }) => {
   const [groupedStories, setGroupedStories] = useState([]);
   const [stories, setStories] = useState([]);
   const [storyOwner, setStoryOwner] = useState();
+
   useEffect(() => {
     const fetchStories = async () => {
       try {
         const fetchedStories = await storyApi.getStories();
-
+        console.log(fetchedStories);
         setGroupedStories(fetchedStories);
       } catch (error) {
         console.log(error);
