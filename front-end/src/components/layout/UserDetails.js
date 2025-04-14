@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 function UserDetails() {
   const { user } = useAuth();
 
-  const { setShowUserDetails } = useDom();
+  const { setShowUserDetails, userDetailsRef } = useDom();
   // State for toggle edit mode
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -59,6 +59,7 @@ function UserDetails() {
 
   return (
     <div
+      ref={userDetailsRef}
       className={`${styles.profileDetails} position-fixed rounded rounded-4 p-3`}
     >
       <button

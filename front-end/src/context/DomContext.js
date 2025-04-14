@@ -31,6 +31,14 @@ export const DomProvider = ({ children }) => {
   const deleteBtn1Ref = useRef(null);
   const deleteBtn2Ref = useRef(null);
 
+  const userDetailsBtnRef = useRef(null);
+  const userDetailsRef = useRef(null);
+
+  const groupCreatorBtnRef = useRef(null);
+  const groupCreatorRef = useRef(null);
+  const blockAccountBtnRef = useRef(null);
+  const blockAccountRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       const isClickOutside = (refs) => {
@@ -64,6 +72,17 @@ export const DomProvider = ({ children }) => {
 
       if (isClickOutside([deleteAssuranceRef, deleteBtn1Ref, deleteBtn2Ref])) {
         setShowDeleteConvBox(false);
+      }
+
+      if (isClickOutside([userDetailsBtnRef, userDetailsRef])) {
+        setShowUserDetails(false);
+      }
+      if (isClickOutside([groupCreatorBtnRef, groupCreatorRef])) {
+        setShowGroupCreator(false);
+      }
+
+      if (isClickOutside([blockAccountBtnRef, blockAccountRef])) {
+        setShowBlockedAccounts(false);
       }
     };
 
@@ -187,6 +206,12 @@ export const DomProvider = ({ children }) => {
         deleteAssuranceRef,
         deleteBtn1Ref,
         deleteBtn2Ref,
+        userDetailsRef,
+        userDetailsBtnRef,
+        groupCreatorBtnRef,
+        groupCreatorRef,
+        blockAccountBtnRef,
+        blockAccountRef,
       }}
     >
       {children} {/* Prevent rendering until auth check is done */}

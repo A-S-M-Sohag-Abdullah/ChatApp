@@ -10,12 +10,11 @@ import { toast } from "react-toastify";
 import { useChat } from "../../context/ChatContext";
 
 const BlockedAccounts = () => {
-  const { setShowBlockedAccounts } = useDom();
+  const { setShowBlockedAccounts,blockAccountRef } = useDom();
   const { user, setUser } = useAuth();
   const { fetchChats } = useChat();
 
   const handleUnblockUser = async (id) => {
-    
     const response = await blockApi.unblockUser(id);
 
     if (response.success) {
@@ -28,7 +27,7 @@ const BlockedAccounts = () => {
   };
 
   return (
-    <div className={`${styles.blockedAccountsInterface}`}>
+    <div ref={blockAccountRef} className={`${styles.blockedAccountsInterface}`}>
       <div className="d-flex align-items-center border-bottom border-bottom-1">
         <h6>Blocked Accounts</h6>
         <button

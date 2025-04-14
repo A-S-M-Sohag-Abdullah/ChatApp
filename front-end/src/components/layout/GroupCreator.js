@@ -9,7 +9,7 @@ import chatApi from "../../api/chatApi";
 import { useAuth } from "../../context/AuthContext";
 
 const GroupCreator = () => {
-  const { setShowGroupCreator } = useDom();
+  const { setShowGroupCreator, groupCreatorRef } = useDom();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [chatName, setChatName] = useState("");
@@ -72,7 +72,7 @@ const GroupCreator = () => {
   };
 
   return (
-    <div className={styles.groupCreateInterface}>
+    <div ref={groupCreatorRef} className={styles.groupCreateInterface}>
       <button
         onClick={() => setShowGroupCreator(false)}
         className={`${styles.closeAddConvBoxBtn} ms-auto border d-block rounded border-1 mb-3`}

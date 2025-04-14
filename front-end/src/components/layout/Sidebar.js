@@ -34,6 +34,8 @@ const Sidebar = () => {
     setShowUserDetails,
     settingsRef,
     settingsContainerRef,
+    userDetailsBtnRef,
+    groupCreatorBtnRef,blockAccountBtnRef
   } = useDom();
 
   return (
@@ -98,6 +100,7 @@ const Sidebar = () => {
           } position-absolute p-2 rounded rounded-2 d-flex flex-column`}
         >
           <button
+            ref={userDetailsBtnRef}
             onClick={() => {
               setShowUserDetails(true);
               toggleSettings();
@@ -108,6 +111,7 @@ const Sidebar = () => {
             Account
           </button>
           <button
+            ref={groupCreatorBtnRef}
             onClick={() => {
               setShowGroupCreator(true);
               toggleSettings();
@@ -118,6 +122,7 @@ const Sidebar = () => {
             Create a group
           </button>
           <button
+          ref={blockAccountBtnRef}
             onClick={() => {
               toggleSettings();
               setShowBlockedAccounts(true);

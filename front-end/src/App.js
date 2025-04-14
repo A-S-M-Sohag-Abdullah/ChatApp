@@ -11,14 +11,8 @@ function App() {
   return (
     <AuthProvider>
       <DomProvider>
-        <ChatProvider>
-          <StoryProvider>
-            <ActiveStatusProvider>
-              <AppRoutes />
-              <ToastContainer />
-            </ActiveStatusProvider>
-          </StoryProvider>
-        </ChatProvider>
+        <AppRoutes />
+        <ToastContainer />
       </DomProvider>
     </AuthProvider>
   );
