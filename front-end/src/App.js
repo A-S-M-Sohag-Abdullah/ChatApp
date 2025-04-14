@@ -8,6 +8,7 @@ import AppRoutes from "./routes/AppRoutes";
 import { ActiveStatusProvider } from "./context/ActiveStatusContext";
 
 function App() {
+ 
   return (
     <AuthProvider>
       <DomProvider>

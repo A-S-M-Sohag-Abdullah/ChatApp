@@ -41,7 +41,7 @@ function ChatProfile() {
   const { activeChat } = useChat();
 
   const otherUser = activeChat?.users.find(
-    (u) => u.userId.toString() !== user._id.toString()
+    (u) => u.userId._id.toString() !== user._id.toString()
   );
 
   function setUserStories() {

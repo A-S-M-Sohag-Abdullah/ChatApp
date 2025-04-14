@@ -20,4 +20,14 @@ window.addEventListener("beforeunload", () => {
   socket.disconnect();
 });
 
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    console.log("Tab is inactive");
+    // Pause video, stop animations, etc.
+  } else if (document.visibilityState === "visible") {
+    console.log("Tab is active");
+    // Resume activities
+  }
+});
+
 export default socket;
