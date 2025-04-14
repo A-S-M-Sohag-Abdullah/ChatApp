@@ -30,10 +30,12 @@ import moment from "moment/moment";
 import ChatMembers from "./ChatMembers";
 import AddGroupMembers from "./AddGroupMembers";
 import EditGroupInfo from "./EditGroupInfo";
+import { useActiveStatus } from "../../context/ActiveStatusContext";
 
 const socket = io("http://localhost:5000");
 
 function ConverSationBox() {
+  const { onlineUsers } = useActiveStatus();
   const containerRef = useRef(null);
   const messagesEndRef = useRef(null);
   const {
@@ -49,6 +51,11 @@ function ConverSationBox() {
     showMembers,
     showAddGroupMembers,
     showEditGroupInfo,
+    optionsRef,
+    blockAssuranceRef,
+    blockBtn1Ref,
+    deleteAssuranceRef,
+    deleteBtn1Ref,
   } = useDom();
 
   const { activeChat, fetchChats, setActiveChat } = useChat();
@@ -231,7 +238,11 @@ function ConverSationBox() {
           <h3 className={styles["profile-name"] + " mb-0"}>
             {activeChat?.name || otherUser?.username}
 
-            <div className={styles["active-status"]}>online</div>
+            <div className={styles["active-status"]}>
+              {!activeChat.isGroupChat &&
+                onlineUsers[otherUser.userId._id] &&
+                " Online"}
+            </div>
           </h3>
         </div>
         <div className={styles["conversation-actions"]}>
@@ -242,6 +253,7 @@ function ConverSationBox() {
             <FontAwesomeIcon icon={faVideo} />
           </button>
           <button
+            ref={optionsRef}
             onClick={toggleOptions}
             className={styles["conversation-action"] + " options-btn"}
           >
@@ -423,6 +435,7 @@ function ConverSationBox() {
           <FontAwesomeIcon icon={faMagnifyingGlass} /> Search messages
         </button>
         <button
+          ref={blockBtn1Ref}
           onClick={() => {
             setShowBlockBox(true);
             setOptionsOpend(false);
@@ -434,6 +447,7 @@ function ConverSationBox() {
           <FontAwesomeIcon icon={faBan} /> Block User
         </button>
         <button
+          ref={deleteBtn1Ref}
           onClick={() => {
             setShowDeleteConvBox(true);
             setOptionsOpend(false);
@@ -447,6 +461,7 @@ function ConverSationBox() {
       </div>
 
       <div
+        ref={deleteAssuranceRef}
         className={`${styles["delete-assurance"]} ${
           showDeleteConvBox ? "" : "d-none"
         }  position-absolute p-4`}
@@ -473,6 +488,7 @@ function ConverSationBox() {
       </div>
 
       <div
+        ref={blockAssuranceRef}
         className={`${styles["block-assurance"]} ${
           showBlockBox ? "" : "d-none"
         }  position-absolute p-4`}
@@ -492,8 +508,8 @@ function ConverSationBox() {
           <button type="submit">Yes</button>
         </form>
       </div>
-      {showEditGroupInfo && <EditGroupInfo />}
 
+      {showEditGroupInfo && <EditGroupInfo />}
       {showAddGroupMembers && <AddGroupMembers />}
       {showMembers && <ChatMembers />}
       {showMute && <Mute />}

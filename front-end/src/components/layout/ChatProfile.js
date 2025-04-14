@@ -18,6 +18,7 @@ import { useDom } from "../../context/DomContext";
 import { useAuth } from "../../context/AuthContext";
 import { useChat } from "../../context/ChatContext";
 import { useStory } from "../../context/StoryContext";
+import { toast } from "react-toastify";
 
 function ChatProfile() {
   const {
@@ -30,6 +31,8 @@ function ChatProfile() {
     setShowMembers,
     setShwoAddGroupMembers,
     setShowEditGroupInfo,
+    blockBtn2Ref,
+    deleteBtn2Ref,
   } = useDom();
 
   const { setStories, setStoryOwner, groupedStories } = useStory();
@@ -43,11 +46,17 @@ function ChatProfile() {
 
   function setUserStories() {
     // Find the user by _id and return the stories array
-    const inChatUser = groupedStories.find(
-      (userData) => userData.user._id === otherUser.userId._id
-    );
-    setStories(inChatUser?.stories);
-    setStoryOwner(otherUser.username);
+    if (groupedStories.length > 0) {
+      const inChatUser = groupedStories.find(
+        (userData) => userData.user._id === otherUser.userId._id
+      );
+
+      setStories(inChatUser?.stories);
+      setStoryOwner(otherUser.username);
+      setShowStory(true);
+    } else {
+      toast.error("No stories to show");
+    }
   }
 
   return (
@@ -129,7 +138,6 @@ function ChatProfile() {
           <button
             onClick={() => {
               setUserStories();
-              setShowStory(true);
             }}
             className={`${styles["chat-profile-links"]} d-block mx-auto py-1 px-2 rounded-2 mb-2 text-dark text-start`}
           >
@@ -184,6 +192,7 @@ function ChatProfile() {
         )}
 
         <button
+          ref={deleteBtn2Ref}
           onClick={() => {
             setShowDeleteConvBox(true);
           }}
@@ -193,6 +202,7 @@ function ChatProfile() {
           Conversation
         </button>
         <button
+          ref={blockBtn2Ref}
           onClick={() => {
             setShowBlockBox(true);
           }}

@@ -22,16 +22,18 @@ const Sidebar = () => {
   const { logout } = useAuth();
   const {
     sideBarCollapsed,
-    setSideBarCollapsed,
+
     activeButton,
     setShowGroupCreator,
     setActiveButton,
     settingsOpend,
-    setSettingsOpend,
+
     toogleSidebar,
     toggleSettings,
     setShowBlockedAccounts,
     setShowUserDetails,
+    settingsRef,
+    settingsContainerRef,
   } = useDom();
 
   return (
@@ -75,6 +77,7 @@ const Sidebar = () => {
 
       <div className={`${styles["user-controls"]} w-100 d-flex flex-column`}>
         <button
+          ref={settingsRef}
           onClick={toggleSettings}
           className={`${styles["user-control"]} text-center settings position-relative`}
         >
@@ -89,6 +92,7 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faBars} className={`${styles.icon}`} /> Menu
         </button>
         <div
+          ref={settingsContainerRef}
           className={`${styles["settings-container"]} ${
             settingsOpend ? "" : "d-none"
           } position-absolute p-2 rounded rounded-2 d-flex flex-column`}
