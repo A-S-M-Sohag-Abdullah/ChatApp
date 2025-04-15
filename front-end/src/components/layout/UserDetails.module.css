@@ -17,6 +17,10 @@
   margin: 0 auto;
 }
 
+.profileDetailsDpContainer img{
+  aspect-ratio: 1;
+}
+
 .changeDpBtn {
   bottom: 0px;
   right: 0px;

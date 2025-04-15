@@ -31,6 +31,7 @@ function SignupPage() {
     month: "",
     year: "",
   });
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const [selectedCountry, setSelectedCountry] = useState("BD");
   const [countryCode, setCountryCode] = useState("880");
@@ -72,14 +73,20 @@ function SignupPage() {
       alert("Password is not same!!");
       return;
     }
+
     try {
-      const result = await signup({
-        username: username,
-        email: email,
-        phone: `+${countryCode}${phone}`,
-        password: pass,
-        dateOfBirth: `${dob.year}-${dob.month}-${dob.day}`,
-      });
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("email", email);
+      formData.append("phone", `+${countryCode}${phone}`);
+      formData.append("password", pass);
+      formData.append("dateOfBirth", `${dob.year}-${dob.month}-${dob.day}`);
+
+      if (profilePicture) {
+        formData.append("profilePicture", profilePicture);
+      }
+
+      const result = await signup(formData);
 
       if (result.success) {
         await login({
@@ -87,17 +94,15 @@ function SignupPage() {
           password: pass,
         });
         console.log("Login successful");
-        navigate("/chatroom"); // Change '/chatroom' to the correct path for your chatroom route
+        navigate("/chatroom");
       } else {
         console.log("Login failed", result.message);
-        // Optionally, handle login failure (e.g., show an error message)
       }
     } catch (error) {
       if (error.existingUser) {
         alert("User Already Exist with this email or phone");
       }
       console.error("Error during login", error);
-      // Optionally, handle error (e.g., show an error message)
     }
   };
 
@@ -289,10 +294,11 @@ function SignupPage() {
                 </div>
                 <input
                   type="file"
-                  name=""
-                  id=""
+                  name="profilePicture"
+                  id="profilePicture"
                   placeholder="Choose Profile Picture"
                   className={`${styles["dp-upload"]}`}
+                  onChange={(e) => setProfilePicture(e.target.files[0])}
                 />
               </div>
 

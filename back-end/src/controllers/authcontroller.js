@@ -7,8 +7,7 @@ const generateToken = require("../utils/generateToken");
 // Signup Function
 const signup = async (req, res) => {
   try {
-    const { username, email, phone, password, dateOfBirth, profilePicture } =
-      req.body;
+    const { username, email, phone, password, dateOfBirth } = req.body;
 
     if (!username || !email || !phone || !password || !dateOfBirth) {
       return res.status(400).json({ message: "All fields are required!" });
@@ -19,7 +18,7 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: "Invalid email format!" });
     }
 
-    // Validate phone number (basic check)
+    // Validate phone number
     if (!validator.isMobilePhone(phone, "any")) {
       return res.status(400).json({ message: "Invalid phone number!" });
     }
@@ -32,20 +31,24 @@ const signup = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const profilePicturePath = req.file
+      ? `/uploads/${req.file.filename}`
+      : null;
+
     const newUser = new User({
       username,
       email,
       phone,
       password: hashedPassword,
       dateOfBirth,
-      profilePicture,
+      profilePicture: profilePicturePath,
     });
 
     await newUser.save();
 
     const token = generateToken(newUser._id);
 
-    // Set token in Authorization header
     res
       .status(201)
       .header("Authorization", `Bearer ${token}`)
@@ -201,13 +204,11 @@ const updateUser = async (req, res) => {
       select: "-password", // Exclude password
     });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        user: updatedUser,
-        message: "Userinfo Update Successfully",
-      });
+    res.status(200).json({
+      success: true,
+      user: updatedUser,
+      message: "Userinfo Update Successfully",
+    });
   } catch (error) {
     console.error("Update User Error:", error);
     res.status(500).json({ message: "Server error" });

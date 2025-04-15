@@ -70,7 +70,15 @@ function UserDetails() {
       </button>
 
       <div className={`${styles.profileDetailsDpContainer} position-relative`}>
-        <img src={profile} alt="Profile" className="w-100 dp-upload" />
+        <img
+          src={
+            user.profilePicture
+              ? `http://localhost:5000${user.profilePicture}`
+              : profile
+          }
+          alt="Profile"
+          className="w-100 dp-upload rounded-circle"
+        />
         <button className={`${styles.changeDpBtn} centered position-absolute`}>
           <FontAwesomeIcon icon={faCamera} />
         </button>

@@ -1,4 +1,5 @@
 const express = require("express");
+const upload = require("../middlewares/uploadmiddleware");
 const {
   signup,
   login,
@@ -14,7 +15,7 @@ const router = express.Router();
 // Login Route
 router.post("/login", login);
 // Signup Route
-router.post("/signup", signup);
+router.post("/signup", upload.single("profilePicture"), signup);
 
 router.get("/user", protect, user);
 

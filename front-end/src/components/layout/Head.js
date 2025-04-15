@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 
 function Head() {
   const { user } = useAuth();
+  console.log(user);
   return (
     <div
       className={`${styles.head} w-100 d-flex align-items-center justify-content-between`}
@@ -18,7 +19,15 @@ function Head() {
       <div className={`${styles.user} d-flex align-items-center pe-5`}>
         <h1 className={`${styles["user-name"]} me-3 mb-0`}>{user.username}</h1>
         <div className={`${styles["user-img"]} rounded-circle p-1`}>
-          <img src={profile} alt="profile" className="w-100" />
+          <img
+            src={
+              user.profilePicture
+                ? `http://localhost:5000${user.profilePicture}`
+                : profile
+            }
+            alt="profile"
+            className="w-100 rounded-circle"
+          />
         </div>
       </div>
     </div>
