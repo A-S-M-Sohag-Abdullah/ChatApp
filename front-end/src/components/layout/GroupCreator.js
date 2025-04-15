@@ -102,11 +102,21 @@ const GroupCreator = () => {
         {userList.map((user) => (
           <div className={`${styles.member}`} key={user._id}>
             <img
-              src={user.profilePic || profile}
+              src={
+                user.profilePicture
+                  ? `http://localhost:5000${user.profilePicture}`
+                  : profile
+              }
               alt="user profile pic"
-              className="w-100"
+              className="w-100 rounded-circle"
             />
-            <button onClick={() => handleRemoveUser(user._id)}>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemoveUser(user._id);
+              }}
+            >
               <FontAwesomeIcon icon={faTimes} />
             </button>
           </div>

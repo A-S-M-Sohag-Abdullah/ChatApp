@@ -23,6 +23,6 @@ router.get("/search", protect, searchUser);
 
 router.get("/:id", protect, getUserById);
 
-router.put("/update", protect, updateUser);
+router.put("/update", protect, upload.single("profilePicture"), updateUser);
 
 module.exports = router;

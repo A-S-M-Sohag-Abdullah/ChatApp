@@ -184,8 +184,8 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     console.log("updating user");
-    const updates = {};
 
+    const updates = {};
     const allowedFields = ["username", "email", "phone", "dateOfBirth", "bio"];
 
     allowedFields.forEach((field) => {
@@ -193,10 +193,11 @@ const updateUser = async (req, res) => {
         updates[field] = req.body[field];
       }
     });
-    //this will be updated when profile picture add functionality will be added
-    /*  if (req.file) {
+
+    // Handle profile picture update
+    if (req.file) {
       updates.profilePicture = `/uploads/${req.file.filename}`;
-    } */
+    }
 
     const updatedUser = await User.findByIdAndUpdate(req.user._id, updates, {
       new: true,
@@ -207,12 +208,13 @@ const updateUser = async (req, res) => {
     res.status(200).json({
       success: true,
       user: updatedUser,
-      message: "Userinfo Update Successfully",
+      message: "User info updated successfully",
     });
   } catch (error) {
     console.error("Update User Error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 module.exports = { signup, login, user, searchUser, getUserById, updateUser };

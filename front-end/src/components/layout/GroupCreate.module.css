@@ -48,6 +48,10 @@
   margin-right: 10px;
 }
 
+.member img{
+  aspect-ratio: 1;
+}
+
 .member button {
   position: absolute;
   top: -3px;
