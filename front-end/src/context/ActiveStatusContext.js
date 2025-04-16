@@ -12,6 +12,8 @@ export const ActiveStatusProvider = ({ children }) => {
       setOnlineUsers((prev) => ({ ...prev, [userId]: isOnline }));
     });
   }, []);
+
+  
   return (
     <ActiveStatusContext.Provider
       value={{

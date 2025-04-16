@@ -52,7 +52,7 @@ const initializeSocket = (server) => {
         socket.broadcast.emit("updateUserStatus", { userId, isOnline: false });
       }
 
-      console.log("User disconnected:", socket.id);
+      //console.log("User disconnected:", socket.id);
     });
   });
 

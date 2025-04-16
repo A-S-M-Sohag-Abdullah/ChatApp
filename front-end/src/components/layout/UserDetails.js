@@ -25,6 +25,9 @@ function UserDetails() {
   const [phone, setPhone] = useState(user.phone);
   const [email, setEmail] = useState(user.email);
   const [dateOfBirth, setDateOfBirth] = useState(user.dateOfBirth);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [newFileUrl, setNewFileUrl] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(user.profilePicture);
 
   const handleEditClick = () => {
     setIsEditMode(true);
@@ -42,18 +45,36 @@ function UserDetails() {
   const handleDobChange = (e) => setDateOfBirth(e.target.value);
 
   const handleUpdateUser = async () => {
-    console.log("updating user");
-    const response = await userApi.updateUserProfile({
-      username,
-      bio,
-      phone,
-      email,
-      dateOfBirth,
-    });
+    try {
+      console.log("updating user");
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("bio", bio);
+      formData.append("email", email);
+      formData.append("phone", `${phone}`);
+      formData.append("dateOfBirth", dateOfBirth);
+      if (selectedFile) {
+        formData.append("profilePicture", selectedFile);
+      }
 
-    if (response.success) {
-      toast.success(response.message);
-      handleCancelClick();
+      const response = await userApi.updateUserProfile(formData);
+
+      if (response.success) {
+        toast.success(response.message);
+        handleCancelClick();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setNewFileUrl(url);
+      setSelectedFile(file);
     }
   };
 
@@ -72,16 +93,32 @@ function UserDetails() {
       <div className={`${styles.profileDetailsDpContainer} position-relative`}>
         <img
           src={
-            user.profilePicture
+            newFileUrl
+              ? newFileUrl
+              : profilePicture
               ? `http://localhost:5000${user.profilePicture}`
               : profile
           }
           alt="Profile"
           className="w-100 dp-upload rounded-circle"
         />
-        <button className={`${styles.changeDpBtn} centered position-absolute`}>
-          <FontAwesomeIcon icon={faCamera} />
-        </button>
+        <label htmlFor="file-upload" className={isEditMode ? "" : "d-none"}>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/*"
+            className="d-none"
+            onChange={handleImageChange}
+          />
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className={`${styles.changeDpBtn} centered position-absolute d-flex align-items-center justify-content-center`}
+          >
+            <FontAwesomeIcon icon={faCamera} />
+          </div>
+        </label>
       </div>
 
       <button

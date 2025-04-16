@@ -12,7 +12,7 @@ export const StoryProvider = ({ children }) => {
     const fetchStories = async () => {
       try {
         const fetchedStories = await storyApi.getStories();
-        console.log(fetchedStories);
+ 
         setGroupedStories(fetchedStories);
       } catch (error) {
         console.log(error);
