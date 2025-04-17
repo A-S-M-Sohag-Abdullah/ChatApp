@@ -40,7 +40,7 @@ const getMessages = async (req, res) => {
     }
 
     const messages = await Message.find(messageQuery)
-      .populate("sender", "username email")
+      .populate("sender", "username email profilePicture")
       .populate("chat");
 
     res.status(200).json(messages);
@@ -113,7 +113,7 @@ const sendMessage = async (req, res) => {
       });
 
       message = await Message.populate(message, [
-        { path: "sender", select: "username email" },
+        { path: "sender", select: "username email profilePicture" },
         { path: "chat" },
       ]);
 

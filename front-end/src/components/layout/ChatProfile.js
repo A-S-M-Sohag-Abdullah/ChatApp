@@ -81,7 +81,15 @@ function ChatProfile() {
         <div
           className={`${styles["chat-profile-img"]} border mx-auto mt-3 mb-2 rounded-circle border-1 p-1`}
         >
-          <img src={profile} alt="" className="w-100" />
+          <img
+            src={
+              !activeChat.isGroupChat && otherUser.userId.profilePicture
+                ? `http://localhost:5000${otherUser.userId.profilePicture}`
+                : profile
+            }
+            alt=""
+            className="w-100 rounded-circle"
+          />
         </div>
 
         <h2 className={styles["chat-profile-name"] + " text-center mb-0"}>
@@ -138,6 +146,10 @@ function ChatProfile() {
           <button
             onClick={() => {
               setUserStories();
+              setStoryOwner({
+                username: otherUser.username,
+                profilePicture: otherUser.userId.profilePicture,
+              });
             }}
             className={`${styles["chat-profile-links"]} d-block mx-auto py-1 px-2 rounded-2 mb-2 text-dark text-start`}
           >

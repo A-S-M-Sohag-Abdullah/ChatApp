@@ -28,6 +28,10 @@
   width: 35%;
 }
 
+.chat-profile-img img{
+  aspect-ratio: 1;
+}
+
 .chat-profile-name {
   font-size: 16px;
 }

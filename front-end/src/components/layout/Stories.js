@@ -51,7 +51,6 @@ const Stories = () => {
             error: "Failed to Create Story 🤯", // message when the promise rejects
           }
         );
-       
       } else {
         console.error("File upload failed");
         // Handle error response (e.g., show an error message)
@@ -95,7 +94,7 @@ const Stories = () => {
           <div
             onClick={() => {
               setStories(stories);
-              setStoryOwner(user.username);
+              setStoryOwner(user);
               setShowStory(true);
             }}
             key={user._id}
@@ -105,7 +104,16 @@ const Stories = () => {
             <div
               className={`${styles.storyPoster} rounded-circle position-absolute d-flex align-items-center justify-content-center`}
             >
-              <img src={profile} alt={username} className="w-100" />
+
+              <img
+                src={
+                  user.profilePicture
+                    ? `http://localhost:5000${user.profilePicture}`
+                    : profile
+                }
+                alt={username}
+                className="w-100"
+              />
             </div>
 
             {/* Story Image */}

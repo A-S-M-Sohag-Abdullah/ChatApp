@@ -233,7 +233,15 @@ function ConverSationBox() {
           className={styles["conversation-with"] + " d-flex align-items-center"}
         >
           <div className={styles["profile-picture"] + " rounded-circle me-2"}>
-            <img src={profile} alt="profilePic" className="w-100" />
+            <img
+              src={
+                !activeChat.isGroupChat && otherUser.userId.profilePicture
+                  ? `http://localhost:5000${otherUser.userId.profilePicture}`
+                  : profile
+              }
+              alt="profilePic"
+              className="w-100 rounded-circle"
+            />
           </div>
           <h3 className={styles["profile-name"] + " mb-0"}>
             {activeChat?.name || otherUser?.username}
@@ -283,7 +291,15 @@ function ConverSationBox() {
                     styles["messenger-pic"] + " rounded-circle mb-1 ms-2"
                   }
                 >
-                  <img src={profile} alt="profile-pic" className="w-100" />
+                  <img
+                    src={
+                      message.sender.profilePicture
+                        ? `http://localhost:5000${message.sender.profilePicture}`
+                        : profile
+                    }
+                    alt="profile-pic"
+                    className="w-100"
+                  />
                 </div>
                 <div className={styles["messages"]}>
                   <div className={styles["message"]}>{message.content}</div>
@@ -317,7 +333,16 @@ function ConverSationBox() {
                     styles["messenger-pic"] + " rounded-circle mb-1 me-2"
                   }
                 >
-                  <img src={profile} alt="profile-pic" className="w-100" />
+                  
+                  <img
+                    src={
+                      message.sender.profilePicture
+                        ? `http://localhost:5000${message.sender.profilePicture}`
+                        : profile
+                    }
+                    alt="profile-pic"
+                    className="w-100"
+                  />
                 </div>
                 <div className={styles["messages"]}>
                   {activeChat.isGroupChat && (

@@ -13,6 +13,10 @@
   width: 40px;
 }
 
+.profile-picture img{
+  aspect-ratio: 1;
+}
+
 .profile-name {
   font-size: 16px;
 }
@@ -44,6 +48,11 @@
 
 .messenger-pic {
   width: 35px;
+}
+
+.messenger-pic img{
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 
 .message {

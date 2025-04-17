@@ -30,6 +30,11 @@
   padding: 1.5px;
 }
 
+.storyPoster img {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
 .storyCount {
   top: 10px;
   right: 10px;

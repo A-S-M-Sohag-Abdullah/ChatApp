@@ -14,12 +14,12 @@ const getChats = async (req, res) => {
         select: "sender content createdAt",
         populate: {
           path: "sender",
-          select: "username",
+          select: "username profilePicture",
         },
       },
       {
         path: "users.userId",
-        select: "blockedUsers phone email bio",
+        select: "blockedUsers phone email bio profilePicture",
         populate: {
           path: "blockedUsers",
           select: "_id username",

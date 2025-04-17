@@ -31,6 +31,7 @@ function Coversations() {
           const otherUser = chat.users.find(
             (user) => user.userId._id.toString() !== userId.toString()
           );
+
           return (
             <li
               onClick={() => setActiveChat(chat)}
@@ -43,9 +44,13 @@ function Coversations() {
                     className={`${styles["conversation-avatar"]} me-3 rounded-circle`}
                   >
                     <img
-                      src={profile}
+                      src={
+                        !chat.isGroupChat && otherUser.userId.profilePicture
+                          ? `http://localhost:5000${otherUser.userId.profilePicture}`
+                          : profile
+                      }
                       alt={chat.name || otherUser?.username}
-                      className="w-100"
+                      className="w-100 rounded-circle"
                     />
                   </div>
                   <div className={styles["conversation-info"]}>

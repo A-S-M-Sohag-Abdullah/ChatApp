@@ -18,6 +18,7 @@ const initializeSocket = (server) => {
       if (!userId) return;
 
       usersOnline.set(userId, socket.id);
+      console.log(usersOnline);
       await User.findByIdAndUpdate(userId, { isOnline: true });
 
       // Notify all chat participants that this user is online
@@ -52,7 +53,7 @@ const initializeSocket = (server) => {
         socket.broadcast.emit("updateUserStatus", { userId, isOnline: false });
       }
 
-      //console.log("User disconnected:", socket.id);
+      console.log("User disconnected:", socket.id, userId);
     });
   });
 

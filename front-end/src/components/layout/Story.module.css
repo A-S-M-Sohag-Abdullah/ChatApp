@@ -33,6 +33,8 @@
 .storyOwner img {
   width: 30px;
   margin-right: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 
 .storyActions {

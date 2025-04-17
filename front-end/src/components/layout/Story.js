@@ -23,6 +23,7 @@ function Story() {
   const [reply, setReply] = useState("");
   const [currentStory, setCurrentStory] = useState(0);
   const [optionsActive, setOptionsActive] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const { stories, storyOwner } = useStory();
 
   const toggleOptions = () => {
@@ -47,31 +48,40 @@ function Story() {
     setCurrentStory((prev) => (prev - 1 + stories.length) % stories.length);
   };
 
-  console.log(stories);
   const currentStoryData = stories[currentStory];
 
   useEffect(() => {
+    if (isPaused) return;
+
     const intervalId = setInterval(() => {
-      setCurrentStory((prev) => {
-        return (prev + 1) % stories.length;
-      });
+      setCurrentStory((prev) => (prev + 1) % stories.length);
     }, 5000);
 
-    // Cleanup interval on component unmount
-    return () => {
-      setCurrentStory(0);
-      clearInterval(intervalId);
-    };
-  }, [stories.length]);
+    return () => clearInterval(intervalId);
+  }, [isPaused, stories.length]);
+
+  const togglePause = () => {
+    setIsPaused((prev) => !prev);
+  };
 
   return (
     <div className={styles.storyInterface}>
       <div className={styles.storyHead}>
         <div className={styles.storyOwner}>
-          <img src={profile} alt="Profile" />
-          {storyOwner}
+          <img
+            src={
+              storyOwner.profilePicture
+                ? `http://localhost:5000${storyOwner.profilePicture}`
+                : profile
+            }
+            alt="Profile"
+          />
+          {storyOwner.username}
         </div>
         <div className={styles.storyActions}>
+          <button onClick={togglePause} className="text-white">
+            {isPaused ? "Play" : "Pause"}
+          </button>
           <button onClick={toggleOptions} className={styles.options}>
             <FontAwesomeIcon icon={faEllipsis} />
           </button>
