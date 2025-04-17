@@ -63,7 +63,7 @@
 .storyOptions::before {
   position: absolute;
   top: -5px;
-  right: 28px;
+  right: 20px;
   content: "";
   width: 12px;
   height: 12px;

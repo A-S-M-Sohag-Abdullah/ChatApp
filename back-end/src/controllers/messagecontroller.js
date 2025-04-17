@@ -59,8 +59,7 @@ const sendMessage = async (req, res) => {
         .status(500)
         .json({ message: "File upload failed", error: err });
     }
-
-    const { content, chatId } = req.body;
+    const { content, chatId, storyImage } = req.body;
 
     if (!content && (!req.files || req.files.length === 0)) {
       return res
@@ -103,6 +102,7 @@ const sendMessage = async (req, res) => {
       if (req.files) {
         imageUrls = req.files.map((file) => `/uploads/${file.filename}`);
       }
+      storyImage && imageUrls.push("/" + storyImage);
 
       // Create message
       let message = await Message.create({

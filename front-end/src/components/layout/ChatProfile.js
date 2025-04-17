@@ -147,6 +147,7 @@ function ChatProfile() {
             onClick={() => {
               setUserStories();
               setStoryOwner({
+                _id : otherUser.userId._id,
                 username: otherUser.username,
                 profilePicture: otherUser.userId.profilePicture,
               });
