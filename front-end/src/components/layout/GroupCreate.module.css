@@ -26,6 +26,12 @@
   margin-right: 10px;
 }
 
+.groupPic img{
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
 .groupPic:hover i {
   display: block;
 }

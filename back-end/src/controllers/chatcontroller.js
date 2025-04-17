@@ -56,13 +56,14 @@ const getChats = async (req, res) => {
 
 // Create or fetch a chat (one-on-one or group)
 const accessChat = async (req, res) => {
-  const { userId, username, users, chatName } = req.body;
+  let { userId, username, users, chatName } = req.body;
 
   if (!userId && (!users || users.length === 0)) {
     return res
       .status(400)
       .json({ message: "User ID or list of users is required!" });
   }
+  if (users) users = JSON.parse(users);
 
   try {
     let chat;
@@ -75,6 +76,8 @@ const accessChat = async (req, res) => {
           .status(400)
           .json({ message: "Chat name is required for group chats!" });
       }
+
+      const groupPhoto = req.file ? `/uploads/${req.file.filename}` : "";
 
       chat = await Chat.findOne({
         isGroupChat: true,
@@ -90,13 +93,14 @@ const accessChat = async (req, res) => {
 
       if (!chat) {
         chat = await Chat.create({
-          name: chatName, // Include the group chat name
+          name: chatName,
           isGroupChat: true,
           groupAdmin: req.user._id,
           users: users.map((user) => ({
             userId: user._id,
             username: user.username,
           })),
+          groupPhoto, // Save group photo path
         });
       }
     } else {
@@ -106,9 +110,17 @@ const accessChat = async (req, res) => {
         users: {
           $all: [
             {
-              $elemMatch: { userId: req.user._id, username: req.user.username },
+              $elemMatch: {
+                userId: req.user._id,
+                username: req.user.username,
+              },
             },
-            { $elemMatch: { userId: userId, username: username } },
+            {
+              $elemMatch: {
+                userId: userId,
+                username: username,
+              },
+            },
           ],
         },
       })

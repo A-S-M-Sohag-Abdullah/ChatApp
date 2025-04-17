@@ -56,10 +56,12 @@ const AddConversation = () => {
   };
 
   const createChats = (userid, username) => {
-    chatApi.createChat({ userid, username });
+    const formData = new FormData();
+    formData.append("userId", userid);
+    formData.append("username", username);
+    chatApi.createChat(formData);
   };
 
-  
   return (
     <div
       ref={containerRef}

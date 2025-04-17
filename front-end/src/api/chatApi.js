@@ -28,24 +28,15 @@ const chatApi = {
   },
 
   // Create a new chat (DM or Group)
-  createChat: async ({ userid, username, users, chatName }) => {
+  createChat: async (formData) => {
     try {
       const token = localStorage.getItem("token");
-
-      const response = await axios.post(
-        `${BASEURL}/api/chats`,
-        {
-          userId: userid,
-          username: username,
-          users: users,
-          chatName: chatName,
+      console.log(formData);
+      const response = await axios.post(`${BASEURL}/api/chats`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Send token in Authorization header
-          },
-        }
-      );
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

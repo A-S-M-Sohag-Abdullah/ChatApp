@@ -16,6 +16,8 @@ const GroupCreator = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userList, setUserList] = useState([user]);
+  const [groupPhoto, setGroupPhoto] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     // Debounce the search to avoid unnecessary API calls
@@ -63,14 +65,27 @@ const GroupCreator = () => {
       alert("At least 3 users needs to be selected");
       return;
     } else {
-      await chatApi.createChat({
-        userid: null,
-        username: null,
-        users: userList,
-        chatName: chatName,
-      });
+      const formData = new FormData();
+      formData.append("userid", null);
+      formData.append("username", null);
+      formData.append("users", JSON.stringify(userList));
+      formData.append("chatName", chatName);
+      formData.append("groupPhoto", selectedFile);
+
+      await chatApi.createChat(formData);
 
       setShowGroupCreator(false); // Close the group creator modal after creating the chat
+    }
+  };
+
+  const handleGroupImageChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setGroupPhoto(url);
+      setSelectedFile(file);
     }
   };
 
@@ -86,9 +101,18 @@ const GroupCreator = () => {
         className="group-info d-flex align-items-center justify-content-center mt-3"
         onSubmit={handleCreateChat}
       >
-        <label className={styles.groupPic} htmlFor="group-pic">
-          <input id="group-pic" type="file" hidden />
-          <FontAwesomeIcon icon={faCamera} />
+        <label htmlFor="group-pic" className={styles.groupPic}>
+          <input
+            id="group-pic"
+            type="file"
+            className="d-none"
+            onChange={handleGroupImageChange}
+          />
+          {groupPhoto ? (
+            <img src={groupPhoto} />
+          ) : (
+            <FontAwesomeIcon icon={faCamera} />
+          )}
         </label>
         <input
           className={styles.groupName}
@@ -98,7 +122,9 @@ const GroupCreator = () => {
           onChange={(e) => setChatName(e.target.value)}
           required
         />
-        <button className={styles.createGroupBtn}>Create</button>
+        <button type="submit" className={styles.createGroupBtn}>
+          Create
+        </button>
       </form>
       <div className="d-flex flex-wrap mt-3">
         {/* Render the added users */}
