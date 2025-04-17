@@ -26,6 +26,8 @@ function Story() {
   const [isPaused, setIsPaused] = useState(false);
   const { stories, storyOwner } = useStory();
 
+  
+
   const toggleOptions = () => {
     optionsActive ? setOptionsActive(false) : setOptionsActive(true);
   };
@@ -109,7 +111,8 @@ function Story() {
               key={index}
               className={`${styles.storyProgress}
               ${index < currentStory && styles.seen}
-              ${index === currentStory ? styles.active : ""}`}
+              ${index === currentStory ? styles.active : ""}
+              ${index === currentStory && isPaused ? styles.paused : ""}`}
             ></div>
           ))}
         </div>

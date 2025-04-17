@@ -121,6 +121,10 @@
   animation: expandWidth 5s forwards;
 }
 
+.storyProgress.active.paused::after {
+  animation-play-state: paused;
+}
+
 .storyProgress.seen {
   background-color: var(--secondary-color);
 }
