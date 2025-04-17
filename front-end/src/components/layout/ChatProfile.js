@@ -83,11 +83,15 @@ function ChatProfile() {
         >
           <img
             src={
-              !activeChat.isGroupChat && otherUser.userId.profilePicture
+              activeChat.isGroupChat
+                ? activeChat.groupPhoto
+                  ? `http://localhost:5000${activeChat.groupPhoto}`
+                  : profile
+                : otherUser?.userId?.profilePicture
                 ? `http://localhost:5000${otherUser.userId.profilePicture}`
                 : profile
             }
-            alt=""
+            alt={activeChat.name || otherUser?.username}
             className="w-100 rounded-circle"
           />
         </div>
@@ -147,7 +151,7 @@ function ChatProfile() {
             onClick={() => {
               setUserStories();
               setStoryOwner({
-                _id : otherUser.userId._id,
+                _id: otherUser.userId._id,
                 username: otherUser.username,
                 profilePicture: otherUser.userId.profilePicture,
               });

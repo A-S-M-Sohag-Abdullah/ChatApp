@@ -235,11 +235,15 @@ function ConverSationBox() {
           <div className={styles["profile-picture"] + " rounded-circle me-2"}>
             <img
               src={
-                !activeChat.isGroupChat && otherUser.userId.profilePicture
+                activeChat.isGroupChat
+                  ? activeChat.groupPhoto
+                    ? `http://localhost:5000${activeChat.groupPhoto}`
+                    : profile
+                  : otherUser?.userId?.profilePicture
                   ? `http://localhost:5000${otherUser.userId.profilePicture}`
                   : profile
               }
-              alt="profilePic"
+              alt={activeChat.name || otherUser?.username}
               className="w-100 rounded-circle"
             />
           </div>
@@ -333,7 +337,6 @@ function ConverSationBox() {
                     styles["messenger-pic"] + " rounded-circle mb-1 me-2"
                   }
                 >
-                  
                   <img
                     src={
                       message.sender.profilePicture

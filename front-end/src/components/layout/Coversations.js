@@ -45,7 +45,11 @@ function Coversations() {
                   >
                     <img
                       src={
-                        !chat.isGroupChat && otherUser.userId.profilePicture
+                        chat.isGroupChat
+                          ? chat.groupPhoto
+                            ? `http://localhost:5000${chat.groupPhoto}`
+                            : profile
+                          : otherUser?.userId?.profilePicture
                           ? `http://localhost:5000${otherUser.userId.profilePicture}`
                           : profile
                       }

@@ -176,23 +176,36 @@ const deleteChatForUser = async (req, res) => {
   }
 };
 
-const renameGroup = async (req, res) => {
+const editGroup = async (req, res) => {
   const { chatId, chatName } = req.body;
 
   try {
     const chat = await Chat.findById(chatId);
-    if (!chat.isGroupChat)
+    if (!chat) {
+      return res.status(404).json({ message: "Chat not found" });
+    }
+
+    if (!chat.isGroupChat) {
       return res.status(400).json({ message: "Not a group chat" });
+    }
 
-    if (!chat.groupAdmin.equals(req.user._id))
+    if (!chat.groupAdmin.equals(req.user._id)) {
       return res.status(403).json({ message: "Only admin can rename group" });
+    }
 
-    chat.name = chatName;
+    if (chatName) chat.name = chatName;
+
+    // If a new photo is uploaded
+    if (req.file) {
+      console.log(req.file);
+      chat.groupPhoto = `/uploads/${req.file.filename}`;
+    }
+
     await chat.save();
 
     res.status(200).json({
       success: true,
-      message: `Group Name Changed`,
+      message: `Group updated successfully`,
       chat: chat,
     });
   } catch (err) {
@@ -267,7 +280,7 @@ module.exports = {
   getChats,
   accessChat,
   deleteChatForUser,
-  renameGroup,
+  editGroup,
   addToGroup,
   removeFromGroup,
 };

@@ -10,15 +10,33 @@ import { useDom } from "../../context/DomContext";
 function EditGroupInfo() {
   const { setShowEditGroupInfo } = useDom();
   const { activeChat, fetchChats } = useChat();
+  const [groupPhoto, setGroupPhoto] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const [newGroupName, setNewGroupName] = useState(activeChat.name || "");
 
-  const handleGroupNameChange = async (e) => {
+  const handleGroupImageChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setGroupPhoto(url);
+      setSelectedFile(file);
+    }
+  };
+
+  const handleGroupChange = async (e) => {
     e.preventDefault();
 
     try {
       console.log(activeChat._id);
-      const response = await chatApi.renameGroup(activeChat._id, newGroupName);
+      const formData = new FormData();
+      formData.append("chatId", activeChat._id);
+      formData.append("chatName", newGroupName);
+      if (selectedFile) formData.append("groupPhoto", selectedFile);
+
+      const response = await chatApi.editGroup(formData);
       if (response.success) {
         toast.success(response.message);
         fetchChats();
@@ -28,7 +46,6 @@ function EditGroupInfo() {
   };
 
   useEffect(() => {
-    
     setNewGroupName(activeChat.name || "");
   }, [activeChat]);
 
@@ -47,10 +64,19 @@ function EditGroupInfo() {
         </button>
       </div>
 
-      <form onSubmit={handleGroupNameChange} className="d-flex pt-2">
+      <form onSubmit={handleGroupChange} className="d-flex pt-2">
         <label class="GroupCreate_groupPic__E5mC0" for="group-pic">
-          <input id="group-pic" hidden type="file" />
-          <FontAwesomeIcon icon={faCamera} />
+          <input
+            id="group-pic"
+            hidden
+            type="file"
+            onChange={handleGroupImageChange}
+          />
+          {groupPhoto ? (
+            <img src={groupPhoto} />
+          ) : (
+            <FontAwesomeIcon icon={faCamera} />
+          )}
         </label>
         <input
           type="text"

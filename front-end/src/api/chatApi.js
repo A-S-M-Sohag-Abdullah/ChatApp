@@ -34,6 +34,7 @@ const chatApi = {
       console.log(formData);
       const response = await axios.post(`${BASEURL}/api/chats`, formData, {
         headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`, // Send token in Authorization header
         },
       });
@@ -95,15 +96,15 @@ const chatApi = {
     }
   },
 
-  renameGroup: async (chatId, chatName) => {
+  editGroup: async (formData) => {
     const token = localStorage.getItem("token");
     try {
       const { data } = await axios.put(
-        `${BASEURL}/api/chats/group/rename`,
-        { chatId, chatName },
+        `${BASEURL}/api/chats/group/edit`,
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`, // Assuming you use JWT for auth
           },
         }

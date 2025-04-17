@@ -4,9 +4,9 @@ const {
   getChats,
   accessChat,
   deleteChatForUser,
-  renameGroup,
   addToGroup,
   removeFromGroup,
+  editGroup,
 } = require("../controllers/chatcontroller");
 const upload = require("../middlewares/uploadmiddleware");
 
@@ -17,7 +17,8 @@ router.post("/", protect, upload.single("groupPhoto"), accessChat); // Access or
 
 router.delete("/:chatId", protect, deleteChatForUser);
 
-router.put("/group/rename", protect, renameGroup);
+router.put("/group/edit", protect, upload.single("groupPhoto"), editGroup);
+
 router.put("/group/add", protect, addToGroup);
 router.put("/group/remove", protect, removeFromGroup);
 
