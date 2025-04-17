@@ -24,7 +24,10 @@ const GroupCreator = () => {
         try {
           setLoading(true);
           const results = await userApi.searchUsers(searchQuery);
-          setSearchResults(results);
+          const filteredResults = results.filter(
+            (user) => !userList.some((u) => u._id === user._id)
+          );
+          setSearchResults(filteredResults);
         } catch (error) {
           console.error("Error fetching search results:", error);
           setSearchResults([]);
@@ -99,26 +102,28 @@ const GroupCreator = () => {
       </form>
       <div className="d-flex flex-wrap mt-3">
         {/* Render the added users */}
-        {userList.map((user) => (
-          <div className={`${styles.member}`} key={user._id}>
+        {userList.map((u) => (
+          <div className={`${styles.member}`} key={u._id}>
             <img
               src={
-                user.profilePicture
-                  ? `http://localhost:5000${user.profilePicture}`
+                u.profilePicture
+                  ? `http://localhost:5000${u.profilePicture}`
                   : profile
               }
               alt="user profile pic"
               className="w-100 rounded-circle"
             />
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRemoveUser(user._id);
-              }}
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
+            {u._id !== user._id && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemoveUser(u._id);
+                }}
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            )}
           </div>
         ))}
       </div>
@@ -131,7 +136,7 @@ const GroupCreator = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         {loading && <div>Loading...</div>}
-        <ul className="search-result m-0 p-0 mt-3 pt-3 border-top">
+        <ul className={`${styles.searchResult} m-0 p-0 mt-3 pt-3 border-top`}>
           {searchResults.length === 0 && !loading ? (
             <li></li>
           ) : (

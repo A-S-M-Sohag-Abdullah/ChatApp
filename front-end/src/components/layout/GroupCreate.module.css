@@ -48,7 +48,7 @@
   margin-right: 10px;
 }
 
-.member img{
+.member img {
   aspect-ratio: 1;
 }
 
@@ -94,7 +94,12 @@
   width: 30px;
 }
 
-.searchInput{
+.searchInput {
   font-size: 12px;
   padding: 8px;
+}
+
+.searchResult {
+  max-height: 200px;
+  overflow-y: auto;
 }

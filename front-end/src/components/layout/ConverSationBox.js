@@ -302,7 +302,6 @@ function ConverSationBox() {
                   />
                 </div>
                 <div className={styles["messages"]}>
-                  <div className={styles["message"]}>{message.content}</div>
                   {message?.images.map((image) => (
                     <div className={styles.messageAttachment + " ms-auto"}>
                       <img
@@ -312,6 +311,7 @@ function ConverSationBox() {
                       />
                     </div>
                   ))}
+                  <div className={styles["message"]}>{message.content}</div>
                 </div>
                 <div className={styles["message-date"] + " me-3 mb-2"}>
                   {moment(message?.createdAt).isSame(moment(), "day")
@@ -350,7 +350,6 @@ function ConverSationBox() {
                       {message.sender.username}
                     </div>
                   )}
-                  <div className={styles["message"]}>{message.content}</div>
                   {message?.images.map((image) => (
                     <div className={styles.messageAttachment}>
                       <img
@@ -360,6 +359,7 @@ function ConverSationBox() {
                       />
                     </div>
                   ))}
+                  <div className={styles["message"]}>{message.content}</div>
                 </div>
                 <div className={styles["message-date"] + " ms-3 mb-2"}>
                   {moment(message?.createdAt).isSame(moment(), "day")
