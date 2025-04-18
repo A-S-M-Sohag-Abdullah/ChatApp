@@ -37,7 +37,10 @@ const AddConversation = () => {
   }, [debouncedQuery]); // Only run when debouncedQuery changes
 
   const handleSearch = async () => {
-    if (!debouncedQuery.trim()) return;
+    if (!debouncedQuery.trim()) {
+      setUsers([]);
+      return;
+    }
 
     setLoading(true);
     setError("");
@@ -55,6 +58,10 @@ const AddConversation = () => {
 
   const handleQueryChange = (e) => {
     setQuery(e.target.value); // Update the query state on every key press
+    if (!e.target.value.trim()) {
+      setUsers([]); // clear the user list
+      setError(""); // optionally clear any previous error
+    }
   };
 
   const createChats = async (userid, username) => {

@@ -7,11 +7,12 @@ const {
   addToGroup,
   removeFromGroup,
   editGroup,
+  searchChats,
 } = require("../controllers/chatcontroller");
 const upload = require("../middlewares/uploadmiddleware");
 
 const router = express.Router();
-
+router.get("/search", protect, searchChats);
 router.get("/", protect, getChats); // Get all chats of logged-in user
 router.post("/", protect, upload.single("groupPhoto"), accessChat); // Access or create one-on-one chat
 

@@ -296,6 +296,43 @@ const removeFromGroup = async (req, res) => {
   }
 };
 
+const searchChats = async (req, res) => {
+  try {
+    const { searchQuery } = req.query;
+
+    if (!searchQuery) {
+      return res.status(400).json({ message: "Search query is required." });
+    }
+
+    const regex = new RegExp(searchQuery, "i"); // case-insensitive
+
+    // Step 1: Find all chats current user is part of
+    let chats = await Chat.find({ "users.userId": req.user._id })
+      .populate({
+        path: "users.userId",
+        select: "username profilePicture blockedUsers",
+      })
+      .populate("latestMessage");
+
+    // Step 2: Filter with regex
+    const filteredChats = chats.filter((chat) => {
+      if (chat.isGroupChat) {
+        return regex.test(chat.name || "");
+      } else {
+        const otherUser = chat.users.find(
+          (u) => u.userId._id.toString() !== req.user._id.toString()
+        );
+        return regex.test(otherUser?.userId?.username || "");
+      }
+    });
+
+    res.status(200).json({ success: true, chats: filteredChats });
+  } catch (error) {
+    console.error("Search Chats Error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   getChats,
   accessChat,
@@ -303,4 +340,5 @@ module.exports = {
   editGroup,
   addToGroup,
   removeFromGroup,
+  searchChats
 };

@@ -115,6 +115,25 @@ const chatApi = {
       console.log(err.message);
     }
   },
+
+  searchChat: async (searchQuery) => {
+    const token = localStorage.getItem("token");
+    try {
+      const { data } = await axios.get(
+        `${BASEURL}/api/chats/search?searchQuery=${searchQuery}`,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`, // Assuming you use JWT for auth
+          },
+        }
+      );
+
+      return data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
 };
 
 export default chatApi;
