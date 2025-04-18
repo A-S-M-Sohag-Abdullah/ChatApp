@@ -125,7 +125,8 @@ const accessChat = async (req, res) => {
         },
       })
         .populate("users", "-password")
-        .populate("latestMessage");
+        .populate("latestMessage")
+        .populate("users.userId");
 
       if (!chat) {
         chat = await Chat.create({
@@ -136,6 +137,25 @@ const accessChat = async (req, res) => {
             { userId: userId, username: username },
           ],
         });
+
+        chat = await Chat.populate(chat, [
+          {
+            path: "latestMessage",
+            select: "sender content createdAt",
+            populate: {
+              path: "sender",
+              select: "username profilePicture",
+            },
+          },
+          {
+            path: "users.userId",
+            select: "blockedUsers phone email bio profilePicture",
+            populate: {
+              path: "blockedUsers",
+              select: "_id username",
+            },
+          },
+        ]);
       }
     }
 

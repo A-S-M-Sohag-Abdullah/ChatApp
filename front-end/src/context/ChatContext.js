@@ -35,6 +35,7 @@ export const ChatProvider = ({ children }) => {
         activeChat,
         setActiveChat,
         fetchChats,
+        setChats
       }}
     >
       {children}

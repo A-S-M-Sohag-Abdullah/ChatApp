@@ -49,3 +49,7 @@
   max-height: 150px;
   overflow-y: auto;
 }
+
+.searchResult li:hover {
+  background-color: aliceblue;
+}

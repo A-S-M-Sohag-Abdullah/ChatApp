@@ -10,9 +10,9 @@ import { toast } from "react-toastify";
 import { useChat } from "../../context/ChatContext";
 
 const BlockedAccounts = () => {
-  const { setShowBlockedAccounts,blockAccountRef } = useDom();
+  const { setShowBlockedAccounts, blockAccountRef } = useDom();
   const { user, setUser } = useAuth();
-  const { fetchChats } = useChat();
+  const { fetchChats, chats } = useChat();
 
   const handleUnblockUser = async (id) => {
     const response = await blockApi.unblockUser(id);

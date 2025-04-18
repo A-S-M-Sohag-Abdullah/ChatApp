@@ -6,10 +6,12 @@ import profile from "../../assets/images/profile.png";
 import { useDom } from "../../context/DomContext";
 import userApi from "../../api/userApi";
 import chatApi from "../../api/chatApi";
+import { useChat } from "../../context/ChatContext";
 
 const AddConversation = () => {
   const containerRef = useRef(null);
   const { setShowAddConv } = useDom();
+  const { chats, setActiveChat, fetchChats, setChats } = useChat();
 
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState([]);
@@ -55,11 +57,19 @@ const AddConversation = () => {
     setQuery(e.target.value); // Update the query state on every key press
   };
 
-  const createChats = (userid, username) => {
+  const createChats = async (userid, username) => {
     const formData = new FormData();
     formData.append("userId", userid);
     formData.append("username", username);
-    chatApi.createChat(formData);
+    const response = await chatApi.createChat(formData);
+    const existingChat = chats.find((chat) => chat._id === response._id);
+    if (existingChat) {
+      setActiveChat(response);
+    } else {
+      setChats([response, ...chats]);
+      setActiveChat(response);
+    }
+    setShowAddConv(false);
   };
 
   return (
@@ -99,7 +109,7 @@ const AddConversation = () => {
           {users.map((user) => (
             <li
               key={user._id}
-              className="d-flex align-items-center mb-3"
+              className="d-flex align-items-center mb-3 p-1"
               onClick={() => createChats(user._id, user.username)}
             >
               <div className={`${styles.searchUserImg}`}>
