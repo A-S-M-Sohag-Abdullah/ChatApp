@@ -140,4 +140,29 @@ const sendMessage = async (req, res) => {
   });
 };
 
-module.exports = { getMessages, sendMessage };
+const searchMessages = async (req, res) => {
+  const { keyword } = req.query;
+  console.log(keyword);
+  if (!keyword) {
+    return res.status(400).json({ message: "Search keyword is required" });
+  }
+
+  try {
+    // Find messages sent or received by the logged-in user that contain the keyword
+    const messages = await Message.find({
+      chat: {
+        $in: await Chat.find({ "users.userId": req.user._id }).distinct("_id"),
+      },
+      content: { $regex: keyword, $options: "i" },
+    })
+      .populate("sender", "_id username email")
+      .populate("chat", "_id name isGroupChat");
+
+    res.status(200).json({ success: true, count: messages.length, messages });
+  } catch (error) {
+    console.error("Search Messages Error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { getMessages, sendMessage, searchMessages };

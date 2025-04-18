@@ -19,7 +19,7 @@ function MainSection({}) {
   } = useDom();
 
   return (
-    <div class={`${styles["main-section"]}`}>
+    <div className={`${styles["main-section"]}`}>
       <Head />
       <ChatInterface />
       {showAddConv && <AddConversation />}

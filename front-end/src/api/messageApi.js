@@ -47,6 +47,23 @@ const messageApi = {
       throw error.response?.data || error.message;
     }
   },
+
+  searchMessages: async (keyword) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `${BASEURL}/api/messages/search?keyword=${keyword}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  },
 };
 
 export default messageApi;

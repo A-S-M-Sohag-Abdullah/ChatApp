@@ -202,13 +202,20 @@ function ConverSationBox() {
   }, [activeChat]);
 
   useEffect(() => {
+    if (!activeChat?._id) return;
+    console.log(`joining chat ${activeChat._id}`);
     // Cleanup on component unmount
+    // Leave all previous rooms
+    socket.emit("leaveAllChats");
+    
     socket.emit("joinChat", activeChat._id); // Join chat room
 
     socket.on("receiveMessage", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-      fetchChats();
-      scrollToBottm();
+      if (message.chat._id === activeChat._id) {
+        setMessages((prevMessages) => [...prevMessages, message]);
+        fetchChats();
+        scrollToBottm();
+      }
     });
 
     return () => {

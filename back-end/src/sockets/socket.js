@@ -25,10 +25,16 @@ const initializeSocket = (server) => {
       socket.broadcast.emit("updateUserStatus", { userId, isOnline: true });
     });
 
+    socket.on("leaveAllChats", () => {
+      const rooms = Array.from(socket.rooms).filter((r) => r !== socket.id);
+      rooms.forEach((room) => socket.leave(room));
+      console.log("User left all chat rooms:", rooms);
+    });
+
     // Join a chat room
     socket.on("joinChat", (chatId) => {
       socket.join(chatId);
-      //console.log(`User joined chat: ${chatId}`);
+      console.log(`User joined chat: ${chatId}`);
     });
 
     // Handle sending messages
