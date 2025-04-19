@@ -35,7 +35,8 @@ const Sidebar = () => {
     settingsRef,
     settingsContainerRef,
     userDetailsBtnRef,
-    groupCreatorBtnRef,blockAccountBtnRef
+    groupCreatorBtnRef,
+    blockAccountBtnRef,
   } = useDom();
 
   return (
@@ -57,7 +58,8 @@ const Sidebar = () => {
         }`}
         onClick={() => setActiveButton("inbox")}
       >
-        <FontAwesomeIcon icon={faInbox} className={styles.icon} /> Inboxes
+        <FontAwesomeIcon icon={faInbox} className={styles.icon} />{" "}
+        <span>Inbox</span>
       </button>
       <button
         className={`${styles["control-picker"]} people profile ${
@@ -65,7 +67,8 @@ const Sidebar = () => {
         }`}
         onClick={() => setActiveButton("people")}
       >
-        <FontAwesomeIcon icon={faUser} className={styles.icon} /> People
+        <FontAwesomeIcon icon={faUser} className={styles.icon} />
+        <span>People</span>
       </button>
       <button
         className={`${styles["control-picker"]} story folders ${
@@ -74,7 +77,7 @@ const Sidebar = () => {
         onClick={() => setActiveButton("stories")}
       >
         <FontAwesomeIcon icon={faGripVertical} className={styles.icon} />{" "}
-        Stories
+        <span>Stories</span>
       </button>
 
       <div className={`${styles["user-controls"]} w-100 d-flex flex-column`}>
@@ -84,12 +87,12 @@ const Sidebar = () => {
           className={`${styles["user-control"]} text-center settings position-relative`}
         >
           <FontAwesomeIcon icon={faGear} className={`${styles.icon}`} />{" "}
-          Settings
+          <span>Settings</span>
         </button>
         <button
           onClick={toogleSidebar}
           id="toggle-control-sidebar"
-          className={`${styles["user-control"]} menu`}
+          className={`${styles["user-control"]} menu d-lg-block d-none`}
         >
           <FontAwesomeIcon icon={faBars} className={`${styles.icon}`} /> Menu
         </button>
@@ -122,7 +125,7 @@ const Sidebar = () => {
             Create a group
           </button>
           <button
-          ref={blockAccountBtnRef}
+            ref={blockAccountBtnRef}
             onClick={() => {
               toggleSettings();
               setShowBlockedAccounts(true);

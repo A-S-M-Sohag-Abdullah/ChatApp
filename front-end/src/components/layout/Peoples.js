@@ -28,11 +28,11 @@ const Peoples = () => {
   }, []);
 
   const getUserStatus = (userId) => {
-    return onlineUsers[userId] ? "🟢 Online" : "⚪ Offline";
+    return onlineUsers[userId] ? "🟢" : "⚪";
   };
   return (
     <div className={`${styles.peoples} position-relative px-4 py-3`}>
-      <h4 className={styles.peoplesTitle}>Active people</h4>
+      <h4 className={styles.peoplesTitle}>People You know</h4>
       <ul className={`${styles.contactsList} list-unstyled h-100 d-none`}>
         <li className="d-flex align-items-center my-2">
           <div className={`${styles.contactImg} rounded-circle me-2`}>
@@ -56,8 +56,8 @@ const Peoples = () => {
 
       {filteredUsers.map((u) => {
         return (
-          <div key={u.userId._id}>
-            {u.username} - {getUserStatus(u.userId._id)}
+          <div key={u.userId._id} className={styles.userstatus}>
+            {u.username} {getUserStatus(u.userId._id)}
           </div>
         );
       })}

@@ -23,6 +23,8 @@
   margin-left: 25px;
   border: 1px solid var(--faded-text);
   color: var(--faded-text);
+  z-index: 1;
+  background-color: white;
 }
 
 .search-box input {
@@ -74,4 +76,40 @@
 }
 .searchResults ul li:hover {
   background-color: aliceblue;
+}
+
+@media (max-width: 1200px) {
+  .head::after {
+    width: 100%;
+    transform: unset;
+    right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .head {
+    flex-direction: column-reverse;
+  }
+  .search-box {
+    margin-left: 0;
+  }
+  .search-box {
+    height: 25px;
+    margin-bottom: 10px;
+    width: 90%;
+  }
+  .user-name {
+    font-size: 14px;
+  }
+  .user-img {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .searchResults {
+    top: 67px;
+    left: 75px;
+  }
 }

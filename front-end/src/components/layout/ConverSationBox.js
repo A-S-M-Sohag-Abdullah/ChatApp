@@ -207,7 +207,7 @@ function ConverSationBox() {
     // Cleanup on component unmount
     // Leave all previous rooms
     socket.emit("leaveAllChats");
-    
+
     socket.emit("joinChat", activeChat._id); // Join chat room
 
     socket.on("receiveMessage", (message) => {
@@ -294,7 +294,7 @@ function ConverSationBox() {
                 key={message._id}
                 className={
                   styles["self"] +
-                  " mb-3 me-2 d-flex flex-row-reverse align-items-end"
+                  " mb-3 me-2 d-flex flex-row-reverse  flex-wrap-reverse"
                 }
               >
                 <div
@@ -324,7 +324,7 @@ function ConverSationBox() {
                   ))}
                   <div className={styles["message"]}>{message.content}</div>
                 </div>
-                <div className={styles["message-date"] + " me-3 mb-2"}>
+                <div className={styles["message-date"] + " me-lg-3 mb-2"}>
                   {moment(message?.createdAt).isSame(moment(), "day")
                     ? moment(message?.createdAt).format("LT")
                     : moment(message?.createdAt).format("MM / DD / YY : LT")}
@@ -336,7 +336,8 @@ function ConverSationBox() {
               <div
                 key={message._id}
                 className={
-                  styles["participant"] + " mb-3 ms-2 d-flex align-items-end "
+                  styles["participant"] +
+                  " mb-3 ms-2 d-flex  flex-wrap-reverse"
                 }
               >
                 <div
@@ -371,7 +372,7 @@ function ConverSationBox() {
                   ))}
                   <div className={styles["message"]}>{message.content}</div>
                 </div>
-                <div className={styles["message-date"] + " ms-3 mb-2"}>
+                <div className={styles["message-date"] + " ms-lg-3 mb-2"}>
                   {moment(message?.createdAt).isSame(moment(), "day")
                     ? moment(message?.createdAt).format("LT")
                     : moment(message?.createdAt).format("MM / DD / YY : LT")}
@@ -396,7 +397,7 @@ function ConverSationBox() {
           onSubmit={handleSendMessage}
           className={
             styles["input-section"] +
-            " py-3 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
+            " py-lg-3 py-2 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
           }
         >
           <div className={styles["attached-images"] + " w-100 d-flex"}>
@@ -499,7 +500,7 @@ function ConverSationBox() {
         ref={deleteAssuranceRef}
         className={`${styles["delete-assurance"]} ${
           showDeleteConvBox ? "" : "d-none"
-        }  position-absolute p-4`}
+        }  position-lg-absolute  position-fixed p-4`}
       >
         <h3 className={styles["delete-assurance-title"]}>
           All Messages including files will be deleted.
@@ -526,7 +527,7 @@ function ConverSationBox() {
         ref={blockAssuranceRef}
         className={`${styles["block-assurance"]} ${
           showBlockBox ? "" : "d-none"
-        }  position-absolute p-4`}
+        }  position-lg-absolute position-fixed p-4`}
       >
         <h3 className={styles["block-assurance-title"]}>
           Are you sure you want to block this person?

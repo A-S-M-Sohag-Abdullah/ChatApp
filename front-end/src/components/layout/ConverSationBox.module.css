@@ -1,5 +1,5 @@
 .conversation-box {
-  flex: 0.9;
+  flex: 0.95 1;
   height: 100%;
 }
 
@@ -13,7 +13,7 @@
   width: 40px;
 }
 
-.profile-picture img{
+.profile-picture img {
   aspect-ratio: 1;
 }
 
@@ -50,7 +50,7 @@
   width: 35px;
 }
 
-.messenger-pic img{
+.messenger-pic img {
   aspect-ratio: 1;
   border-radius: 50%;
 }
@@ -74,6 +74,11 @@
 
 .messageAttachment img {
   border-radius: 4px;
+}
+
+.self,
+.participant {
+  align-items: self-end;
 }
 
 .self .message {
@@ -161,6 +166,7 @@
   width: 400px;
   border-radius: 8px;
   z-index: 1;
+  max-width: 90%;
 }
 
 .delete-assurance-title,
@@ -223,4 +229,43 @@
   font-size: 10px;
   margin-bottom: 5px;
   margin-left: 5px;
+}
+
+@media (max-width: 768px) {
+  .message-date {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    font-size: 9px;
+  }
+  .messenger-pic {
+    width: 15px;
+    align-self: baseline;
+  }
+  .messange-input {
+    width: 60%;
+    font-size: 14px;
+  }
+  .send-btn {
+    width: 35px;
+    font-size: 16px;
+  }
+  .profile-name {
+    font-size: 11px;
+  }
+  .profile-picture {
+    flex-shrink: 0;
+    width: 30px;
+  }
+  .conversation-action {
+    font-size: 12px;
+    margin-left: 4px;
+  }
+  .conversation-with {
+    max-width: 60%;
+  }
+  .message {
+    font-size: 12px;
+  }
 }

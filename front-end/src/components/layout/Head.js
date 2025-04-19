@@ -5,6 +5,8 @@ import { useAuth } from "../../context/AuthContext";
 import messageApi from "../../api/messageApi";
 import chatApi from "../../api/chatApi";
 import { useChat } from "../../context/ChatContext";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Head() {
   const { user } = useAuth();
@@ -71,7 +73,7 @@ function Head() {
       <div
         className={`${styles["search-box"]} d-flex px-2 py-1 rounded-pill align-items-center position-relative`}
       >
-        <i className="fa-solid fa-magnifying-glass me-2"></i>
+        <FontAwesomeIcon icon={faMagnifyingGlass} />
         <input
           type="text"
           placeholder="Search Groups or Persons here"
@@ -79,7 +81,7 @@ function Head() {
           onChange={handleInputChange}
         />
       </div>
-      <div className={`${styles.user} d-flex align-items-center pe-5`}>
+      <div className={`${styles.user} d-flex align-items-center pe-md-5 py-lg-0 py-1`}>
         <h1 className={`${styles["user-name"]} me-3 mb-0`}>{user.username}</h1>
         <div className={`${styles["user-img"]} rounded-circle p-1`}>
           <img

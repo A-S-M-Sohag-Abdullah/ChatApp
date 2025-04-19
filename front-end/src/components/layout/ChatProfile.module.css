@@ -28,7 +28,7 @@
   width: 35%;
 }
 
-.chat-profile-img img{
+.chat-profile-img img {
   aspect-ratio: 1;
 }
 
@@ -67,4 +67,18 @@
 
 .block-action:hover {
   color: red;
+}
+
+@media (max-width: 768px) {
+  .chat-profile-container {
+    position: absolute !important;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    background-color: white;
+    left: 0;
+    top: 0;
+    flex-shrink: 0;
+  }
+  
 }

@@ -11,6 +11,7 @@
   z-index: 1;
   padding: 10px;
   max-height: 500px;
+  max-width: 90%;
 }
 
 .groupPic {
@@ -26,7 +27,7 @@
   margin-right: 10px;
 }
 
-.groupPic img{
+.groupPic img {
   width: 40px;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -38,6 +39,7 @@
 
 .groupName {
   border-bottom: 1px solid #999;
+  max-width: 55%;
 }
 
 .createGroupBtn {

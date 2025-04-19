@@ -12,7 +12,7 @@ function Coversations() {
   const { setShowAddConv } = useDom();
   const { user } = useAuth();
 
-  const { chats, loading, error, setActiveChat } = useChat(); // Store chat data
+  const { chats, loading, error, setActiveChat, activeChat } = useChat(); // Store chat data
 
   if (loading) {
     return <div>Loading chats...</div>;
@@ -36,9 +36,11 @@ function Coversations() {
             <li
               onClick={() => setActiveChat(chat)}
               key={chat._id}
-              className={`${styles.conversation} mb-1 `}
+              className={`${chat._id === activeChat?._id && styles.active}  ${
+                styles.conversation
+              } mb-1 `}
             >
-              <div className="d-flex justify-content-between py-4 w-100">
+              <div className="d-flex justify-content-lg-between justify-content-center py-xl-4 py-3 w-100">
                 <div className="d-flex">
                   <div
                     className={`${styles["conversation-avatar"]} me-3 rounded-circle`}
@@ -77,7 +79,7 @@ function Coversations() {
                   </div>
                 </div>
 
-                <div className="conversation-time-stamp d-flex flex-column justify-content-between ms-3">
+                <div className="conversation-time-stamp d-lg-flex d-none flex-column justify-content-between ms-3">
                   <div className={styles["last-modified-time"]}>
                     {lastMessage &&
                       (() => {

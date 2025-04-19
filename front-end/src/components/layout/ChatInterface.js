@@ -13,7 +13,7 @@ function ChatInterface() {
   const { activeChat } = useChat();
 
   return (
-    <div className={`${styles["chat-interface"]} d-flex`}>
+    <div className={`${styles["chat-interface"]} d-flex position-relative`}>
       {activeButton === "inbox" && <Coversations />}
       {activeButton === "stories" && <Stories />}
       {activeButton === "people" && <Peoples />}

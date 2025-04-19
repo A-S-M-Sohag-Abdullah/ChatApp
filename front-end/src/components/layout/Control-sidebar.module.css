@@ -46,7 +46,7 @@
   pointer-events: none;
 }
 
-.control-picker .icon{
+.control-picker .icon {
   border-bottom: 2px solid transparent;
   padding-bottom: 5px;
 }
@@ -67,7 +67,7 @@
   height: auto;
   background: var(--secondary-color);
   z-index: 3;
-  border:1px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
   white-space: nowrap;
 }
 
@@ -80,7 +80,7 @@
   bottom: 17px;
   background-color: white;
   transform: rotate(45deg);
-  border:1px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
   border-right: none;
   border-top: none;
 }
@@ -98,4 +98,38 @@
 .settings-container button i {
   font-size: 14px;
   width: 15px;
+}
+
+@media (max-width: 991px) {
+  .control-sidebar.collapsed {
+    width: 50px !important;
+  }
+
+  .control-picker .icon,
+  .user-control .icon {
+    font-size: 18px;
+    margin-right: 0;
+  }
+
+  .control-picker span,
+  .user-control span {
+    display: none;
+  }
+
+  .control-picker,
+  .user-control {
+    text-align: center;
+    padding: 12px 0;
+    justify-content: center;
+  }
+
+  .control-sidebar .logo img {
+    width: 55px;
+  }
+  .settings-container {
+    bottom: 10px;
+  }
+  .settings-container::before{
+    bottom: 10px;
+  }
 }

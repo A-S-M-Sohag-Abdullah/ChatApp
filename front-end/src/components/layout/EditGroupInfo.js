@@ -50,7 +50,11 @@ function EditGroupInfo() {
   }, [activeChat]);
 
   return (
-    <div className={styles.editGroupInfoContainer}>
+    <div
+      className={
+        styles.editGroupInfoContainer + " position-lg-absolute position-fixed"
+      }
+    >
       <div className="d-flex border-bottom">
         <h2 className={styles.editGroupInfoTitle}>Edit Group Info</h2>
 

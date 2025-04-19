@@ -25,7 +25,7 @@ function ChatMembers() {
     } catch (err) {}
   };
   return (
-    <div className={styles.chatMembersInterface}>
+    <div className={styles.chatMembersInterface + " position-lg-absolute position-fixed"}>
       <div class="d-flex align-items-center border-bottom border-bottom-1">
         <h6>Group Members</h6>
         <button

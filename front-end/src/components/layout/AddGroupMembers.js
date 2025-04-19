@@ -68,7 +68,7 @@ function AddGroupMembers() {
     } catch (err) {}
   };
   return (
-    <div className={styles.addGroupMembersContainer}>
+    <div className={styles.addGroupMembersContainer + " position-lg-absolute position-fixed"}>
       <div className="d-flex">
         <h2 className={styles.addGroupMembersTitle}>Add Group Members</h2>
 

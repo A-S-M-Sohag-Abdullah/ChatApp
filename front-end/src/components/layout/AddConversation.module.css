@@ -22,6 +22,7 @@
 .addConversationBox {
   background-color: var(--secondary-color);
   width: 400px;
+  max-width: 90%;
 }
 
 .closeAddConvBoxBtn {
