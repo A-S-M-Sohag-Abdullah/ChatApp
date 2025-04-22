@@ -7,8 +7,10 @@ import { useDom } from "../../context/DomContext";
 import { useAuth } from "../../context/AuthContext";
 import { useChat } from "../../context/ChatContext";
 import moment from "moment";
-
+import { Parser } from "html-to-react";
 function Coversations() {
+  const htmlParser = new Parser();
+
   const { setShowAddConv } = useDom();
   const { user } = useAuth();
 
@@ -72,9 +74,17 @@ function Coversations() {
                           chat.latestMessage?.sender._id !== user._id &&
                           chat.latestMessage?.sender.username + ": "}
                       </strong>
-                      {lastMessage && lastMessage.length > 15
+                      {/* {lastMessage && lastMessage.length > 15
                         ? `${lastMessage.slice(0, 15)}...`
-                        : lastMessage || "No messages yet"}
+                        : lastMessage || "No messages yet"} */}
+
+                      {!/<\/?[a-z][\s\S]*>/i.test(lastMessage) &&
+                        (lastMessage && lastMessage.length > 15
+                          ? `${lastMessage.slice(0, 15)}...`
+                          : lastMessage || "No messages yet")}
+                      {lastMessage &&
+                        /<\/?[a-z][\s\S]*>/i.test(lastMessage) &&
+                        htmlParser.parse(lastMessage)}
                     </p>
                   </div>
                 </div>

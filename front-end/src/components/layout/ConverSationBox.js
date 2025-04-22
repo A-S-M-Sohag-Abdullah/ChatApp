@@ -572,6 +572,8 @@ function ConverSationBox() {
                 open={true}
                 className={styles.emojiPickerInterface}
                 onEmojiClick={handleEmojiClick}
+                height={300}
+                width={300}
                 previewConfig={{ showPreview: false }}
               />
             )}
