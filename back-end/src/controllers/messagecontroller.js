@@ -59,12 +59,15 @@ const sendMessage = async (req, res) => {
         .status(500)
         .json({ message: "File upload failed", error: err });
     }
-    const { content, chatId, storyImage } = req.body;
+    let { content, chatId, storyImage } = req.body;
 
     if (!content && (!req.files || req.files.length === 0)) {
       return res
         .status(400)
         .json({ message: "Message content or images required!" });
+    }
+    if (content.startsWith('"') && content.endsWith('"')) {
+      content = content.slice(1, -1);
     }
 
     try {

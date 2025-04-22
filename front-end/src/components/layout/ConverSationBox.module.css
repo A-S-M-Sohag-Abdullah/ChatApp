@@ -67,6 +67,12 @@
   word-wrap: break-word;
 }
 
+.message img{
+  width: 20px;
+  height: 20px;
+  margin: 0 2px;
+}
+
 .messageAttachment {
   width: 200px;
   margin-bottom: 8px;
@@ -93,10 +99,40 @@
 /* .input-section {
   background-color: aqua;
 } */
+.editor-wrapper {
+  position: relative;
+  flex: auto;
+}
 
-.messange-input {
+.editor {
+  min-height: 40px;
+  padding: 8px;
+  outline: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+  z-index: 1;
   width: 75%;
   max-width: 650px;
+  max-height: 100px;
+  padding: 10px;
+  outline: 0;
+  overflow-y: auto;
+}
+
+.placeholder {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: #aaa;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.editor:empty:before {
+  content: attr(aria-placeholder);
+  color: #aaa;
+  pointer-events: none;
+  display: block;
 }
 
 .messange-input::placeholder {
@@ -105,6 +141,7 @@
 
 .emojiPicker,
 .file-picker {
+  margin: 0 15px;
   font-size: 20px;
   color: var(--primary-color);
 }
@@ -268,4 +305,11 @@
   .message {
     font-size: 12px;
   }
+}
+
+.emojiPickerInterface {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  transform: translate(-100%, -100%);
 }

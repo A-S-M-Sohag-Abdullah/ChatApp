@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import profile from "../../assets/images/profile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import EmojiPicker from "emoji-picker-react";
+import DOMPurify from "dompurify";
 import {
   faPhone,
   faVideo,
@@ -31,10 +33,12 @@ import ChatMembers from "./ChatMembers";
 import AddGroupMembers from "./AddGroupMembers";
 import EditGroupInfo from "./EditGroupInfo";
 import { useActiveStatus } from "../../context/ActiveStatusContext";
+import { Parser } from "html-to-react";
 
 const socket = io("http://localhost:5000");
 
 function ConverSationBox() {
+  const htmlParser = new Parser();
   const { onlineUsers } = useActiveStatus();
   const containerRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -56,6 +60,10 @@ function ConverSationBox() {
     blockBtn1Ref,
     deleteAssuranceRef,
     deleteBtn1Ref,
+    showPicker,
+    setShowPicker,
+    pickerBtnRef,
+    pickerRef,
   } = useDom();
 
   const { activeChat, fetchChats, setActiveChat } = useChat();
@@ -83,7 +91,7 @@ function ConverSationBox() {
     isBlockedCurrentUser1,
     isBlockedCurrentUser2
   ); */
-
+  const editorRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -93,6 +101,14 @@ function ConverSationBox() {
   const otherUser = activeChat?.users.find(
     (u) => u.userId._id.toString() !== user._id.toString()
   );
+
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  const handleInput = () => {
+    const html = editorRef.current.innerHTML.trim();
+    const isBlank = html === "<br>" ? true : false;
+    setIsEmpty(isBlank);
+  };
 
   const hanldeBlockUser = async (e) => {
     e.preventDefault();
@@ -137,12 +153,15 @@ function ConverSationBox() {
   // Send Message (Text + Attachments)
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    console.log("sending message");
 
-    if (!typedMessage && attachments.length === 0) return;
+    const content = getEditorContent();
+
+    if (!content && attachments.length === 0) return;
 
     const formData = new FormData();
     formData.append("sender", user._id);
-    formData.append("content", typedMessage);
+    formData.append("content", JSON.stringify(content));
     formData.append("chatId", activeChat._id);
 
     attachments.forEach((file, index) => {
@@ -159,6 +178,7 @@ function ConverSationBox() {
         setAttachments([]);
         scrollToBottm();
         fetchChats();
+        editorRef.current.innerHTML = "";
       }
     } catch (err) {
       setError(err);
@@ -177,6 +197,80 @@ function ConverSationBox() {
       toast.error(err.message);
     }
   };
+
+  const insertNodeAtCaret = (node) => {
+    const selection = window.getSelection();
+
+    if (!selection || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0);
+
+    range.deleteContents();
+    range.insertNode(node);
+    range.setStartAfter(node);
+    range.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+  };
+
+  const insertAtCursor = (emojiData) => {
+    const img = document.createElement("img");
+    img.src = emojiData.imageUrl;
+    img.alt = emojiData.emoji;
+    img.style.width = "20px";
+    img.style.height = "20px";
+    img.style.cursor = "default";
+    img.style.margin = "0 3px";
+
+    // Insert at caret
+    insertNodeAtCaret(img);
+  };
+  const savedSelection = useRef(null);
+
+  const saveSelection = () => {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      savedSelection.current = selection.getRangeAt(0);
+    }
+  };
+  const restoreSelection = () => {
+    const selection = window.getSelection();
+    if (savedSelection.current && selection) {
+      selection.removeAllRanges();
+      selection.addRange(savedSelection.current);
+    }
+  };
+  const handleEmojiClick = (emojiData) => {
+    editorRef.current.focus();
+    restoreSelection(); // Restore caret
+    insertAtCursor(emojiData); // Insert emoji
+    saveSelection(); // Save the new position after insertion
+    // Refocus the editor
+    handleInput();
+  };
+
+  const getEditorContent = () => {
+    const rawHtml = editorRef.current?.innerHTML || "";
+    console.log(rawHtml);
+    const cleanedHtml = rawHtml.replace(/"/g, "");
+    console.log(cleanedHtml);
+    return cleanedHtml;
+  };
+
+  function decodeHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    return doc.documentElement.textContent;
+  }
+
+  useEffect(() => {
+    // Optional: set initial content
+    if (editorRef.current) {
+      editorRef.current.innerHTML = "<br/>";
+    }
+  }, []);
 
   useEffect(() => {
     // Scroll to the bottom whenever messages are updated
@@ -322,7 +416,9 @@ function ConverSationBox() {
                       />
                     </div>
                   ))}
-                  <div className={styles["message"]}>{message.content}</div>
+                  <div className={styles["message"]}>
+                    {htmlParser.parse(message.content)}
+                  </div>
                 </div>
                 <div className={styles["message-date"] + " me-lg-3 mb-2"}>
                   {moment(message?.createdAt).isSame(moment(), "day")
@@ -336,8 +432,7 @@ function ConverSationBox() {
               <div
                 key={message._id}
                 className={
-                  styles["participant"] +
-                  " mb-3 ms-2 d-flex  flex-wrap-reverse"
+                  styles["participant"] + " mb-3 ms-2 d-flex  flex-wrap-reverse"
                 }
               >
                 <div
@@ -370,7 +465,11 @@ function ConverSationBox() {
                       />
                     </div>
                   ))}
-                  <div className={styles["message"]}>{message.content}</div>
+
+                  {}
+                  <div className={styles["message"]}>
+                    {htmlParser.parse(message.content)}
+                  </div>
                 </div>
                 <div className={styles["message-date"] + " ms-lg-3 mb-2"}>
                   {moment(message?.createdAt).isSame(moment(), "day")
@@ -415,7 +514,35 @@ function ConverSationBox() {
             ))}
           </div>
 
-          <input
+          <div className={styles["editor-wrapper"] + " flex-auto"}>
+            <div
+              ref={editorRef}
+              contentEditable
+              suppressContentEditableWarning
+              onMouseUp={saveSelection}
+              onKeyUp={saveSelection}
+              onBlur={saveSelection}
+              onPaste={(e) => {
+                e.preventDefault();
+                const text = e.clipboardData.getData("text/plain");
+                document.execCommand("insertText", false, text);
+              }}
+              role="textbox"
+              aria-label="Message"
+              aria-placeholder="Type your message..."
+              onInput={handleInput}
+              onDrop={(e) => e.preventDefault()}
+              onDragOver={(e) => e.preventDefault()}
+              className={styles["editor"]}
+            >
+              <br />
+            </div>
+            {isEmpty && (
+              <div className={styles["placeholder"]}>Type your message...</div>
+            )}
+          </div>
+
+          {/* <input
             onChange={(e) => {
               setTypedMessage(e.target.value);
             }}
@@ -423,7 +550,7 @@ function ConverSationBox() {
             className={styles["messange-input"] + " bg-transparent"}
             placeholder="Type Your Message Here..."
             value={typedMessage}
-          />
+          /> */}
 
           <label htmlFor="file-upload" className={styles["file-picker"]}>
             <FontAwesomeIcon icon={faPaperclip} />
@@ -435,9 +562,28 @@ function ConverSationBox() {
             multiple
             onChange={handleFileChange}
           />
-          <button type="button" className={styles["emojiPicker"]}>
-            <FontAwesomeIcon icon={faFaceSmileRegular} />
-          </button>
+          <div
+            ref={pickerRef}
+            type="button"
+            className={styles["emojiPicker"] + " position-relative"}
+          >
+            {showPicker && (
+              <EmojiPicker
+                open={true}
+                className={styles.emojiPickerInterface}
+                onEmojiClick={handleEmojiClick}
+                previewConfig={{ showPreview: false }}
+              />
+            )}
+
+            <FontAwesomeIcon
+              ref={pickerBtnRef}
+              onClick={() => {
+                setShowPicker((prev) => !prev);
+              }}
+              icon={faFaceSmileRegular}
+            />
+          </div>
           <button type="submit" className={styles["send-btn"]}>
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>

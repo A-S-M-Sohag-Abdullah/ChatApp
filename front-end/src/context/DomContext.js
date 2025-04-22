@@ -20,6 +20,7 @@ export const DomProvider = ({ children }) => {
   const [showMembers, setShowMembers] = useState(false);
   const [showAddGroupMembers, setShwoAddGroupMembers] = useState(false);
   const [showEditGroupInfo, setShowEditGroupInfo] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
 
   const settingsRef = useRef(null);
   const settingsContainerRef = useRef(null);
@@ -38,6 +39,9 @@ export const DomProvider = ({ children }) => {
   const groupCreatorRef = useRef(null);
   const blockAccountBtnRef = useRef(null);
   const blockAccountRef = useRef(null);
+
+  const pickerBtnRef = useRef(null);
+  const pickerRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -83,6 +87,10 @@ export const DomProvider = ({ children }) => {
 
       if (isClickOutside([blockAccountBtnRef, blockAccountRef])) {
         setShowBlockedAccounts(false);
+      }
+
+      if (isClickOutside([pickerBtnRef, pickerRef])) {
+        setShowPicker(false);
       }
     };
 
@@ -197,6 +205,8 @@ export const DomProvider = ({ children }) => {
         setShwoAddGroupMembers,
         showEditGroupInfo,
         setShowEditGroupInfo,
+        showPicker,
+        setShowPicker,
         settingsRef,
         settingsContainerRef,
         optionsRef,
@@ -212,6 +222,8 @@ export const DomProvider = ({ children }) => {
         groupCreatorRef,
         blockAccountBtnRef,
         blockAccountRef,
+        pickerBtnRef,
+        pickerRef,
       }}
     >
       {children} {/* Prevent rendering until auth check is done */}
