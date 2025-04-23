@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import profile from "../../assets/images/profile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EmojiPicker from "emoji-picker-react";
@@ -37,7 +37,7 @@ import { Parser } from "html-to-react";
 
 import socket from "../../services/socketService";
 
-function ConverSationBox() {
+function ConverSationBox({ loading, messages, setMessages }) {
   const htmlParser = new Parser();
   const { onlineUsers } = useActiveStatus();
   const containerRef = useRef(null);
@@ -87,12 +87,8 @@ function ConverSationBox() {
     )
   );
 
- 
   const editorRef = useRef(null);
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [typedMessage, setTypedMessage] = useState("");
+
   const [attachments, setAttachments] = useState([]);
 
   const otherUser = activeChat?.users.find(
@@ -100,7 +96,6 @@ function ConverSationBox() {
   );
 
   const [isEmpty, setIsEmpty] = useState(true);
-
   const handleInput = () => {
     const html = editorRef.current.innerHTML.trim();
     const isBlank = html === "<br>" ? true : false;
@@ -169,8 +164,6 @@ function ConverSationBox() {
       const response = await messageApi.sendMessage(formData);
 
       if (response.success) {
-        console.log(response);
-        setTypedMessage("");
         setMessages([...messages, response.message]);
         setAttachments([]);
         scrollToBottm();
@@ -178,7 +171,7 @@ function ConverSationBox() {
         editorRef.current.innerHTML = "";
       }
     } catch (err) {
-      setError(err);
+      /*    setError(err); */
     }
   };
 
@@ -195,22 +188,22 @@ function ConverSationBox() {
     }
   };
 
-  const insertNodeAtCaret = (node) => {
+  const savedSelection = useRef(null);
+  // Make sure you pass this into your editor
+
+  // Save caret selection only if it's within the editor
+  const saveSelection = () => {
     const selection = window.getSelection();
-
-    if (!selection || selection.rangeCount === 0) return;
-
-    const range = selection.getRangeAt(0);
-
-    range.deleteContents();
-    range.insertNode(node);
-    range.setStartAfter(node);
-    range.collapse(true);
-
-    selection.removeAllRanges();
-    selection.addRange(range);
+    if (
+      selection &&
+      selection.rangeCount > 0 &&
+      editorRef.current?.contains(selection.anchorNode)
+    ) {
+      savedSelection.current = selection.getRangeAt(0).cloneRange();
+    }
   };
 
+  // Insert emoji at saved caret position
   const insertAtCursor = (emojiData) => {
     const img = document.createElement("img");
     img.src = emojiData.imageUrl;
@@ -220,17 +213,45 @@ function ConverSationBox() {
     img.style.cursor = "default";
     img.style.margin = "0 3px";
 
-    // Insert at caret
     insertNodeAtCaret(img);
   };
-  const savedSelection = useRef(null);
 
-  const saveSelection = () => {
+  // Handles actual insertion of the node (emoji)
+  const insertNodeAtCaret = (node) => {
     const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      savedSelection.current = selection.getRangeAt(0);
+    let range;
+
+    const isCaretInsideEditor =
+      selection &&
+      selection.rangeCount > 0 &&
+      editorRef.current?.contains(selection.getRangeAt(0).startContainer);
+
+    if (isCaretInsideEditor) {
+      range = selection.getRangeAt(0);
+      savedSelection.current = range.cloneRange();
+    } else if (savedSelection.current) {
+      range = savedSelection.current.cloneRange();
+    } else {
+      // fallback to placing at end
+      range = document.createRange();
+      const editor = editorRef.current;
+      if (!editor) return;
+      range.selectNodeContents(editor);
+      range.collapse(false);
+      savedSelection.current = range.cloneRange();
     }
+
+    range.deleteContents();
+    range.insertNode(node);
+    range.setStartAfter(node);
+    range.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    savedSelection.current = range.cloneRange(); // Update saved selection
   };
+
   const restoreSelection = () => {
     const selection = window.getSelection();
     if (savedSelection.current && selection) {
@@ -266,24 +287,6 @@ function ConverSationBox() {
     // Scroll to the bottom whenever messages are updated
     scrollToBottm();
   }, [messages]);
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const messagesData = await messageApi.getMessages(activeChat._id);
-        setMessages(messagesData); // Assuming the response is an array of messages
-        scrollToBottm();
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMessages();
-  }, [activeChat]);
 
   useEffect(() => {
     if (!activeChat?._id) return;
@@ -370,91 +373,30 @@ function ConverSationBox() {
         className={styles["chat"] + " border-bottom pb-3"}
       >
         <div className="py-3"></div>
-        {messages.length == 0 && <div>No messages yet</div>}
-        {messages.map((message) => {
-          const isSelf = message.sender._id === user._id;
 
-          return (
-            <div
-              key={message._id}
-              className={
-                (isSelf
-                  ? styles["self"] + " flex-row-reverse me-2"
-                  : styles["participant"] + " ms-2") +
-                " mb-3 d-flex flex-wrap-reverse"
-              }
-            >
-              <div
-                className={
-                  styles["messenger-pic"] +
-                  " rounded-circle mb-1 " +
-                  (isSelf ? "ms-2" : "me-2")
-                }
-              >
-                <img
-                  src={
-                    message.sender.profilePicture
-                      ? `http://localhost:5000${message.sender.profilePicture}`
-                      : profile
-                  }
-                  alt="profile-pic"
-                  className="w-100"
-                />
-              </div>
+        {loading ? (
+          <>Loading</>
+        ) : messages.length == 0 ? (
+          <div>No messages yet</div>
+        ) : (
+          messages.map((message) => {
+            const isSelf = message.sender._id === user._id;
 
-              <div className={styles["messages"]}>
-                {activeChat.isGroupChat && !isSelf && (
-                  <div className={styles.sender}>{message.sender.username}</div>
-                )}
-
-                {message?.images.map((image, index) => (
-                  <div
-                    key={index}
-                    className={
-                      styles.messageAttachment + (isSelf ? " ms-auto" : "")
-                    }
-                  >
-                    <img
-                      src={`http://localhost:5000${image}`}
-                      alt="attachment-preview"
-                      className="w-100"
-                    />
-                  </div>
-                ))}
-
-                <div className={styles["message"]}>
-                  {htmlParser.parse(message.content)}
-                </div>
-              </div>
-
-              <div
-                className={
-                  styles["message-date"] +
-                  " mb-2 " +
-                  (isSelf ? "me-lg-3" : "ms-lg-3")
-                }
-              >
-                {moment(message?.createdAt).isSame(moment(), "day")
-                  ? moment(message?.createdAt).format("LT")
-                  : moment(message?.createdAt).format("MM / DD / YY : LT")}
-              </div>
-            </div>
-          );
-        })}
-
-        {/* {messages.map((message) => {
-          if (message.sender._id === user._id)
             return (
               <div
                 key={message._id}
                 className={
-                  styles["self"] +
-                  " mb-3 me-2 d-flex flex-row-reverse  flex-wrap-reverse"
+                  (isSelf
+                    ? styles["self"] + " flex-row-reverse me-2"
+                    : styles["participant"] + " ms-2") +
+                  " mb-3 d-flex flex-wrap-reverse"
                 }
               >
                 <div
                   className={
-                    styles["messenger-pic"] + " rounded-circle mb-1 ms-2"
+                    styles["messenger-pic"] +
+                    " rounded-circle mb-1 " +
+                    (isSelf ? "ms-2" : "me-2")
                   }
                 >
                   <img
@@ -467,58 +409,21 @@ function ConverSationBox() {
                     className="w-100"
                   />
                 </div>
+
                 <div className={styles["messages"]}>
-                  {message?.images.map((image) => (
-                    <div className={styles.messageAttachment + " ms-auto"}>
-                      <img
-                        src={`http://localhost:5000${image}`}
-                        alt="attachment-preview"
-                        className="w-100"
-                      />
-                    </div>
-                  ))}
-                  <div className={styles["message"]}>
-                    {htmlParser.parse(message.content)}
-                  </div>
-                </div>
-                <div className={styles["message-date"] + " me-lg-3 mb-2"}>
-                  {moment(message?.createdAt).isSame(moment(), "day")
-                    ? moment(message?.createdAt).format("LT")
-                    : moment(message?.createdAt).format("MM / DD / YY : LT")}
-                </div>
-              </div>
-            );
-          else {
-            return (
-              <div
-                key={message._id}
-                className={
-                  styles["participant"] + " mb-3 ms-2 d-flex  flex-wrap-reverse"
-                }
-              >
-                <div
-                  className={
-                    styles["messenger-pic"] + " rounded-circle mb-1 me-2"
-                  }
-                >
-                  <img
-                    src={
-                      message.sender.profilePicture
-                        ? `http://localhost:5000${message.sender.profilePicture}`
-                        : profile
-                    }
-                    alt="profile-pic"
-                    className="w-100"
-                  />
-                </div>
-                <div className={styles["messages"]}>
-                  {activeChat.isGroupChat && (
+                  {activeChat.isGroupChat && !isSelf && (
                     <div className={styles.sender}>
                       {message.sender.username}
                     </div>
                   )}
-                  {message?.images.map((image) => (
-                    <div className={styles.messageAttachment}>
+
+                  {message?.images.map((image, index) => (
+                    <div
+                      key={index}
+                      className={
+                        styles.messageAttachment + (isSelf ? " ms-auto" : "")
+                      }
+                    >
                       <img
                         src={`http://localhost:5000${image}`}
                         alt="attachment-preview"
@@ -527,82 +432,86 @@ function ConverSationBox() {
                     </div>
                   ))}
 
-                  {}
                   <div className={styles["message"]}>
                     {htmlParser.parse(message.content)}
                   </div>
                 </div>
-                <div className={styles["message-date"] + " ms-lg-3 mb-2"}>
+
+                <div
+                  className={
+                    styles["message-date"] +
+                    " mb-2 " +
+                    (isSelf ? "me-lg-3" : "ms-lg-3")
+                  }
+                >
                   {moment(message?.createdAt).isSame(moment(), "day")
                     ? moment(message?.createdAt).format("LT")
                     : moment(message?.createdAt).format("MM / DD / YY : LT")}
                 </div>
               </div>
             );
-          }
-        })} */}
+          })
+        )}
 
         <div ref={messagesEndRef} />
       </div>
 
-      { isBlockedByAnyone || hasBlockedAnyone ? (
-          <div className="py-4 text-center text-danger">
-            Can't send message to this conversation !!
-          </div>
-        ) : (
-          <form
-            onSubmit={handleSendMessage}
-            className={
-              styles["input-section"] +
-              " py-lg-3 py-2 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
-            }
-          >
-            <div className={styles["attached-images"] + " w-100 d-flex"}>
-              {attachments.map((file, index) => (
-                <div key={index} className={styles["attached-img"]}>
-                  <button type="button" onClick={() => removeAttachment(index)}>
-                    <FontAwesomeIcon icon={faXmark} />
-                  </button>
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt="attachment-preview"
-                    className="w-100"
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className={styles["editor-wrapper"] + " flex-auto"}>
-              <div
-                ref={editorRef}
-                contentEditable
-                suppressContentEditableWarning
-                onMouseUp={saveSelection}
-                onKeyUp={saveSelection}
-                onBlur={saveSelection}
-                onPaste={(e) => {
-                  e.preventDefault();
-                  const text = e.clipboardData.getData("text/plain");
-                  document.execCommand("insertText", false, text);
-                }}
-                role="textbox"
-                aria-label="Message"
-                aria-placeholder="Type your message..."
-                onInput={handleInput}
-                onDrop={(e) => e.preventDefault()}
-                onDragOver={(e) => e.preventDefault()}
-                className={styles["editor"]}
-              >
-                <br />
+      {isBlockedByAnyone || hasBlockedAnyone ? (
+        <div className="py-4 text-center text-danger">
+          Can't send message to this conversation !!
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSendMessage}
+          className={
+            styles["input-section"] +
+            " py-lg-3 py-2 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
+          }
+        >
+          <div className={styles["attached-images"] + " w-100 d-flex"}>
+            {attachments.map((file, index) => (
+              <div key={index} className={styles["attached-img"]}>
+                <button type="button" onClick={() => removeAttachment(index)}>
+                  <FontAwesomeIcon icon={faXmark} />
+                </button>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="attachment-preview"
+                  className="w-100"
+                />
               </div>
-              {isEmpty && (
-                <div className={styles["placeholder"]}>
-                  Type your message...
-                </div>
-              )}
-            </div>
+            ))}
+          </div>
 
-            {/* <input
+          <div className={styles["editor-wrapper"] + " flex-auto"}>
+            <div
+              ref={editorRef}
+              contentEditable
+              suppressContentEditableWarning
+              onMouseUp={saveSelection}
+              onKeyUp={saveSelection}
+              onBlur={saveSelection}
+              onPaste={(e) => {
+                e.preventDefault();
+                const text = e.clipboardData.getData("text/plain");
+                document.execCommand("insertText", false, text);
+              }}
+              role="textbox"
+              aria-label="Message"
+              aria-placeholder="Type your message..."
+              onInput={handleInput}
+              onDrop={(e) => e.preventDefault()}
+              onDragOver={(e) => e.preventDefault()}
+              className={styles["editor"]}
+            >
+              <br />
+            </div>
+            {isEmpty && (
+              <div className={styles["placeholder"]}>Type your message...</div>
+            )}
+          </div>
+
+          {/* <input
             onChange={(e) => {
               setTypedMessage(e.target.value);
             }}
@@ -612,46 +521,45 @@ function ConverSationBox() {
             value={typedMessage}
           /> */}
 
-            <label htmlFor="file-upload" className={styles["file-picker"]}>
-              <FontAwesomeIcon icon={faPaperclip} />
-            </label>
-            <input
-              id="file-upload"
-              type="file"
-              className="d-none"
-              multiple
-              onChange={handleFileChange}
-            />
-            <div
-              ref={pickerRef}
-              type="button"
-              className={styles["emojiPicker"] + " position-relative"}
-            >
-              {showPicker && (
-                <EmojiPicker
-                  open={true}
-                  className={styles.emojiPickerInterface}
-                  onEmojiClick={handleEmojiClick}
-                  height={300}
-                  width={300}
-                  previewConfig={{ showPreview: false }}
-                />
-              )}
-
-              <FontAwesomeIcon
-                ref={pickerBtnRef}
-                onClick={() => {
-                  setShowPicker((prev) => !prev);
-                }}
-                icon={faFaceSmileRegular}
+          <label htmlFor="file-upload" className={styles["file-picker"]}>
+            <FontAwesomeIcon icon={faPaperclip} />
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            className="d-none"
+            multiple
+            onChange={handleFileChange}
+          />
+          <div
+            ref={pickerRef}
+            type="button"
+            className={styles["emojiPicker"] + " position-relative"}
+          >
+            {showPicker && (
+              <EmojiPicker
+                open={true}
+                className={styles.emojiPickerInterface}
+                onEmojiClick={handleEmojiClick}
+                height={300}
+                width={300}
+                previewConfig={{ showPreview: false }}
               />
-            </div>
-            <button type="submit" className={styles["send-btn"]}>
-              <FontAwesomeIcon icon={faPaperPlane} />
-            </button>
-          </form>
-        )
-      }
+            )}
+
+            <FontAwesomeIcon
+              ref={pickerBtnRef}
+              onClick={() => {
+                setShowPicker((prev) => !prev);
+              }}
+              icon={faFaceSmileRegular}
+            />
+          </div>
+          <button type="submit" className={styles["send-btn"]}>
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </button>
+        </form>
+      )}
 
       <div
         className={`
