@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import profile from "../../assets/images/profile.png";
 import styles from "./Conversations.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,6 +15,8 @@ function Coversations() {
   const { user } = useAuth();
 
   const { chats, loading, error, setActiveChat, activeChat } = useChat(); // Store chat data
+
+  useEffect(() => {}, [chats]);
 
   if (loading) {
     return <div>Loading chats...</div>;

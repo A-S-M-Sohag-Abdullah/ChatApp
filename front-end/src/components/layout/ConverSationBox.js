@@ -35,7 +35,7 @@ import EditGroupInfo from "./EditGroupInfo";
 import { useActiveStatus } from "../../context/ActiveStatusContext";
 import { Parser } from "html-to-react";
 
-const socket = io("http://localhost:5000");
+import socket from "../../services/socketService";
 
 function ConverSationBox() {
   const htmlParser = new Parser();
@@ -70,27 +70,24 @@ function ConverSationBox() {
   const { user, setUser } = useAuth();
   /*   console.log(activeChat); */
 
-  const isBlockedByUser1 = activeChat.users[0].userId.blockedUsers.some(
-    (blockedUser) => blockedUser._id === user._id
-  );
-  const isBlockedByUser2 = activeChat.users[1].userId.blockedUsers.some(
-    (blockedUser) => blockedUser._id === user._id
-  );
-
-  // Check if the current user has blocked the other user
-  const isBlockedCurrentUser1 = activeChat.users[0].userId.blockedUsers.some(
-    (blockedUser) => blockedUser._id === activeChat.users[1].userId._id
-  );
-  const isBlockedCurrentUser2 = activeChat.users[1].userId.blockedUsers.some(
-    (blockedUser) => blockedUser._id === activeChat.users[0].userId._id
+  const isBlockedByAnyone = activeChat.users.some(
+    (chatUser) =>
+      chatUser.userId._id !== user._id &&
+      chatUser.userId.blockedUsers.some(
+        (blockedUser) => blockedUser._id === user._id
+      )
   );
 
-  /*   console.log(
-    isBlockedByUser1,
-    isBlockedByUser2,
-    isBlockedCurrentUser1,
-    isBlockedCurrentUser2
-  ); */
+  // Check if current user has blocked anyone in the chat
+  const hasBlockedAnyone = user.blockedUsers.some((blockedUser) =>
+    activeChat.users.some(
+      (chatUser) =>
+        chatUser.userId._id !== user._id &&
+        chatUser.userId._id === blockedUser._id
+    )
+  );
+
+ 
   const editorRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -258,13 +255,6 @@ function ConverSationBox() {
     return cleanedHtml;
   };
 
-  function decodeHTML(html) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-
-    return doc.documentElement.textContent;
-  }
-
   useEffect(() => {
     // Optional: set initial content
     if (editorRef.current) {
@@ -307,9 +297,9 @@ function ConverSationBox() {
     socket.on("receiveMessage", (message) => {
       if (message.chat._id === activeChat._id) {
         setMessages((prevMessages) => [...prevMessages, message]);
-        fetchChats();
         scrollToBottm();
       }
+      fetchChats();
     });
 
     return () => {
@@ -382,6 +372,77 @@ function ConverSationBox() {
         <div className="py-3"></div>
         {messages.length == 0 && <div>No messages yet</div>}
         {messages.map((message) => {
+          const isSelf = message.sender._id === user._id;
+
+          return (
+            <div
+              key={message._id}
+              className={
+                (isSelf
+                  ? styles["self"] + " flex-row-reverse me-2"
+                  : styles["participant"] + " ms-2") +
+                " mb-3 d-flex flex-wrap-reverse"
+              }
+            >
+              <div
+                className={
+                  styles["messenger-pic"] +
+                  " rounded-circle mb-1 " +
+                  (isSelf ? "ms-2" : "me-2")
+                }
+              >
+                <img
+                  src={
+                    message.sender.profilePicture
+                      ? `http://localhost:5000${message.sender.profilePicture}`
+                      : profile
+                  }
+                  alt="profile-pic"
+                  className="w-100"
+                />
+              </div>
+
+              <div className={styles["messages"]}>
+                {activeChat.isGroupChat && !isSelf && (
+                  <div className={styles.sender}>{message.sender.username}</div>
+                )}
+
+                {message?.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className={
+                      styles.messageAttachment + (isSelf ? " ms-auto" : "")
+                    }
+                  >
+                    <img
+                      src={`http://localhost:5000${image}`}
+                      alt="attachment-preview"
+                      className="w-100"
+                    />
+                  </div>
+                ))}
+
+                <div className={styles["message"]}>
+                  {htmlParser.parse(message.content)}
+                </div>
+              </div>
+
+              <div
+                className={
+                  styles["message-date"] +
+                  " mb-2 " +
+                  (isSelf ? "me-lg-3" : "ms-lg-3")
+                }
+              >
+                {moment(message?.createdAt).isSame(moment(), "day")
+                  ? moment(message?.createdAt).format("LT")
+                  : moment(message?.createdAt).format("MM / DD / YY : LT")}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* {messages.map((message) => {
           if (message.sender._id === user._id)
             return (
               <div
@@ -479,70 +540,69 @@ function ConverSationBox() {
               </div>
             );
           }
-        })}
+        })} */}
 
         <div ref={messagesEndRef} />
       </div>
 
-      {isBlockedByUser1 ||
-      isBlockedByUser2 ||
-      isBlockedCurrentUser1 ||
-      isBlockedCurrentUser2 ? (
-        <div className="py-4 text-center text-danger">
-          Can't send message to this conversation !!
-        </div>
-      ) : (
-        <form
-          onSubmit={handleSendMessage}
-          className={
-            styles["input-section"] +
-            " py-lg-3 py-2 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
-          }
-        >
-          <div className={styles["attached-images"] + " w-100 d-flex"}>
-            {attachments.map((file, index) => (
-              <div key={index} className={styles["attached-img"]}>
-                <button type="button" onClick={() => removeAttachment(index)}>
-                  <FontAwesomeIcon icon={faXmark} />
-                </button>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="attachment-preview"
-                  className="w-100"
-                />
-              </div>
-            ))}
+      { isBlockedByAnyone || hasBlockedAnyone ? (
+          <div className="py-4 text-center text-danger">
+            Can't send message to this conversation !!
           </div>
-
-          <div className={styles["editor-wrapper"] + " flex-auto"}>
-            <div
-              ref={editorRef}
-              contentEditable
-              suppressContentEditableWarning
-              onMouseUp={saveSelection}
-              onKeyUp={saveSelection}
-              onBlur={saveSelection}
-              onPaste={(e) => {
-                e.preventDefault();
-                const text = e.clipboardData.getData("text/plain");
-                document.execCommand("insertText", false, text);
-              }}
-              role="textbox"
-              aria-label="Message"
-              aria-placeholder="Type your message..."
-              onInput={handleInput}
-              onDrop={(e) => e.preventDefault()}
-              onDragOver={(e) => e.preventDefault()}
-              className={styles["editor"]}
-            >
-              <br />
+        ) : (
+          <form
+            onSubmit={handleSendMessage}
+            className={
+              styles["input-section"] +
+              " py-lg-3 py-2 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
+            }
+          >
+            <div className={styles["attached-images"] + " w-100 d-flex"}>
+              {attachments.map((file, index) => (
+                <div key={index} className={styles["attached-img"]}>
+                  <button type="button" onClick={() => removeAttachment(index)}>
+                    <FontAwesomeIcon icon={faXmark} />
+                  </button>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="attachment-preview"
+                    className="w-100"
+                  />
+                </div>
+              ))}
             </div>
-            {isEmpty && (
-              <div className={styles["placeholder"]}>Type your message...</div>
-            )}
-          </div>
 
-          {/* <input
+            <div className={styles["editor-wrapper"] + " flex-auto"}>
+              <div
+                ref={editorRef}
+                contentEditable
+                suppressContentEditableWarning
+                onMouseUp={saveSelection}
+                onKeyUp={saveSelection}
+                onBlur={saveSelection}
+                onPaste={(e) => {
+                  e.preventDefault();
+                  const text = e.clipboardData.getData("text/plain");
+                  document.execCommand("insertText", false, text);
+                }}
+                role="textbox"
+                aria-label="Message"
+                aria-placeholder="Type your message..."
+                onInput={handleInput}
+                onDrop={(e) => e.preventDefault()}
+                onDragOver={(e) => e.preventDefault()}
+                className={styles["editor"]}
+              >
+                <br />
+              </div>
+              {isEmpty && (
+                <div className={styles["placeholder"]}>
+                  Type your message...
+                </div>
+              )}
+            </div>
+
+            {/* <input
             onChange={(e) => {
               setTypedMessage(e.target.value);
             }}
@@ -552,45 +612,46 @@ function ConverSationBox() {
             value={typedMessage}
           /> */}
 
-          <label htmlFor="file-upload" className={styles["file-picker"]}>
-            <FontAwesomeIcon icon={faPaperclip} />
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            className="d-none"
-            multiple
-            onChange={handleFileChange}
-          />
-          <div
-            ref={pickerRef}
-            type="button"
-            className={styles["emojiPicker"] + " position-relative"}
-          >
-            {showPicker && (
-              <EmojiPicker
-                open={true}
-                className={styles.emojiPickerInterface}
-                onEmojiClick={handleEmojiClick}
-                height={300}
-                width={300}
-                previewConfig={{ showPreview: false }}
-              />
-            )}
-
-            <FontAwesomeIcon
-              ref={pickerBtnRef}
-              onClick={() => {
-                setShowPicker((prev) => !prev);
-              }}
-              icon={faFaceSmileRegular}
+            <label htmlFor="file-upload" className={styles["file-picker"]}>
+              <FontAwesomeIcon icon={faPaperclip} />
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              className="d-none"
+              multiple
+              onChange={handleFileChange}
             />
-          </div>
-          <button type="submit" className={styles["send-btn"]}>
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </button>
-        </form>
-      )}
+            <div
+              ref={pickerRef}
+              type="button"
+              className={styles["emojiPicker"] + " position-relative"}
+            >
+              {showPicker && (
+                <EmojiPicker
+                  open={true}
+                  className={styles.emojiPickerInterface}
+                  onEmojiClick={handleEmojiClick}
+                  height={300}
+                  width={300}
+                  previewConfig={{ showPreview: false }}
+                />
+              )}
+
+              <FontAwesomeIcon
+                ref={pickerBtnRef}
+                onClick={() => {
+                  setShowPicker((prev) => !prev);
+                }}
+                icon={faFaceSmileRegular}
+              />
+            </div>
+            <button type="submit" className={styles["send-btn"]}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </button>
+          </form>
+        )
+      }
 
       <div
         className={`

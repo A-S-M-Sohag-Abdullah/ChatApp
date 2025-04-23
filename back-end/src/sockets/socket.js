@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const socketIo = require("socket.io");
 const usersOnline = new Map();
+
+
 const initializeSocket = (server) => {
   const io = socketIo(server, {
     cors: {
