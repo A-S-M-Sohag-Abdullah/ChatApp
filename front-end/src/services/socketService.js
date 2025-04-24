@@ -10,7 +10,6 @@ export const setUserOnline = (userId) => {
 // Listen for user status updates
 export const listenForUserStatus = (callback) => {
   socket.on("updateUserStatus", (data) => {
-    console.log("update status initiated", data);
     callback(data);
   });
 };
@@ -19,6 +18,5 @@ export const listenForUserStatus = (callback) => {
 window.addEventListener("beforeunload", () => {
   socket.disconnect();
 });
-
 
 export default socket;

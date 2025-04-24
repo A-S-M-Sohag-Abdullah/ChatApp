@@ -131,8 +131,16 @@ const sendMessage = async (req, res) => {
           select: "content",
         },
       ]);
-
+      /*       console.log(req.app.get("io")); */
       // Emit message to socket
+      updatedChat.users.forEach((u) => {
+        console.log(u.userId.toString());
+        req.app
+          .get("io")
+          .to(u.userId.toString())
+          .emit("recieveUserMessage", message);
+      });
+      
       req.app.get("io").to(chatId).emit("receiveMessage", message);
 
       res.status(201).json({ success: true, message: message });

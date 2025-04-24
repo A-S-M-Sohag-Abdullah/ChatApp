@@ -8,10 +8,15 @@ import styles from "./ChatInterface.module.css";
 import { useDom } from "../../context/DomContext";
 import { useChat } from "../../context/ChatContext";
 import messageApi from "../../api/messageApi";
+import { useAuth } from "../../context/AuthContext";
+import socket from "../../services/socketService";
 
 function ChatInterface() {
+  const { user } = useAuth();
+  const { chats,setChats } = useChat();
   const { profileOpend, activeButton } = useDom();
   const { activeChat } = useChat();
+  const [cachedMessages, setCachedMessages] = useState({});
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -20,6 +25,10 @@ function ChatInterface() {
     try {
       setLoading(true);
       const messagesData = await messageApi.getMessages(activeChat._id);
+      setCachedMessages((prev) => ({
+        ...prev,
+        [activeChat._id]: messagesData,
+      }));
       setMessages(messagesData); // Assuming the response is an array of messages
       // scrollToBottm();
     } catch (err) {
@@ -29,9 +38,53 @@ function ChatInterface() {
     }
   }, [activeChat?._id]);
 
+  const updateChatsWithNewMessage = (newMessage) => {
+    setChats((prevChats) => {
+      const updatedChats = [...prevChats];
+      const chatIndex = updatedChats.findIndex(
+        (chat) => chat._id === newMessage.chat._id
+      );
+
+      if (chatIndex === -1) return prevChats; // chat not found, don't update
+
+      // Update the latestMessage
+      const updatedChat = {
+        ...updatedChats[chatIndex],
+        latestMessage: {
+          _id: newMessage._id,
+          sender: newMessage.sender,
+          content: newMessage.content,
+          createdAt: newMessage.createdAt,
+        },
+        updatedAt: newMessage.updatedAt, // also useful if you want to sort chats
+      };
+
+      // Remove from current position
+      updatedChats.splice(chatIndex, 1);
+
+      // Insert updated chat at top
+      return [updatedChat, ...updatedChats];
+    });
+  };
+
   useEffect(() => {
-    fetchMessages();
+    if (!activeChat) return;
+
+    if (cachedMessages[activeChat._id]) {
+      setMessages(cachedMessages[activeChat._id]); // Instantly show cached
+      fetchMessages(activeChat._id); // Update in background
+    } else {
+      fetchMessages(activeChat._id);
+    }
   }, [activeChat]);
+
+  useEffect(() => {
+    socket.emit("joinUser", user._id);
+
+    socket.on("recieveUserMessage", (message) => {
+      updateChatsWithNewMessage(message);
+    });
+  }, []);
 
   return (
     <div className={`${styles["chat-interface"]} d-flex position-relative`}>

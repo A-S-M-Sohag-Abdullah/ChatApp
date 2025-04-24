@@ -1,7 +1,7 @@
+const Chat = require("../models/chat");
 const User = require("../models/user");
 const socketIo = require("socket.io");
 const usersOnline = new Map();
-
 
 const initializeSocket = (server) => {
   const io = socketIo(server, {
@@ -39,11 +39,13 @@ const initializeSocket = (server) => {
       console.log(`User joined chat: ${chatId}`);
     });
 
-    // Handle sending messages
-    socket.on("sendMessage", (message) => {
-      const { chatId, content, sender } = message;
-      io.to(chatId).emit("receiveMessage", { chatId, content, sender });
+    socket.on("joinUser", (userId) => {
+      socket.join(userId);
+      console.log(`User joined user: ${userId}`);
     });
+
+    // Handle sending messages
+    
 
     // Handle user disconnect
     socket.on("disconnect", async () => {
