@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { PulseLoader } from "react-spinners";
 import profile from "../../assets/images/profile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EmojiPicker from "emoji-picker-react";
-import DOMPurify from "dompurify";
 import {
   faPhone,
   faVideo,
@@ -25,7 +25,6 @@ import { useChat } from "../../context/ChatContext";
 import { useAuth } from "../../context/AuthContext";
 import messageApi from "../../api/messageApi";
 import blockApi from "../../api/blockApi";
-import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 import chatApi from "../../api/chatApi";
 import moment from "moment/moment";
@@ -38,6 +37,10 @@ import { Parser } from "html-to-react";
 import socket from "../../services/socketService";
 
 function ConverSationBox({ loading, messages, setMessages }) {
+  const override = {
+    display: "flex",
+  };
+
   const htmlParser = new Parser();
   const { onlineUsers } = useActiveStatus();
   const containerRef = useRef(null);
@@ -66,7 +69,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
     pickerRef,
   } = useDom();
 
-  const { activeChat, fetchChats, setActiveChat } = useChat();
+  const { activeChat, fetchChats } = useChat();
   const { user, setUser } = useAuth();
   /*   console.log(activeChat); */
 
@@ -299,7 +302,6 @@ function ConverSationBox({ loading, messages, setMessages }) {
 
     socket.on("receiveMessage", (message) => {
       if (message.chat._id === activeChat._id) {
-        console.log(message, user);
         setMessages((prevMessages) => [...prevMessages, message]);
         /* scrollToBottm(); */
       }
@@ -375,9 +377,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
       >
         <div className="py-3"></div>
 
-        {loading ? (
-          <>Loading</>
-        ) : messages.length == 0 ? (
+        {messages.length === 0 ? (
           <div>No messages yet</div>
         ) : (
           messages.map((message) => {
@@ -453,6 +453,16 @@ function ConverSationBox({ loading, messages, setMessages }) {
             );
           })
         )}
+        {loading && (
+          <PulseLoader
+            color="#6d73e1"
+            loading={loading}
+            cssOverride={override}
+            size={15}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        )}
 
         <div ref={messagesEndRef} />
       </div>
@@ -511,16 +521,6 @@ function ConverSationBox({ loading, messages, setMessages }) {
               <div className={styles["placeholder"]}>Type your message...</div>
             )}
           </div>
-
-          {/* <input
-            onChange={(e) => {
-              setTypedMessage(e.target.value);
-            }}
-            type="text"
-            className={styles["messange-input"] + " bg-transparent"}
-            placeholder="Type Your Message Here..."
-            value={typedMessage}
-          /> */}
 
           <label htmlFor="file-upload" className={styles["file-picker"]}>
             <FontAwesomeIcon icon={faPaperclip} />

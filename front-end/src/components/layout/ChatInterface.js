@@ -13,7 +13,7 @@ import socket from "../../services/socketService";
 
 function ChatInterface() {
   const { user } = useAuth();
-  const { chats,setChats } = useChat();
+  const { chats, setChats } = useChat();
   const { profileOpend, activeButton } = useDom();
   const { activeChat } = useChat();
   const [cachedMessages, setCachedMessages] = useState({});
@@ -25,6 +25,10 @@ function ChatInterface() {
     try {
       setLoading(true);
       const messagesData = await messageApi.getMessages(activeChat._id);
+
+      if (cachedMessages.hasOwnProperty(activeChat._id))
+        console.log(cachedMessages[activeChat?._id].length);
+
       setCachedMessages((prev) => ({
         ...prev,
         [activeChat._id]: messagesData,
@@ -71,9 +75,11 @@ function ChatInterface() {
     if (!activeChat) return;
 
     if (cachedMessages[activeChat._id]) {
+      console.log("cash message ase");
       setMessages(cachedMessages[activeChat._id]); // Instantly show cached
       fetchMessages(activeChat._id); // Update in background
     } else {
+      console.log("cash message nai");
       fetchMessages(activeChat._id);
     }
   }, [activeChat]);
