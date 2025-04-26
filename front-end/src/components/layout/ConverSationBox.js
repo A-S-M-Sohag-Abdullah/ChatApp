@@ -458,7 +458,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
             color="#6d73e1"
             loading={loading}
             cssOverride={override}
-            size={15}
+            size={5}
             aria-label="Loading Spinner"
             data-testid="loader"
           />

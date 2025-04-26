@@ -7,6 +7,7 @@
 .entry .container {
   min-height: 85%;
   overflow: hidden;
+  max-width: 90%;
 }
 
 .entry .container::after {

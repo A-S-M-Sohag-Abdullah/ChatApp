@@ -108,17 +108,17 @@ function SignupPage() {
 
   return (
     <div
-      className={`${styles.entry} d-flex align-items-center justify-content-center`}
+      className={`${styles.entry} ${styles.entrySignup} d-flex align-items-center justify-content-center`}
     >
       <div
         className={`${styles.container} d-flex flex-column justify-content-center bg-white rounded-4 position-relative py-4`}
       >
         <div className=" row h-100 align-items-center">
           <div className="col-md-6 d-flex flex-column align-items-center justify-content-center">
-            <h1 className="entry-heading mb-3">
+            <h1 className={`${styles["entry-heading"]} mb-3`}>
               Chat App <span>Signup</span>
             </h1>
-            <img src={signup} alt="Chat App Logo" className="w-75" />
+            <img src={signup} alt="Chat App Logo" className={`${styles["entry-img"]}`} />
           </div>
           <div className="col-md-6 d-flex flex-column align-items-center justify-content-center">
             <form
@@ -308,7 +308,7 @@ function SignupPage() {
             </form>
             <div className={`${styles.note} mt-3 text-white`}>
               Already Have an Account?{" "}
-              <a href="/" className="text-decoration-underline">
+              <a href="/login" className="text-decoration-underline">
                 Login
               </a>
             </div>

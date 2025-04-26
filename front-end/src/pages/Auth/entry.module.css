@@ -1,12 +1,12 @@
 .entry {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
 }
 
 .entry .container {
   min-height: 85%;
   overflow: hidden;
+  max-width: 90%;
 }
 
 .entry .container::after {
@@ -23,6 +23,7 @@
 
 .entry-heading {
   font-size: 35px;
+  z-index: 1;
 }
 
 .entry-heading span {
@@ -32,6 +33,7 @@
 
 .entry-img {
   width: 65%;
+  z-index: 1;
 }
 
 .login,
@@ -144,4 +146,36 @@
 
 .country-dropdown .country-option {
   cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .entry .container::after {
+    position: absolute;
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    right: 0px;
+    top: 0;
+    transform: skewX(0deg);
+    background: var(--primary-gradient);
+  }
+  .entry-heading {
+    color: white;
+  }
+
+  .entry-heading span {
+    color: black;
+  }
+
+  .entry-img {
+    width: 50%;
+    padding: 20px 0;
+  }
+
+  .entrySignup {
+    height: auto !important;
+    min-height: 90vh;
+    margin: 20px 0;
+  }
 }

@@ -41,23 +41,23 @@ function LoginPage() {
   return (
     <div>
       <div
-        className={`${styles.entry} d-flex align-items-center justify-content-center`}
+        className={`${styles.entry}  d-flex align-items-center justify-content-center`}
       >
         <div
           className={`${styles.container} d-flex flex-column justify-content-center bg-white rounded-4 position-relative`}
         >
           <div className=" row h-100 align-items-center">
-            <div className="col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div className="col-lg-6 d-flex flex-column align-items-center justify-content-center">
               <h1 className={`${styles["entry-heading"]} mb-3`}>
                 Chat App <span>Login</span>
               </h1>
               <img
                 src={loginPagePic}
                 alt="Chat App Logo"
-                className="w-75 entry-img"
+                className={`${styles["entry-img"]}`}
               />
             </div>
-            <div className="col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div className="col-lg-6 d-flex flex-column align-items-center justify-content-center">
               <form
                 onSubmit={handleSubmit}
                 className={`${styles.login} d-flex flex-column align-items-center`}
@@ -114,13 +114,16 @@ function LoginPage() {
                   </button>
                 </div>
 
-                <button type="submit" className={`${styles["submit-btn"]} mt-2 rounded-pill`}>
+                <button
+                  type="submit"
+                  className={`${styles["submit-btn"]} mt-2 rounded-pill`}
+                >
                   Login
                 </button>
               </form>
               <div className={`${styles.note} mt-3 text-white`}>
                 Don't Have an Account?{" "}
-                <a href="/" className="text-decoration-underline">
+                <a href="/signup" className="text-decoration-underline">
                   Signup
                 </a>
               </div>
