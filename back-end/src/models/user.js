@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema(
     profilePicture: { type: String, default: "https://example.com/john.jpg" }, // URL for profile picture
     isOnline: { type: Boolean, default: false },
     blockedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    resetPasswordToken: { type: String, select: false },
+    resetPasswordExpires: { type: Date, select: false },
   },
   { timestamps: true }
 );

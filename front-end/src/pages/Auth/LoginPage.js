@@ -7,6 +7,7 @@ import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import authApi from "../../api/authApi";
 
 function LoginPage() {
   const { login } = useAuth();
@@ -34,6 +35,15 @@ function LoginPage() {
       }
     } catch (error) {
       console.error("Error during login", error);
+      // Optionally, handle error (e.g., show an error message)
+    }
+  };
+
+  const handleForgotPassword = async (e) => {
+    try {
+      const result = await authApi.forgotPassword(emailorPhone);
+    } catch (error) {
+      console.error("Error during password reset", error);
       // Optionally, handle error (e.g., show an error message)
     }
   };
@@ -94,6 +104,7 @@ function LoginPage() {
                       setPass(e.target.value);
                     }}
                   />
+
                   <button
                     type="button"
                     id="togglePassword"
@@ -113,6 +124,13 @@ function LoginPage() {
                     )}
                   </button>
                 </div>
+                <button
+                  type="button"
+                  className="d-block text-white text-start "
+                  onClick={handleForgotPassword}
+                >
+                  Forgot password?
+                </button>
 
                 <button
                   type="submit"

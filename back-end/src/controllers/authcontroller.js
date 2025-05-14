@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const generateToken = require("../utils/generateToken");
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 
 // Signup Function
 const signup = async (req, res) => {
@@ -216,5 +218,73 @@ const updateUser = async (req, res) => {
   }
 };
 
+// controllers/authController.js
 
-module.exports = { signup, login, user, searchUser, getUserById, updateUser };
+const forgotPassword = async (req, res) => {
+  console.log("forgot password");
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const token = crypto.randomBytes(32).toString("hex");
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpires = Date.now() + 1000 * 60 * 15; // 15 mins
+    await user.save();
+
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+
+    await sendEmail({
+      to: user.email,
+      subject: "Password Reset Request",
+      html: `<p>Click <a href="${resetUrl}">here</a> to reset your password. Link expires in 15 minutes.</p>`,
+    });
+
+    res.json({ success: true, message: "Reset email sent" });
+  } catch (err) {
+    console.error("Forgot password error", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Reset Password Function
+const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user)
+      return res.status(400).json({ message: "Token is invalid or expired" });
+
+    user.password = await bcrypt.hash(password, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.json({ success: true, message: "Password reset successful" });
+  } catch (err) {
+    console.error("Reset password error", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+module.exports = {
+  signup,
+  login,
+  user,
+  searchUser,
+  getUserById,
+  updateUser,
+  forgotPassword,
+  resetPassword,
+};
