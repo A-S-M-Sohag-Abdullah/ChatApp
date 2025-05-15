@@ -87,7 +87,6 @@ const login = async (req, res) => {
     const user = await User.findOne({
       $or: [{ email: emailOrPhone }, { phone: emailOrPhone }],
     });
-
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials!" });
     }
@@ -98,7 +97,6 @@ const login = async (req, res) => {
     }
 
     const token = generateToken(user._id);
-
     // Set token in Authorization header
     res
       .status(200)
@@ -116,6 +114,7 @@ const login = async (req, res) => {
           profilePicture: user.profilePicture,
         },
       });
+      console.log("Login successful");
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Server error" });

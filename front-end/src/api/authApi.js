@@ -1,12 +1,15 @@
 import axios from "axios";
-const BASEURL = "http://localhost:5000";
+axios.defaults.withCredentials = true;
+const BASEURL = "http://192.168.0.109:5000"; // Replace with your actual base URL
 const authApi = {
   login: async (credentials) => {
     try {
       const response = await axios.post(
         `${BASEURL}/api/auth/login`,
-        credentials
+        credentials,
+        { withCredentials: true }
       );
+      alert("Login successful responsesd: " + JSON.stringify(response.data));
       localStorage.setItem("token", response.data.token);
 
       return response.data;

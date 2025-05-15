@@ -26,6 +26,8 @@ function LoginPage() {
         password: pass,
       });
 
+      alert("Login successful responses: " + JSON.stringify(result));
+      console.log("Login response:", result);
       if (result.success) {
         console.log("Login successful");
         navigate("/chatroom"); // Change '/chatroom' to the correct path for your chatroom route
@@ -42,6 +44,7 @@ function LoginPage() {
   const handleForgotPassword = async (e) => {
     try {
       const result = await authApi.forgotPassword(emailorPhone);
+      console.log("Forgot password response:", result);
     } catch (error) {
       console.error("Error during password reset", error);
       // Optionally, handle error (e.g., show an error message)

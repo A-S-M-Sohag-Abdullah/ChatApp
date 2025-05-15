@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASEURL = "http://localhost:5000";
+axios.defaults.withCredentials = true;
+const BASEURL = "http://192.168.0.109:5000"; 
 
 const blockApi = {
   blockUser: async (id) => {

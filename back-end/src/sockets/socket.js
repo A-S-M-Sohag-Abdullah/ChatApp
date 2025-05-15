@@ -6,7 +6,7 @@ const usersOnline = new Map();
 const initializeSocket = (server) => {
   const io = socketIo(server, {
     cors: {
-      origin: "http://localhost:3000", // Allow frontend
+      origin: process.env.FRONTEND_URL?.split(","), // Allow frontend
       methods: ["GET", "POST"],
     },
   });
