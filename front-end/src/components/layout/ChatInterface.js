@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { use, useCallback, useEffect, useState } from "react";
 import Coversations from "./Coversations";
 import Stories from "./Stories";
 import Peoples from "./Peoples";
@@ -85,12 +85,42 @@ function ChatInterface() {
   }, [activeChat]);
 
   useEffect(() => {
+    /* socket.on("recieveUserMessage", ({ message, chatId }) => {
+      updateChatsWithNewMessage(message);
+    }); */
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
     socket.emit("joinUser", user._id);
 
-    socket.on("recieveUserMessage", (message) => {
-      updateChatsWithNewMessage(message);
-    });
-  }, []);
+    const handleMessageReceived = ({ message, chatId }) => {
+      console.log("ss");
+      setChats((prevChats) => {
+        // console.log(message);
+        const updated = [...prevChats];
+        const index = updated.findIndex((c) => c._id === chatId);
+
+        if (index !== -1) {
+          if (activeChat?._id !== chatId) {
+            if (message._id !== updated[index]?.latestMessage._id)
+              updated[index].unreadCount += 1;
+          }
+          updated[index].latestMessage = message;
+        }
+
+        const chat = updated.splice(index, 1);
+        console.log(chat);
+        return [chat[0],...updated];
+      });
+    };
+
+    socket.on("recieveUserMessage", handleMessageReceived);
+
+    return () => {
+      socket.off("recieveUserMessage", handleMessageReceived);
+    };
+  }, [activeChat?._id, socket]);
 
   return (
     <div className={`${styles["chat-interface"]} d-flex position-relative`}>

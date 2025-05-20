@@ -111,11 +111,14 @@ function Coversations() {
                         }
                       })()}
                   </div>
-                  <div
-                    className={`${styles["unread-messages"]} rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center`}
-                  >
-                    {chat.unreadMessagesCount || 0}
-                  </div>
+                  {chat.unreadCount > 0 && (
+                    <div
+                      className={`${styles["unread-messages"]} rounded-circle float-end mb-1 ms-auto d-flex align-items-center justify-content-center`}
+                    >
+                      {chat.unreadCount}
+                    </div>
+                  )}
+                 
                 </div>
               </div>
             </li>

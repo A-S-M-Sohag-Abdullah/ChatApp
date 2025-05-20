@@ -1,5 +1,6 @@
 const Chat = require("../models/chat");
 const User = require("../models/user");
+const Message = require("../models/message");
 
 // Get all chats of logged-in user
 const getChats = async (req, res) => {
@@ -27,7 +28,28 @@ const getChats = async (req, res) => {
       },
     ]);
 
-    // Filter latestMessage based on deletedFor
+    // Filter latestMessage based on deletedFor and add unreadCount
+    const chatIds = chats.map((chat) => chat._id);
+    const unreadCounts = await Message.aggregate([
+      {
+        $match: {
+          chat: { $in: chatIds },
+          seenBy: { $ne: req.user._id },
+        },
+      },
+      {
+        $group: {
+          _id: "$chat",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const unreadMap = {};
+    unreadCounts.forEach((uc) => {
+      unreadMap[uc._id.toString()] = uc.count;
+    });
+
     chats = chats.map((chat) => {
       const deletionEntry = chat.deletedFor?.find((entry) =>
         entry.user.equals(req.user._id)
@@ -39,11 +61,14 @@ const getChats = async (req, res) => {
         new Date(chat.latestMessage.createdAt) <=
           new Date(deletionEntry.deletedAt)
       ) {
-        // Message was sent before deletion — remove it
-        chat = chat.toObject(); // Convert to plain object to allow reassignment
+        chat = chat.toObject();
         chat.latestMessage = null;
+      } else {
+        chat = chat.toObject();
       }
 
+      chat.unreadCount = unreadMap[chat._id.toString()] || 0;
+      console.log("unreadcount", chat.unreadCount);
       return chat;
     });
 
@@ -53,6 +78,7 @@ const getChats = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // Create or fetch a chat (one-on-one or group)
 const accessChat = async (req, res) => {
@@ -333,6 +359,31 @@ const searchChats = async (req, res) => {
   }
 };
 
+const getUnreadCounts = async (req, res) => {
+  try {
+    const chats = await Chat.find({ "users.userId": req.user._id });
+
+    const unreadCounts = await Promise.all(
+      chats.map(async (chat) => {
+        const count = await Message.countDocuments({
+          chat: chat._id,
+          seenBy: { $ne: req.user._id },
+          sender: { $ne: req.user._id },
+        });
+        return {
+          chatId: chat._id,
+          count,
+        };
+      })
+    );
+
+    res.status(200).json({ success: true, unreadCounts });
+  } catch (err) {
+    console.error("Unread Count Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   getChats,
   accessChat,
@@ -340,5 +391,6 @@ module.exports = {
   editGroup,
   addToGroup,
   removeFromGroup,
-  searchChats
+  searchChats,
+  getUnreadCounts,
 };

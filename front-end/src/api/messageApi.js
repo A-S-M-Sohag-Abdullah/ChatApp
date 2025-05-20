@@ -1,7 +1,7 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-const BASEURL = "http://192.168.0.109:5000"; 
+const BASEURL = "http://192.168.0.109:5000";
 
 const messageApi = {
   // Get messages for a specific chat
@@ -63,6 +63,24 @@ const messageApi = {
       return res.data;
     } catch (error) {
       console.error("Error fetching messages:", error);
+    }
+  },
+
+  markAsRead: async (chatId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `${BASEURL}/api/messages/read/${chatId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
     }
   },
 };

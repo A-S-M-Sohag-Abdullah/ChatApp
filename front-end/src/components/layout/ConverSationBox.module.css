@@ -141,7 +141,7 @@
 
 .emojiPicker,
 .file-picker {
-  margin: 0 15px;
+  margin: 0 10px;
   font-size: 20px;
   color: var(--primary-color);
 }
@@ -330,5 +330,8 @@
     display: block;
     font-size: 20px;
     color: var(--primary-color);
+  }
+  .editor-wrapper {
+    font-size: 12px;
   }
 }

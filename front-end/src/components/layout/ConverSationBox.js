@@ -70,7 +70,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
     pickerRef,
   } = useDom();
 
-  const { activeChat, fetchChats, setActiveChat } = useChat();
+  const { activeChat, fetchChats, setActiveChat, setChats } = useChat();
   const { user, setUser } = useAuth();
   /*   console.log(activeChat); */
 
@@ -309,10 +309,21 @@ function ConverSationBox({ loading, messages, setMessages }) {
       //fetchChats();
     });
 
+    const markMessagesAsRead = async () => {
+      await messageApi.markAsRead(activeChat._id); // Implement this route
+      setChats((prev) =>
+        prev.map((chat) =>
+          chat._id === activeChat._id ? { ...chat, unreadCount: 0 } : chat
+        )
+      );
+    };
+
+    markMessagesAsRead();
+
     return () => {
       socket.off("receiveMessage"); // Cleanup on unmount
     };
-  }, [activeChat]);
+  }, [activeChat?._id, socket]);
 
   return (
     <div
@@ -482,7 +493,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
           onSubmit={handleSendMessage}
           className={
             styles["input-section"] +
-            " py-lg-3 py-2 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center"
+            " py-lg-3 py-2 mt-auto w-100 d-flex flex-wrap justify-content-between align-items-center px-3"
           }
         >
           <div className={styles["attached-images"] + " w-100 d-flex"}>

@@ -113,6 +113,7 @@ const sendMessage = async (req, res) => {
         content,
         chat: chatId,
         images: imageUrls,
+        seenBy: [sender._id],
       });
 
       message = await Message.populate(message, [
@@ -134,13 +135,13 @@ const sendMessage = async (req, res) => {
       /*       console.log(req.app.get("io")); */
       // Emit message to socket
       updatedChat.users.forEach((u) => {
-        console.log(u.userId.toString());
-        req.app
-          .get("io")
-          .to(u.userId.toString())
-          .emit("recieveUserMessage", message);
+
+        req.app.get("io").to(u.userId.toString()).emit("recieveUserMessage", {
+          message,
+          chatId,
+        });
       });
-      
+
       req.app.get("io").to(chatId).emit("receiveMessage", message);
 
       res.status(201).json({ success: true, message: message });
@@ -176,4 +177,32 @@ const searchMessages = async (req, res) => {
   }
 };
 
-module.exports = { getMessages, sendMessage, searchMessages };
+// controllers/messageController.js
+const markMessagesAsRead = async (req, res) => {
+  console.log("Marking messages as read");
+  try {
+    const { chatId } = req.params;
+
+    await Message.updateMany(
+      {
+        chat: chatId,
+        seenBy: { $ne: req.user._id }, // Not yet read by this user
+      },
+      {
+        $push: { seenBy: req.user._id },
+      }
+    );
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("Mark as Read Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  getMessages,
+  sendMessage,
+  searchMessages,
+  markMessagesAsRead,
+};
