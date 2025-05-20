@@ -26,10 +26,7 @@ function LoginPage() {
         password: pass,
       });
 
-      alert("Login successful responses: " + JSON.stringify(result));
-      console.log("Login response:", result);
       if (result.success) {
-        console.log("Login successful");
         navigate("/chatroom"); // Change '/chatroom' to the correct path for your chatroom route
       } else {
         console.log("Login failed", result.message);

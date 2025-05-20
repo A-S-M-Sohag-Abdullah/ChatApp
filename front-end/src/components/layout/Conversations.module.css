@@ -52,10 +52,9 @@
   font-size: 12px;
 }
 
-.last-conversation img{
+.last-conversation img {
   width: 20px;
 }
-
 
 .last-modified-time {
   font-weight: 700;
@@ -123,10 +122,9 @@
   .conversation-avatar {
     width: 35px;
     text-align: center;
-    margin-right: 0 !important;
   }
 
-  .add-conversation-btn{
+  .add-conversation-btn {
     width: 35px;
     height: 35px;
     right: 50%;
@@ -134,4 +132,18 @@
   }
 }
 
+@media (max-width: 576px) {
+  .conversations {
+    width: 100%;
+  }
+  .conversation {
+    padding: 10px 15px;
+  }
+  .conversation-info {
+    display: flex;
+  }
 
+  .add-conversation-btn {
+    right: 35px;
+  }
+}

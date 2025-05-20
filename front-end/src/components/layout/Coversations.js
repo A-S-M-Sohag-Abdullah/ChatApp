@@ -44,10 +44,10 @@ function Coversations() {
                 styles.conversation
               } mb-1 `}
             >
-              <div className="d-flex justify-content-lg-between justify-content-center py-xl-4 py-3 w-100">
+              <div className="d-flex justify-content-lg-between justify-content-sm-center justify-content-between py-xl-4 py-3 w-100">
                 <div className="d-flex">
                   <div
-                    className={`${styles["conversation-avatar"]} me-3 rounded-circle`}
+                    className={`${styles["conversation-avatar"]} me-lg-3 me-sm-0 me-3  rounded-circle`}
                   >
                     <img
                       src={
@@ -91,7 +91,7 @@ function Coversations() {
                   </div>
                 </div>
 
-                <div className="conversation-time-stamp d-lg-flex d-none flex-column justify-content-between ms-3">
+                <div className="conversation-time-stamp d-lg-flex d-sm-none d-flex flex-column justify-content-between ms-3">
                   <div className={styles["last-modified-time"]}>
                     {lastMessage &&
                       (() => {

@@ -106,7 +106,7 @@ function ChatInterface() {
         />
       )}
       {!activeChat && (
-        <div className="d-flex align-items-center justify-content-center flex-grow-1">
+        <div className="d-sm-flex d-none align-items-center justify-content-center flex-grow-1">
           No Chat selected
         </div>
       )}

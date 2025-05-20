@@ -14,6 +14,7 @@ import {
   faMagnifyingGlass,
   faBan,
   faTrash,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFaceSmile as faFaceSmileRegular } from "@fortawesome/free-regular-svg-icons";
 
@@ -69,7 +70,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
     pickerRef,
   } = useDom();
 
-  const { activeChat, fetchChats } = useChat();
+  const { activeChat, fetchChats, setActiveChat } = useChat();
   const { user, setUser } = useAuth();
   /*   console.log(activeChat); */
 
@@ -323,12 +324,17 @@ function ConverSationBox({ loading, messages, setMessages }) {
       <div
         className={
           styles["conversation-head"] +
-          " d-flex justify-content-between align-items-center border-bottom"
+          " d-flex justify-content-between align-items-center border-bottom px-3"
         }
       >
         <div
           className={styles["conversation-with"] + " d-flex align-items-center"}
         >
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className={`${styles.backBtn} me-2`}
+            onClick={() => setActiveChat(null)}
+          />
           <div className={styles["profile-picture"] + " rounded-circle me-2"}>
             <img
               src={

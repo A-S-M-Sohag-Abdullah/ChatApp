@@ -9,7 +9,6 @@ const authApi = {
         credentials,
         { withCredentials: true }
       );
-      alert("Login successful responsesd: " + JSON.stringify(response.data));
       localStorage.setItem("token", response.data.token);
 
       return response.data;

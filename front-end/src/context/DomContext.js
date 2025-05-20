@@ -22,6 +22,8 @@ export const DomProvider = ({ children }) => {
   const [showEditGroupInfo, setShowEditGroupInfo] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
 
+  const [showmobileSearchBox, setShowmobileSearchBox] = useState(false);
+
   const settingsRef = useRef(null);
   const settingsContainerRef = useRef(null);
   const optionsRef = useRef(null);
@@ -42,6 +44,7 @@ export const DomProvider = ({ children }) => {
 
   const pickerBtnRef = useRef(null);
   const pickerRef = useRef(null);
+  const mobileSearchBoxRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -51,22 +54,10 @@ export const DomProvider = ({ children }) => {
         );
       };
 
-      /* if (
-        settingsRef.current &&
-        settingsContainerRef.current &&
-        !settingsRef.current.contains(e.target) &&
-        !settingsContainerRef.current.contains(e.target)
-      ) {
-        setSettingsOpend(false);
-      } */
-
       if (isClickOutside([settingsRef, settingsRef])) {
         setSettingsOpend(false);
       }
-      /* if (optionsRef.current && !optionsRef.current.contains(e.target)) {
-        setOptionsOpend(false);
-      }
- */
+
       if (isClickOutside([optionsRef])) {
         setOptionsOpend(false);
       }
@@ -91,6 +82,9 @@ export const DomProvider = ({ children }) => {
 
       if (isClickOutside([pickerBtnRef, pickerRef])) {
         setShowPicker(false);
+      }
+      if (isClickOutside([mobileSearchBoxRef])) {
+        setShowmobileSearchBox(false);
       }
     };
 
@@ -207,6 +201,7 @@ export const DomProvider = ({ children }) => {
         setShowEditGroupInfo,
         showPicker,
         setShowPicker,
+        mobileSearchBoxRef,
         settingsRef,
         settingsContainerRef,
         optionsRef,
@@ -224,6 +219,8 @@ export const DomProvider = ({ children }) => {
         blockAccountRef,
         pickerBtnRef,
         pickerRef,
+        showmobileSearchBox,
+        setShowmobileSearchBox,
       }}
     >
       {children} {/* Prevent rendering until auth check is done */}

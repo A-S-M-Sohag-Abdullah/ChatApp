@@ -7,11 +7,14 @@ import chatApi from "../../api/chatApi";
 import { useChat } from "../../context/ChatContext";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDom } from "../../context/DomContext";
 
 function Head() {
   const { user } = useAuth();
   const { setActiveChat } = useChat();
 
+  const {mobileSearchBoxRef, showmobileSearchBox, setShowmobileSearchBox } = useDom();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(query);
   const [loading, setLoading] = useState(false);
@@ -57,6 +60,15 @@ function Head() {
     }
   }, [debouncedQuery]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleInputChange = (e) => {
     const value = e.target.value;
     setQuery(value);
@@ -66,22 +78,39 @@ function Head() {
     }
   };
 
+  const toggleMobileSearchBox = () => {
+    if (isMobile) {
+      setShowmobileSearchBox((prev) => !prev);
+    }
+  };
+
+  const shouldShowInput = !isMobile || showmobileSearchBox;
+
   return (
     <div
-      className={`${styles.head} w-100 d-flex align-items-center justify-content-between`}
+      className={`${styles.head} w-100 d-flex align-items-center justify-content-between px-3 `}
     >
       <div
+      ref={mobileSearchBoxRef}
         className={`${styles["search-box"]} d-flex px-2 py-1 rounded-pill align-items-center position-relative`}
       >
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
-        <input
-          type="text"
-          placeholder="Search Groups or Persons here"
-          value={query}
-          onChange={handleInputChange}
+        <FontAwesomeIcon
+          icon={faMagnifyingGlass}
+          onClick={toggleMobileSearchBox}
         />
+        {shouldShowInput && (
+          <input
+            type="text"
+            placeholder="Search Groups or Persons here"
+            value={query}
+            onChange={handleInputChange}
+          />
+        )}
       </div>
-      <div className={`${styles.user} d-flex align-items-center pe-md-5 py-lg-0 py-1`}>
+
+      <div
+        className={`${styles.user} d-flex align-items-center pe-md-5 py-lg-0 py-1`}
+      >
         <h1 className={`${styles["user-name"]} me-3 mb-0`}>{user.username}</h1>
         <div className={`${styles["user-img"]} rounded-circle p-1`}>
           <img
@@ -95,6 +124,7 @@ function Head() {
           />
         </div>
       </div>
+
       {chatSearchResults?.chats.length > 0 && (
         <div className={`${styles.searchResults}`}>
           {/*   {searchResult.map((message) => {
