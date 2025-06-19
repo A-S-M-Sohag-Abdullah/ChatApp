@@ -75,6 +75,7 @@ const signup = async (req, res) => {
 
 // Login Function
 const login = async (req, res) => {
+  console.log("hit");
   try {
     const { emailOrPhone, password } = req.body;
 
@@ -114,7 +115,7 @@ const login = async (req, res) => {
           profilePicture: user.profilePicture,
         },
       });
-      console.log("Login successful");
+    console.log("Login successful");
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Server error" });
