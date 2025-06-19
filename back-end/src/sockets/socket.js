@@ -7,8 +7,9 @@ const initializeSocket = (server) => {
   const io = socketIo(server, {
     cors: {
       origin: "*",
-      /* origin: process.env.FRONTEND_URL.split(","), */ // Allow frontend
+      /*  origin: process.env.FRONTEND_URL.split(","),  */ // Allow frontend
       methods: ["GET", "POST"],
+      credentials: true,
     },
   });
 
