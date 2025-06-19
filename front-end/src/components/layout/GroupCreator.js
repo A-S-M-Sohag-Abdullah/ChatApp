@@ -133,7 +133,7 @@ const GroupCreator = () => {
             <img
               src={
                 u.profilePicture
-                  ? `http://localhost:5000${u.profilePicture}`
+                  ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${u.profilePicture}`
                   : profile
               }
               alt="user profile pic"

@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 function SignupPage() {
-  const { login } = useAuth();
+  const { login, checkAuth } = useAuth();
   const [showPass, setShowPass] = useState(false);
 
   const [username, setUsername] = useState("");
@@ -94,6 +94,7 @@ function SignupPage() {
           password: pass,
         });
         console.log("Login successful");
+        checkAuth();
         navigate("/chatroom");
       } else {
         console.log("Login failed", result.message);
@@ -118,7 +119,11 @@ function SignupPage() {
             <h1 className={`${styles["entry-heading"]} mb-3`}>
               Chat App <span>Signup</span>
             </h1>
-            <img src={signup} alt="Chat App Logo" className={`${styles["entry-img"]}`} />
+            <img
+              src={signup}
+              alt="Chat App Logo"
+              className={`${styles["entry-img"]}`}
+            />
           </div>
           <div className="col-md-6 d-flex flex-column align-items-center justify-content-center">
             <form

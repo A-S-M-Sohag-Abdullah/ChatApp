@@ -7,18 +7,18 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const userData = await authApi.getUser();
-        setUser(userData);
-      } catch (error) {
-        console.log(error.message);
-        setUser(null);
-      }
-      setLoading(false);
-    };
+  const checkAuth = async () => {
+    try {
+      const userData = await authApi.getUser();
+      setUser(userData);
+    } catch (error) {
+      console.log(error.message);
+      setUser(null);
+    }
+    setLoading(false);
+  };
 
+  useEffect(() => {
     checkAuth();
   }, []);
 
@@ -38,7 +38,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ user, setUser, login, logout, loading, checkAuth }}
+    >
       {!loading && children} {/* Prevent rendering until auth check is done */}
     </AuthContext.Provider>
   );

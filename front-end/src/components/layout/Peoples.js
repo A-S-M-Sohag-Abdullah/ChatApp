@@ -14,7 +14,6 @@ const Peoples = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
-    console.log(chats);
     let chattedWith = chats
       .filter((chat) => !chat.isGroupChat)
       .map((chat) => {
@@ -23,7 +22,6 @@ const Peoples = () => {
         return chat.users.filter((u) => u.userId._id !== user._id);
       })
       .flat();
-    console.log(chattedWith);
     setFilteredUsers(chattedWith);
   }, []);
 

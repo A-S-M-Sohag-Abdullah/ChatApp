@@ -139,7 +139,7 @@ function Story() {
           <img
             src={
               storyOwner.profilePicture
-                ? `http://localhost:5000${storyOwner.profilePicture}`
+                ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${storyOwner.profilePicture}`
                 : profile
             }
             alt="Profile"
@@ -189,7 +189,7 @@ function Story() {
       </div>
       <div className={styles.storyMedia}>
         <img
-          src={`http://localhost:5000/${currentStoryData?.image}`}
+          src={`${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}/${currentStoryData?.image}`}
           alt="Story Media"
         />
       </div>

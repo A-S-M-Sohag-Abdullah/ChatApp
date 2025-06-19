@@ -297,7 +297,6 @@ function ConverSationBox({ loading, messages, setMessages }) {
 
   useEffect(() => {
     if (!activeChat?._id) return;
-    console.log(`joining chat ${activeChat._id}`);
     // Cleanup on component unmount
     // Leave all previous rooms
 
@@ -353,10 +352,10 @@ function ConverSationBox({ loading, messages, setMessages }) {
               src={
                 activeChat.isGroupChat
                   ? activeChat.groupPhoto
-                    ? `http://localhost:5000${activeChat.groupPhoto}`
+                    ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${activeChat.groupPhoto}`
                     : profile
                   : otherUser?.userId?.profilePicture
-                  ? `http://localhost:5000${otherUser.userId.profilePicture}`
+                  ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${otherUser.userId.profilePicture}`
                   : profile
               }
               alt={activeChat.name || otherUser?.username}
@@ -422,7 +421,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
                   <img
                     src={
                       message.sender.profilePicture
-                        ? `http://localhost:5000${message.sender.profilePicture}`
+                        ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${message.sender.profilePicture}`
                         : profile
                     }
                     alt="profile-pic"
@@ -445,7 +444,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
                       }
                     >
                       <img
-                        src={`http://localhost:5000${image}`}
+                        src={`${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${image}`}
                         alt="attachment-preview"
                         className="w-100"
                       />

@@ -96,7 +96,7 @@ function UserDetails() {
             newFileUrl
               ? newFileUrl
               : profilePicture
-              ? `http://localhost:5000${user.profilePicture}`
+              ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${user.profilePicture}`
               : profile
           }
           alt="Profile"

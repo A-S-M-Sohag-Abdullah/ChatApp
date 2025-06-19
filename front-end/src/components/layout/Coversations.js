@@ -53,10 +53,10 @@ function Coversations() {
                       src={
                         chat.isGroupChat
                           ? chat.groupPhoto
-                            ? `http://localhost:5000${chat.groupPhoto}`
+                            ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${chat.groupPhoto}`
                             : profile
                           : otherUser?.userId?.profilePicture
-                          ? `http://localhost:5000${otherUser.userId.profilePicture}`
+                          ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${otherUser.userId.profilePicture}`
                           : profile
                       }
                       alt={chat.name || otherUser?.username}

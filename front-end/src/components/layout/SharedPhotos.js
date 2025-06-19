@@ -7,7 +7,6 @@ import { useDom } from "../../context/DomContext";
 
 function SharedPhotos({ messages }) {
   const { setShowSharedPhotos } = useDom();
-  console.log(messages);
   return (
     <div className={styles.sharedPhotosInterface + " p-3"}>
       <div className={`d-flex align-items-center border-bottom pb-2 mb-2`}>
@@ -28,9 +27,13 @@ function SharedPhotos({ messages }) {
         {messages.map((message) => {
           return message?.images.map((image) => {
             return (
-              <a href={`http://localhost:5000${image}`} target="_blank">
+              <a
+                key={message._id + image}
+                href={`${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${image}`}
+                target="_blank"
+              >
                 <img
-                  src={`http://localhost:5000${image}`}
+                  src={`${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${image}`}
                   alt="attachment-preview"
                 />
               </a>

@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://192.168.0.109:5000");
+const socket = io(`${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}`);
 
 // Emit userOnline when logged in
 export const setUserOnline = (userId) => {

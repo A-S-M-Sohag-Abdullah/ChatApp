@@ -85,10 +85,10 @@ function ChatProfile() {
             src={
               activeChat.isGroupChat
                 ? activeChat.groupPhoto
-                  ? `http://localhost:5000${activeChat.groupPhoto}`
+                  ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${activeChat.groupPhoto}`
                   : profile
                 : otherUser?.userId?.profilePicture
-                ? `http://localhost:5000${otherUser.userId.profilePicture}`
+                ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${otherUser.userId.profilePicture}`
                 : profile
             }
             alt={activeChat.name || otherUser?.username}

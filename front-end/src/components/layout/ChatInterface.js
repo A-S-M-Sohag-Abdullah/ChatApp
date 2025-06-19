@@ -75,20 +75,14 @@ function ChatInterface() {
     if (!activeChat) return;
 
     if (cachedMessages[activeChat._id]) {
-      console.log("cash message ase");
       setMessages(cachedMessages[activeChat._id]); // Instantly show cached
       fetchMessages(activeChat._id); // Update in background
     } else {
-      console.log("cash message nai");
       fetchMessages(activeChat._id);
     }
   }, [activeChat]);
 
-  useEffect(() => {
-    /* socket.on("recieveUserMessage", ({ message, chatId }) => {
-      updateChatsWithNewMessage(message);
-    }); */
-  }, []);
+
 
   useEffect(() => {
     if (!socket) return;

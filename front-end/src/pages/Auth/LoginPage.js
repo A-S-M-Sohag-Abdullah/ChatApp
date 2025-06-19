@@ -10,7 +10,7 @@ import { useAuth } from "../../context/AuthContext";
 import authApi from "../../api/authApi";
 
 function LoginPage() {
-  const { login } = useAuth();
+  const { login,checkAuth } = useAuth();
   const [showPass, setShowPass] = useState(false);
 
   const [emailorPhone, setEmailorPhone] = useState("");
@@ -28,6 +28,7 @@ function LoginPage() {
 
       if (result.success) {
         navigate("/chatroom"); // Change '/chatroom' to the correct path for your chatroom route
+        checkAuth();
       } else {
         console.log("Login failed", result.message);
         // Optionally, handle login failure (e.g., show an error message)

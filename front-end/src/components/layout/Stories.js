@@ -108,7 +108,7 @@ const Stories = () => {
               <img
                 src={
                   user.profilePicture
-                    ? `http://localhost:5000${user.profilePicture}`
+                    ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${user.profilePicture}`
                     : profile
                 }
                 alt={username}
@@ -119,7 +119,7 @@ const Stories = () => {
             {/* Story Image */}
             <div className="latest-story-img h-100">
               <img
-                src={`http://localhost:5000/${stories[0].image}`} // Ensure the image path is correctly resolved
+                src={`${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}/${stories[0].image}`} // Ensure the image path is correctly resolved
                 alt={`Story by ${username}`}
                 className="w-100 h-100"
               />

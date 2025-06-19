@@ -116,7 +116,7 @@ function Head() {
           <img
             src={
               user.profilePicture
-                ? `http://localhost:5000${user.profilePicture}`
+                ? `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${user.profilePicture}`
                 : profile
             }
             alt="profile"
@@ -150,7 +150,7 @@ function Head() {
                   >
                     <img
                       src={
-                        `http://localhost:5000${chat.groupPhoto}` || { profile }
+                        `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${chat.groupPhoto}` || { profile }
                       }
                       alt={chat.name}
                       style={{
@@ -183,7 +183,7 @@ function Head() {
                   >
                     <img
                       src={
-                        `http://localhost:5000${otherUser.userId.profilePicture}` || {
+                        `${process.env.REACT_APP_NEXT_PUBLIC_API_BASE_URL}${otherUser.userId.profilePicture}` || {
                           profile,
                         }
                       }
