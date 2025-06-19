@@ -18,7 +18,6 @@ dotenv.config();
 //seedDatabase();
 
 const app = express();
-app.set("trust proxy", 1);
 // CORS Configuration
 app.use(
   cors({
