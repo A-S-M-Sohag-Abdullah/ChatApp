@@ -28,7 +28,7 @@ const app = express();
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
 ); */
-
+console.log(process.env.FRONTEND_URL);
 app.use(cors({}));
 
 app.use("/uploads", express.static("uploads")); // Serve images
