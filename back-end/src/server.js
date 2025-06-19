@@ -19,16 +19,16 @@ dotenv.config();
 
 const app = express();
 // CORS Configuration
-/* app.use(
+app.use(
   cors({
     origin: [process.env.FRONTEND_URL], // Allow frontend to access the backend
     credentials: true, // Allow cookies and authorization headers
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
-); */
-console.log(process.env.FRONTEND_URL);
-app.use(cors({}));
+);
+/* console.log(process.env.FRONTEND_URL);
+app.use(cors({})); */
 
 app.use("/uploads", express.static("uploads")); // Serve images
 app.use("/uploads/stories", express.static("uploads/stories"));
@@ -36,7 +36,7 @@ app.use("/uploads/stories", express.static("uploads/stories"));
 const server = http.createServer(app); // Create HTTP server for Socket.io
 const io = initializeSocket(server); // Initialize Socket.io
 app.set("io", io);
-initializeSocket(io);
+
 
 app.use(bodyParser.json());
 app.use(express.json());
