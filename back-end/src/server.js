@@ -20,16 +20,16 @@ dotenv.config();
 const app = express();
 
 // CORS Configuration
-/* app.use(
+app.use(
   cors({
     origin: process.env.FRONTEND_URL?.split(","), // Allow frontend to access the backend
     credentials: true, // Allow cookies and authorization headers
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
-); */
-console.log(process.env.FRONTEND_URL);
-app.use(cors({}));
+);
+/* console.log(process.env.FRONTEND_URL);
+app.use(cors({})); */
 
 app.use("/uploads", express.static("uploads")); // Serve images
 app.use("/uploads/stories", express.static("uploads/stories"));
@@ -52,6 +52,6 @@ app.use("/api/block", blockRoutes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, "0.0.0.0", () =>
+server.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`)
 );
