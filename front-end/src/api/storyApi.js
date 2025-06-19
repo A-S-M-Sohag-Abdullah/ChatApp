@@ -1,20 +1,17 @@
-import axios from "axios";
-
-axios.defaults.withCredentials = true;
-const BASEURL = "http://192.168.0.109:5000"; 
+import axiosInstance from "../lib/axiosInstance";
 
 const storyApi = {
   postStory: async (formData) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.post(
-        `${BASEURL}/api/stories/post`,
+      const response = await axiosInstance.post(
+        "/api/stories/post",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`, // Send token in Authorization header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -25,18 +22,17 @@ const storyApi = {
   },
 
   getStories: async () => {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(`${BASEURL}/api/stories/all`, {
+      const response = await axiosInstance.get("/api/stories/all", {
         headers: {
-          Authorization: `Bearer ${token}`, // Token from localStorage (or cookie)
+          Authorization: `Bearer ${token}`,
         },
       });
-
-      return response.data; // Set the data to state
+      return response.data;
     } catch (err) {
       console.error("Error fetching stories:", err);
-      throw  err.response?.data?.message || "Something went wrong";
+      throw err.response?.data?.message || "Something went wrong";
     }
   },
 };

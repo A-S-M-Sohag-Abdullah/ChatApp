@@ -1,16 +1,10 @@
-import axios from "axios";
-axios.defaults.withCredentials = true;
-const BASEURL = "http://192.168.0.109:5000"; // Replace with your actual base URL
+import axiosInstance from "../lib/axiosInstance";
+
 const authApi = {
   login: async (credentials) => {
     try {
-      const response = await axios.post(
-        `${BASEURL}/api/auth/login`,
-        credentials,
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.post("/api/auth/login", credentials);
       localStorage.setItem("token", response.data.token);
-
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -19,8 +13,8 @@ const authApi = {
 
   signup: async (credentials) => {
     try {
-      const response = await axios.post(
-        `${BASEURL}/api/auth/signup`,
+      const response = await axiosInstance.post(
+        "/api/auth/signup",
         credentials
       );
       localStorage.setItem("token", response.data.token);
@@ -32,28 +26,28 @@ const authApi = {
 
   logout: () => {
     localStorage.removeItem("token");
-    window.location.href = "/login"; // Redirect to login page
+    window.location.href = "/login";
   },
 
   getUser: async () => {
     try {
       const token = localStorage.getItem("token");
-      if (token) {
-        const response = await axios.get(`${BASEURL}/api/auth/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // Send token in Authorization header
-          },
-        });
-        return response.data;
-      }
+      if (!token) return null;
+
+      const response = await axiosInstance.get("/api/auth/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
     } catch (error) {
-      return null; // Return null if user is not logged in
+      return null;
     }
   },
 
   forgotPassword: async (email) => {
     try {
-      const response = await axios.post(`${BASEURL}/api/auth/forgot-password`, {
+      const response = await axiosInstance.post("/api/auth/forgot-password", {
         email,
       });
       return response.data;
@@ -64,8 +58,8 @@ const authApi = {
 
   resetPassword: async (token, password) => {
     try {
-      const response = await axios.post(
-        `${BASEURL}/api/auth/reset-password/${token}`,
+      const response = await axiosInstance.post(
+        `/api/auth/reset-password/${token}`,
         { password }
       );
       return response.data;

@@ -1,13 +1,10 @@
-import axios from "axios";
-
-axios.defaults.withCredentials = true;
-const BASEURL = "http://192.168.0.109:5000"; 
+import axiosInstance from "../lib/axiosInstance";
 
 const userApi = {
   // Get details of the logged-in user
   getUserProfile: async () => {
     try {
-      const response = await axios.get(`${BASEURL}/api/users/profile`);
+      const response = await axiosInstance.get("/api/users/profile");
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -17,9 +14,9 @@ const userApi = {
   getUserById: async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`${BASEURL}/api/auth/${id}`, {
+      const response = await axiosInstance.get(`/api/auth/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Send token in Authorization header
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -27,15 +24,16 @@ const userApi = {
       throw error.response?.data || error.message;
     }
   },
+
   // Search for users by name or email
   searchUsers: async (query) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `${BASEURL}/api/auth/search?query=${query}`,
+      const response = await axiosInstance.get(
+        `/api/auth/search?query=${query}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Send token in Authorization header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -47,15 +45,13 @@ const userApi = {
 
   // Update user profile
   updateUserProfile: async (userData) => {
-    console.log(userData);
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.put(`${BASEURL}/api/auth/update`, userData, {
+      const response = await axiosInstance.put("/api/auth/update", userData, {
         headers: {
-          Authorization: `Bearer ${token}`, // Send token in Authorization header
+          Authorization: `Bearer ${token}`,
         },
       });
-      
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -65,8 +61,10 @@ const userApi = {
   // Change user password
   changePassword: async (passwordData) => {
     try {
-      const response = await axios.put("/users/change-password", passwordData);
-      
+      const response = await axiosInstance.put(
+        "/users/change-password",
+        passwordData
+      );
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

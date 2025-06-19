@@ -154,7 +154,8 @@ function ConverSationBox({ loading, messages, setMessages }) {
     const content = getEditorContent();
 
     if (!content && attachments.length === 0) return;
-
+    const isEmpty = content === "<br>" ? true : false;
+    if (isEmpty) return;
     const formData = new FormData();
     formData.append("sender", user._id);
     formData.append("content", JSON.stringify(content));
@@ -264,6 +265,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
       selection.addRange(savedSelection.current);
     }
   };
+
   const handleEmojiClick = (emojiData) => {
     editorRef.current.focus();
     restoreSelection(); // Restore caret
@@ -276,8 +278,8 @@ function ConverSationBox({ loading, messages, setMessages }) {
   const getEditorContent = () => {
     const rawHtml = editorRef.current?.innerHTML || "";
     console.log(rawHtml);
-    const cleanedHtml = rawHtml.replace(/"/g, "");
-    console.log(cleanedHtml);
+    const cleanedHtml = rawHtml.replace(/["\n]/g, "");
+
     return cleanedHtml;
   };
 

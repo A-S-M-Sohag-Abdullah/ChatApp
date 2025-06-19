@@ -1,18 +1,15 @@
-import axios from "axios";
-
-axios.defaults.withCredentials = true;
-const BASEURL = "http://192.168.0.109:5000"; 
+import axiosInstance from "../lib/axiosInstance";
 
 const blockApi = {
   blockUser: async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.post(
-        `${BASEURL}/api/block/block/${id}`,
+      const response = await axiosInstance.post(
+        `/api/block/block/${id}`,
         null,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Send token in Authorization header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -21,15 +18,16 @@ const blockApi = {
       throw error.response?.data || error.message;
     }
   },
+
   unblockUser: async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.post(
-        `${BASEURL}/api/block/unblock/${id}`,
+      const response = await axiosInstance.post(
+        `/api/block/unblock/${id}`,
         null,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Send token in Authorization header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
