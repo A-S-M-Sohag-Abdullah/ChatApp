@@ -20,14 +20,16 @@ dotenv.config();
 const app = express();
 
 // CORS Configuration
-app.use(
+/* app.use(
   cors({
     origin: process.env.FRONTEND_URL?.split(","), // Allow frontend to access the backend
     credentials: true, // Allow cookies and authorization headers
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
-);
+); */
+
+app.use(cors({}));
 
 app.use("/uploads", express.static("uploads")); // Serve images
 app.use("/uploads/stories", express.static("uploads/stories"));
