@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       const userData = await authApi.getUser();
       setUser(userData);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
       setUser(null);
     }
     setLoading(false);
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       setUser(data.user); // Set user state
       return data;
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
