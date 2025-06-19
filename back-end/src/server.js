@@ -28,8 +28,8 @@ app.use(
   })
 );
 
-app.use("/uploads", express.static("uploads")); // Serve images
-app.use("/uploads/stories", express.static("uploads/stories"));
+/* app.use("/uploads", express.static("uploads")); // Serve images
+app.use("/uploads/stories", express.static("uploads/stories")); */
 
 const server = http.createServer(app); // Create HTTP server for Socket.io
 const io = initializeSocket(server); // Initialize Socket.io
