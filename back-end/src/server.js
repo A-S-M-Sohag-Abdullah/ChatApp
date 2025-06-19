@@ -7,7 +7,7 @@ const authRoutes = require("./routes/authroutes");
 const chatRoutes = require("./routes/chatroutes");
 const messageRoutes = require("./routes/messageroutes");
 const storyRoutes = require("./routes/storyroutes");
-const blockRoutes = require("./routes/blockRoutes");
+const blockRoutes = require("./routes/blockroutes");
 const { errorHandler } = require("./middlewares/errormiddleware");
 const { seedDatabase } = require("./utils/seedDatabase");
 const initializeSocket = require("./sockets/socket");
@@ -36,7 +36,6 @@ const server = http.createServer(app); // Create HTTP server for Socket.io
 const io = initializeSocket(server); // Initialize Socket.io
 app.set("io", io);
 initializeSocket(io);
-
 
 app.use(bodyParser.json());
 app.use(express.json());
