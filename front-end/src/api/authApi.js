@@ -7,7 +7,7 @@ const authApi = {
       localStorage.setItem("token", response.data.token);
       return response.data;
     } catch (error) {
-      throw error.response?.data || error.message;
+      console.log(error);
     }
   },
 
