@@ -164,7 +164,9 @@ function ConverSationBox({ loading, messages, setMessages }) {
     attachments.forEach((file, index) => {
       formData.append(`attachments`, file);
     });
+
     editorRef.current.innerHTML = "";
+
     try {
       const response = await messageApi.sendMessage(formData);
 
@@ -295,10 +297,7 @@ function ConverSationBox({ loading, messages, setMessages }) {
     socket.emit("joinChat", activeChat._id); // Join chat room
 
     socket.on("receiveMessage", (message) => {
-      if (
-        message.chat._id === activeChat._id &&
-        message.sender._id !== user._id
-      ) {
+      if (message.chat._id === activeChat._id) {
         setMessages((prevMessages) => [...prevMessages, message]);
       }
     });
