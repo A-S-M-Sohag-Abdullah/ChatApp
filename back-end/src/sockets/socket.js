@@ -1,12 +1,13 @@
 const Chat = require("../models/chat");
 const User = require("../models/user");
-const socketIo = require("socket.io");
+const { Server } = require("socket.io");
 const usersOnline = new Map();
 
 const initializeSocket = (server) => {
-  const io = socketIo(server, {
+  const io = new Server(server, {
     cors: {
-      origin: "*", // Allow frontend
+      origin: "https://chat-app-rho-blush.vercel.app", // Allow frontend
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       methods: ["GET", "POST"],
       credentials: true,
     },
