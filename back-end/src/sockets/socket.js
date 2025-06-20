@@ -7,6 +7,7 @@ const initializeSocket = (server) => {
   const io = new Server(server, {
     cors: {
       origin: "https://chat-app-rho-blush.vercel.app", // Allow frontend
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       methods: ["GET", "POST"],
       credentials: true,
     },
