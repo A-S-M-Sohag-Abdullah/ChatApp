@@ -12,6 +12,18 @@ const { errorHandler } = require("./middlewares/errormiddleware");
 const { seedDatabase } = require("./utils/seedDatabase");
 const initializeSocket = require("./sockets/socket");
 const bodyParser = require("body-parser");
+const fs = require("fs");
+const path = require("path");
+
+const ensureDirExists = (dirPath) => {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+    console.log(`📁 Created directory: ${dirPath}`);
+  }
+};
+
+ensureDirExists(path.join(__dirname, "uploads"));
+ensureDirExists(path.join(__dirname, "uploads", "stories"));
 
 connectDB();
 dotenv.config();
@@ -19,7 +31,6 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app); // Create HTTP server for Socket.io
-
 
 const io = initializeSocket(server); // Initialize Socket.io
 app.set("io", io);
@@ -32,11 +43,9 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
 );
-/* app.use(cors()); */
+
 app.use("/uploads", express.static("uploads")); // Serve images
 app.use("/uploads/stories", express.static("uploads/stories"));
-
-
 
 app.use(bodyParser.json());
 app.use(express.json());

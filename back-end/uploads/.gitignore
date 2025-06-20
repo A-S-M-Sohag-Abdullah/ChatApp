@@ -2,3 +2,4 @@
 *
 # But keep this file
 !.gitignore
+!stories
