@@ -164,21 +164,15 @@ function ConverSationBox({ loading, messages, setMessages }) {
     attachments.forEach((file, index) => {
       formData.append(`attachments`, file);
     });
-
+    editorRef.current.innerHTML = "";
     try {
       const response = await messageApi.sendMessage(formData);
 
       if (response.success) {
-        //setMessages([...messages, response.message]);
         setAttachments([]);
         scrollToBottm();
-
-        //fetchChats();
-        editorRef.current.innerHTML = "";
       }
-    } catch (err) {
-      /*    setError(err); */
-    }
+    } catch (err) {}
   };
 
   // delete chat for user
@@ -297,17 +291,13 @@ function ConverSationBox({ loading, messages, setMessages }) {
 
   useEffect(() => {
     if (!activeChat?._id) return;
-    // Cleanup on component unmount
-    // Leave all previous rooms
 
     socket.emit("joinChat", activeChat._id); // Join chat room
 
     socket.on("receiveMessage", (message) => {
       if (message.chat._id === activeChat._id) {
         setMessages((prevMessages) => [...prevMessages, message]);
-        /* scrollToBottm(); */
       }
-      //fetchChats();
     });
 
     const markMessagesAsRead = async () => {
