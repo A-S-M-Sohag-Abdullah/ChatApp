@@ -21,9 +21,13 @@ const ensureDirExists = (dirPath) => {
     console.log(`📁 Created directory: ${dirPath}`);
   }
 };
+// One level above the current file
+const rootDir = path.join(__dirname, "..");
 
-ensureDirExists(path.join(__dirname, "uploads"));
-ensureDirExists(path.join(__dirname, "uploads", "stories"));
+// Ensure upload directories exist
+ensureDirExists(path.join(rootDir, "uploads"));
+ensureDirExists(path.join(rootDir, "uploads", "stories"));
+
 
 connectDB();
 dotenv.config();
